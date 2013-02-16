@@ -4,3 +4,14 @@
 *.jar
 *.war
 *.ear
+
+# intellij
+.idea
+*.iml
+
+# eclipse
+.project
+.settings
+
+# maven
+target
