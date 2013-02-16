@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * @author jva
  */
-public class AndroidLintParser {
+public class AndroidLintParserOld {
 
     public void parse(final Project project, final File xmlFile, final SensorContext sensorContext) {
         try {
@@ -67,7 +67,7 @@ public class AndroidLintParser {
 
         org.sonar.api.resources.File file = org.sonar.api.resources.File.fromIOFile(new File(filename), project);
 
-       if (filename.endsWith("java")) {
+        if (filename.endsWith("java")) {
             return new DefaultMapEntry(new JavaFile(filename), line);
         }
 
