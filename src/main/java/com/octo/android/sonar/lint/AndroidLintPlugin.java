@@ -25,7 +25,8 @@ public class AndroidLintPlugin extends SonarPlugin {
     @Override
     public List getExtensions() {
         return Arrays.asList(
-                AndroidLintSensor.class
+                AndroidLintSensor.class,
+                AndroidLintRuleRepository.class
         );
 
     }
