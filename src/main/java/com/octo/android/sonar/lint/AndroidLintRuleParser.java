@@ -81,7 +81,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
         }
     }
 
-    @SuppressWarnings("deprecation")
+   // @SuppressWarnings("deprecation")
     public List<Rule> parse(BufferedReader reader) {
 
         try {
@@ -95,20 +95,16 @@ public final class AndroidLintRuleParser implements ServerComponent {
             for (ListIterator<String> iterator = listLines.listIterator(); iterator.hasNext();) {
                 String line = iterator.next();
 
-                RulesCategory rulesCategory = new RulesCategory();
-
-                if (line.matches("\\=.*")) {
-                    System.out.println("Rule category found :" + previousLine);
-                    rulesCategory.setName(previousLine);
-                } else if (line.matches("\\-.*")) {
+                if (line.matches("[\\-]{4,}.*")) {
                     System.out.println("Rule found :" + previousLine);
                     rule = Rule.create();
                     rules.add(rule);
                     rule.setName(previousLine);
-                    rule.setRulesCategory(rulesCategory);
+                    rule.setKey(previousLine);
+                    // rule.setRulesCategory(rulesCategory);
                 } else if (line.matches("Summary:.*")) {
                     inSummary = true;
-                    System.out.println("Rule summary found :" + line);
+                    //System.out.println("Rule summary found :" + line);
                     rule.setDescription(line.substring(line.indexOf(':') + 1));
                 } else if (line.matches("Priority:.*")) {
                     inSummary = false;
@@ -124,7 +120,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
                         rulePriority = RulePriority.CRITICAL;
                     }
                     rule.setSeverity(rulePriority);
-                    System.out.println("Rule severity found :" + severity);
+                    //System.out.println("Rule severity found :" + severity);
                 } else {
                     if (inSummary) {
                         rule.setDescription(rule.getDescription() + " " + line);

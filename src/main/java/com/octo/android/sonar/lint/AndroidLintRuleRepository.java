@@ -37,11 +37,11 @@ public final class AndroidLintRuleRepository extends RuleRepository {
     private final ServerFileSystem fileSystem;
     private AndroidLintRuleParser androidLintRuleParser;
 
-    public AndroidLintRuleRepository(ServerFileSystem fileSystem, AndroidLintRuleParser androidLintRuleParser) {
+    public AndroidLintRuleRepository(ServerFileSystem fileSystem) {
         super(AndroidLintConstants.REPOSITORY_KEY, Java.KEY);
         setName(AndroidLintConstants.REPOSITORY_NAME);
         this.fileSystem = fileSystem;
-        this.androidLintRuleParser = androidLintRuleParser;
+        this.androidLintRuleParser = new AndroidLintRuleParser();
     }
 
     @Override
@@ -52,24 +52,5 @@ public final class AndroidLintRuleRepository extends RuleRepository {
             rules.addAll(androidLintRuleParser.parse(userExtensionXml));
         }
         return rules;
-    }
-
-    public static void main(String[] args) {
-        List<Rule> listRules = new AndroidLintRuleRepository(new ServerFileSystem() {
-
-            @Override
-            public File getHomeDir() {
-                return null;
-            }
-
-            @Override
-            public List<File> getExtensions(String dirName, String... suffixes) {
-                return new ArrayList<File>();
-            }
-        }, new AndroidLintRuleParser()).createRules();
-
-        for (Rule rule : listRules) {
-            System.out.println(rule);
-        }
     }
 }

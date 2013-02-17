@@ -21,8 +21,8 @@ public class AndroidLintParser {
     // ----------------------------------
     // CONSTANTS
     // ----------------------------------
-    private static final int UNKNOWN_OFFSET = -1;
-    private static final int UNKNOWN_LINE_OR_COLUMN = 0;
+    public static final int UNKNOWN_OFFSET = -1;
+    public static final int UNKNOWN_LINE_OR_COLUMN = 0;
 
     // ----------------------------------
     // ATTRIBUTES

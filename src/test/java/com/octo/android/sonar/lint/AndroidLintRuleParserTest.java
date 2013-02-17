@@ -22,6 +22,6 @@ public class AndroidLintRuleParserTest {
 
         // then
         Assert.assertNotNull(rules);
-        Assert.assertTrue(rules.size() > 120);
+        Assert.assertEquals(121, rules.size());
     }
 }
