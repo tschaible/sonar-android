@@ -81,7 +81,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
         }
     }
 
-   // @SuppressWarnings("deprecation")
+    // @SuppressWarnings("deprecation")
     public List<Rule> parse(BufferedReader reader) {
 
         try {
@@ -92,46 +92,63 @@ public final class AndroidLintRuleParser implements ServerComponent {
             String previousLine = null;
             Rule rule = null;
             boolean inSummary = false;
-            for (ListIterator<String> iterator = listLines.listIterator(); iterator.hasNext();) {
+            boolean previousWasCategory = false;
+            for (ListIterator<String> iterator = listLines.listIterator(); iterator.hasNext(); ) {
                 String line = iterator.next();
 
-                if (line.matches("[\\-]{4,}.*")) {
-                    System.out.println("Rule found :" + previousLine);
+                if (line.matches("\\=.*")) {
+                    previousWasCategory = false;
+                } else if (line.matches("[\\-]{4,}.*")) {
+                    System.out.println("Rule found : " + previousLine);
+                    // remove the rule name from the description of the previous rule
+                    if (rule != null) {
+                        int index = rule.getDescription().lastIndexOf(previousLine);
+                        if (index > 0) {
+                            rule.setDescription(rule.getDescription().substring(0, index));
+                        }
+                    }
+
                     rule = Rule.create();
                     rules.add(rule);
                     rule.setName(previousLine);
                     rule.setKey(previousLine);
-                    // rule.setRulesCategory(rulesCategory);
+                    previousWasCategory = false;
                 } else if (line.matches("Summary:.*")) {
                     inSummary = true;
-                    //System.out.println("Rule summary found :" + line);
                     rule.setDescription(line.substring(line.indexOf(':') + 1));
                 } else if (line.matches("Priority:.*")) {
                     inSummary = false;
+                    previousWasCategory = false;
                 } else if (line.matches("Category:.*")) {
                     inSummary = false;
+                    previousWasCategory = true;
                 } else if (line.matches("Severity:.*")) {
                     inSummary = false;
+                    previousWasCategory = false;
                     String severity = line.substring("Severity: ".length());
                     RulePriority rulePriority = RulePriority.INFO;
                     if ("Fatal".equals(severity)) {
                         rulePriority = RulePriority.BLOCKER;
                     } else if ("Error".equals(severity)) {
                         rulePriority = RulePriority.CRITICAL;
+                    } else if ("Warning".equals(severity)) {
+                        rulePriority = RulePriority.MAJOR;
                     }
                     rule.setSeverity(rulePriority);
-                    //System.out.println("Rule severity found :" + severity);
                 } else {
-                    if (inSummary) {
-                        rule.setDescription(rule.getDescription() + " " + line);
+                    if (inSummary || previousWasCategory) {
+                        if (line.contains("http://")) {
+                            int indexOfLink = line.indexOf("http://");
+                            String link = line.substring(indexOfLink);
+                            link  = "<a href=\""+link+"\" target=\"_blank\">"+link+"</a>";
+                            line = link;
+                        }
+                        rule.setDescription(rule.getDescription() + "<br>" + line);
                     }
                 }
 
                 previousLine = line;
             }
-            // <rule>
-            // Rule rule = Rule.create();
-            // rules.add(rule);
             return rules;
 
         } catch (IOException e) {

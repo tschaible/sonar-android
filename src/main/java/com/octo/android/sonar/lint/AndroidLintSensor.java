@@ -122,10 +122,10 @@ public class AndroidLintSensor implements Sensor {
                 severity = RulePriority.MAJOR;
                 break;
             case INFORMATIONAL:
-                severity = RulePriority.INFO;
+                severity = RulePriority.MINOR;
                 break;
             case IGNORE:
-                severity = RulePriority.MINOR;
+                severity = RulePriority.INFO;
                 break;
             default:
                 severity = RulePriority.MAJOR;
