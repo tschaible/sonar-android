@@ -30,23 +30,26 @@ import org.sonar.api.rules.RuleRepository;
 
 import com.google.common.collect.Lists;
 
+/**
+ * @author SNI
+ */
 public final class AndroidLintRuleRepository extends RuleRepository {
     private final ServerFileSystem fileSystem;
-    private TXTRuleParser txtRuleParser;
+    private AndroidLintRuleParser androidLintRuleParser;
 
-    public AndroidLintRuleRepository(ServerFileSystem fileSystem, TXTRuleParser txtRuleParser) {
+    public AndroidLintRuleRepository(ServerFileSystem fileSystem, AndroidLintRuleParser androidLintRuleParser) {
         super(AndroidLintConstants.REPOSITORY_KEY, Java.KEY);
         setName(AndroidLintConstants.REPOSITORY_NAME);
         this.fileSystem = fileSystem;
-        this.txtRuleParser = txtRuleParser;
+        this.androidLintRuleParser = androidLintRuleParser;
     }
 
     @Override
     public List<Rule> createRules() {
         List<Rule> rules = Lists.newArrayList();
-        rules.addAll(txtRuleParser.parse(getClass().getResourceAsStream("/com/octo/android/sonar/lint/rules.txt")));
+        rules.addAll(androidLintRuleParser.parse(getClass().getResourceAsStream("/com/octo/android/sonar/lint/rules.txt")));
         for (File userExtensionXml : fileSystem.getExtensions(AndroidLintConstants.REPOSITORY_KEY, "txt")) {
-            rules.addAll(txtRuleParser.parse(userExtensionXml));
+            rules.addAll(androidLintRuleParser.parse(userExtensionXml));
         }
         return rules;
     }
@@ -63,7 +66,7 @@ public final class AndroidLintRuleRepository extends RuleRepository {
             public List<File> getExtensions(String dirName, String... suffixes) {
                 return new ArrayList<File>();
             }
-        }, new TXTRuleParser()).createRules();
+        }, new AndroidLintRuleParser()).createRules();
 
         for (Rule rule : listRules) {
             System.out.println(rule);

@@ -46,9 +46,9 @@ import org.sonar.check.Cardinality;
 import com.google.common.io.Closeables;
 
 /**
- * @since 2.3
+ * @author SNI
  */
-public final class TXTRuleParser implements ServerComponent {
+public final class AndroidLintRuleParser implements ServerComponent {
 
     public List<Rule> parse(File file) {
         BufferedReader reader = null;
