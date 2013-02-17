@@ -68,7 +68,7 @@ public enum Severity {
     public static Severity fromString(String severityStr) {
         if (severityStr != null) {
             for (Severity severity : Severity.values()) {
-                if (severity.equals(severityStr)) {
+                if (severity.getDescription().equalsIgnoreCase(severityStr)) {
                     return severity;
                 }
             }

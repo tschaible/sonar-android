@@ -158,7 +158,7 @@ public final class Issue implements Comparable<Issue> {
      *
      * @return the severity of the issues found by this detector
      */
-    public Severity getDefaultSeverity() {
+    public Severity getSeverity() {
         return mSeverity;
     }
 

@@ -1,6 +1,9 @@
 package com.octo.android.sonar.lint.api;
 
+import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.Issue;
+import com.android.tools.lint.detector.api.Location;
+import com.android.tools.lint.detector.api.Severity;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -24,6 +27,23 @@ public class AndroidLintParserTest {
         // then
         Assert.assertNotNull(issues);
         Assert.assertEquals(20, issues.size());
+
+        Issue firstIssue = issues.get(0);
+        Assert.assertNotNull(firstIssue);
+        Assert.assertEquals(Severity.ERROR, firstIssue.getSeverity());
+        Assert.assertEquals(Category.CORRECTNESS, firstIssue.getCategory());
+        Assert.assertEquals(8, firstIssue.getPriority());
+        Assert.assertEquals("MissingRegistered", firstIssue.getId());
+
+        List<Location> locations = firstIssue.getLocations();
+        Assert.assertNotNull(locations);
+        Assert.assertEquals(1, locations.size());
+        Location location = locations.get(0);
+        Assert.assertNotNull(location);
+        Assert.assertEquals("AndroidManifest.xml", location.getFile().getName());
+        Assert.assertEquals(64, location.getStart().getLine());
+        Assert.assertEquals(9, location.getStart().getColumn());
+
     }
 
 }

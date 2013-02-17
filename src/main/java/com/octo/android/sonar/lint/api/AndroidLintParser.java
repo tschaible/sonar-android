@@ -1,9 +1,7 @@
 package com.octo.android.sonar.lint.api;
 
-import com.android.tools.lint.detector.api.Category;
-import com.android.tools.lint.detector.api.Issue;
-import com.android.tools.lint.detector.api.Location;
-import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.*;
+import org.codehaus.staxmate.in.SMEvent;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.StaxParser;
@@ -20,8 +18,20 @@ import java.util.List;
  */
 public class AndroidLintParser {
 
+    // ----------------------------------
+    // CONSTANTS
+    // ----------------------------------
+    private static final int UNKNOWN_OFFSET = -1;
+    private static final int UNKNOWN_LINE_OR_COLUMN = 0;
+
+    // ----------------------------------
+    // ATTRIBUTES
+    // ----------------------------------
     private List<Issue> issues;
 
+    // ----------------------------------
+    // PUBLIC METHODS
+    // ----------------------------------
     public void parse(final File lintxmlFile) {
 
         try {
@@ -45,6 +55,14 @@ public class AndroidLintParser {
         }
     }
 
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    // ----------------------------------
+    // PRIVATE
+    // ----------------------------------
+
     private void collectIssues(SMInputCursor issue) throws ParseException, XMLStreamException {
 
         issues = new ArrayList<Issue>();
@@ -53,26 +71,53 @@ public class AndroidLintParser {
             String id = issue.getAttrValue("id");
             String severityStr = issue.getAttrValue("severity");
             String message = issue.getAttrValue("message");
+            String errorLine1 = issue.getAttrValue("errorLine1");
+            String errorLine2 = issue.getAttrValue("errorLine2");
             String categoryStr = issue.getAttrValue("category");
             int priority = Integer.valueOf(issue.getAttrValue("priority"));
             String summary = issue.getAttrValue("summary");
             String explanation = issue.getAttrValue("explanation");
             String url = issue.getAttrValue("url");
 
-            Category category = Category.create(categoryStr, priority);
+            Category category = Category.find(categoryStr);
             Severity severity = Severity.fromString(severityStr);
 
-            SMInputCursor locationXml = issue.descendantElementCursor("location");
-            List<Location> locations = new ArrayList<Location>();
-            if (locationXml.getNext() != null) { // TODO : may have several locations, but "while" cause an error
-                locations.add(Location.create(new File(locationXml.getAttrValue("file"))));
-            }
+            List<Location> locations = collectLocations(issue);
 
-            issues.add(Issue.create(id, message, summary + "\n" + explanation, category, priority, severity, locations));
+            issues.add(Issue.create(id,
+                    message + "\n\n" + errorLine1 + "\n\n" + errorLine2,
+                    summary + "\n\n" + explanation + "\n\n" + url,
+                    category,
+                    priority,
+                    severity,
+                    locations));
         }
     }
 
-    public List<Issue> getIssues() {
-        return issues;
+    private List<Location> collectLocations(SMInputCursor issue) throws XMLStreamException {
+        SMInputCursor locationXml = issue.descendantElementCursor("location");
+        List<Location> locations = new ArrayList<Location>();
+
+        SMEvent next;
+        while ((next = locationXml.getNext()) != null) { // TODO : may have several locations, but "while" cause an error
+            if (SMEvent.START_ELEMENT.equals(next) == false) {
+                continue;
+            }
+
+            String filename = locationXml.getAttrValue("file");
+
+            int line = UNKNOWN_LINE_OR_COLUMN;
+            int column = UNKNOWN_LINE_OR_COLUMN;
+            if (locationXml.getAttrCount() == 3) {
+                line = locationXml.getAttrIntValue(1);
+                column = locationXml.getAttrIntValue(2);
+            }
+            Position position = new DefaultPosition(line, column, UNKNOWN_OFFSET);
+
+            Location location = Location.create(new File(filename), position, position);
+
+            locations.add(location);
+        }
+        return locations;
     }
 }

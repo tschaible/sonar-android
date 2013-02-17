@@ -17,6 +17,10 @@
 package com.android.tools.lint.detector.api;
 
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A category is a container for related issues.
  * <p/>
@@ -54,6 +58,20 @@ public final class Category implements Comparable<Category> {
      */
     public static Category create(String name, int priority) {
         return new Category(null, name, null, priority);
+    }
+
+    /**
+     * Find a category from its name
+     * @param name
+     * @return
+     */
+    public static Category find(String name) {
+        for (Category category : ALL) {
+            if (category.getName().equals(name)) {
+                return category;
+            }
+        }
+        return null;
     }
 
     /**
@@ -175,4 +193,10 @@ public final class Category implements Comparable<Category> {
      * Issues related to messages/strings
      */
     public static final Category MESSAGES = Category.create(CORRECTNESS, "Messages", null, 95);
+
+    /**
+     * All categories
+     */
+    public static final List<Category> ALL = Arrays.asList(new Category[]{LINT, CORRECTNESS, SECURITY, PERFORMANCE, USABILITY, A11Y, I18N, ICONS, TYPOGRAPHY, MESSAGES});
+
 }
