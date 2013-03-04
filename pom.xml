@@ -39,7 +39,7 @@
                 <configuration>
                     <pluginKey>androidlint</pluginKey>
                     <pluginName>Android Lint</pluginName>
-                    <pluginClass>com.octo.android.sonar.lint.AndroidLintPlugin</pluginClass>
+                    <pluginClass>org.sonar.plugins.android.lint.AndroidLintPlugin</pluginClass>
                     <pluginDescription>
                         <![CDATA[
 Analyze Android code with <a href="http://tools.android.com/tips/lint">Lint</a>.

@@ -1,9 +1,8 @@
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.Location;
 import com.android.tools.lint.detector.api.Severity;
-import com.octo.android.sonar.lint.api.AndroidLintParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;

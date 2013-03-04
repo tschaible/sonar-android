@@ -17,10 +17,9 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.sonar.api.platform.ServerFileSystem;
@@ -47,7 +46,7 @@ public final class AndroidLintRuleRepository extends RuleRepository {
     @Override
     public List<Rule> createRules() {
         List<Rule> rules = Lists.newArrayList();
-        rules.addAll(androidLintRuleParser.parse(getClass().getResourceAsStream("/com/octo/android/sonar/lint/rules.txt")));
+        rules.addAll(androidLintRuleParser.parse(getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.txt")));
         for (File userExtensionXml : fileSystem.getExtensions(AndroidLintConstants.REPOSITORY_KEY, "txt")) {
             rules.addAll(androidLintRuleParser.parse(userExtensionXml));
         }

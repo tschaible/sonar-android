@@ -1,4 +1,4 @@
-package com.octo.android.sonar.lint.api;
+package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.*;
 import org.codehaus.staxmate.in.SMEvent;

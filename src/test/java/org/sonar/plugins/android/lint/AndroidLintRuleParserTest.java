@@ -1,8 +1,9 @@
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
 
 import junit.framework.Assert;
 import org.junit.Test;
 import org.sonar.api.rules.Rule;
+import org.sonar.plugins.android.lint.AndroidLintRuleParser;
 
 import java.io.File;
 import java.util.List;
@@ -18,7 +19,7 @@ public class AndroidLintRuleParserTest {
         AndroidLintRuleParser parser = new AndroidLintRuleParser();
 
         // when
-        List<Rule> rules = parser.parse(new File(this.getClass().getResource("/com/octo/android/sonar/lint/rules.txt").toURI()));
+        List<Rule> rules = parser.parse(new File(this.getClass().getResource("/org/sonar/plugins/android/lint/rules.txt").toURI()));
 
         // then
         Assert.assertNotNull(rules);

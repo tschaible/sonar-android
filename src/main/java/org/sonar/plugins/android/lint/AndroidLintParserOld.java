@@ -1,4 +1,4 @@
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.codehaus.staxmate.in.SMHierarchicCursor;

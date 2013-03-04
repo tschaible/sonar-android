@@ -1,4 +1,4 @@
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
 
 /**
  * @author jva
@@ -25,7 +25,10 @@ public class AndroidLintPlugin extends SonarPlugin {
     public List getExtensions() {
         return Arrays.asList(
                 AndroidLintSensor.class,
-                AndroidLintRuleRepository.class
+                AndroidLintRuleRepository.class,
+                SonarWayProfile.class,
+                SunConventionsProfile.class,
+                SonarWayWithFindbugsProfile.class
         );
 
     }

@@ -1,4 +1,4 @@
-package com.octo.android.sonar.lint.api;
+package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.Issue;
@@ -6,6 +6,7 @@ import com.android.tools.lint.detector.api.Location;
 import com.android.tools.lint.detector.api.Severity;
 import junit.framework.Assert;
 import org.junit.Test;
+import org.sonar.plugins.android.lint.AndroidLintParser;
 
 import java.io.File;
 import java.util.List;

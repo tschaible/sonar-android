@@ -17,18 +17,26 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.octo.android.sonar.lint;
+package org.sonar.plugins.android.lint;
+
+import org.sonar.api.profiles.ProfileDefinition;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.utils.ValidationMessages;
+
+public class SonarWayWithFindbugsProfile extends ProfileDefinition {
+
+  private SonarWayProfile sonarWay;
+
+  public SonarWayWithFindbugsProfile(SonarWayProfile sonarWay) {
+    this.sonarWay = sonarWay;
+  }
 
 
-public final class AndroidLintConstants {
-
-    public static final String REPOSITORY_KEY = "AndroidLint";
-    public static final String REPOSITORY_NAME = "AndroidLint";
-    public static final String PLUGIN_NAME = "AndroidLint";
-    public static final String PLUGIN_KEY = "AndroidLint";
-    public static final String ANDROID_LINT_REPORT_PATH_PROPERTY = "sonar.androidLint.reportPath";
-
-
-    private AndroidLintConstants() {
-    }
+  @Override
+  public RulesProfile createProfile(ValidationMessages validationMessages) {
+    RulesProfile profile = sonarWay.createProfile(validationMessages);
+    profile.setName(RulesProfile.SONAR_WAY_FINDBUGS_NAME);
+    return profile;
+  }
 }
+
