@@ -1,5 +1,5 @@
 <profile>
-    <name>Sonar way</name>
+    <name>Android Lint</name>
     <language>java</language>
     <rules>
         <rule>

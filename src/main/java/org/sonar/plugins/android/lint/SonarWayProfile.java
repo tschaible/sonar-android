@@ -34,6 +34,6 @@ public final class SonarWayProfile extends ProfileDefinition {
 
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
-    return xmlProfileParser.parseResource(getClass().getClassLoader(), "org/sonar/plugins/android/lint/profile-sonar-way.xml", messages);
+    return xmlProfileParser.parseResource(getClass().getClassLoader(), "org/sonar/plugins/android/lint/profile-android-lint.xml", messages);
   }
 }

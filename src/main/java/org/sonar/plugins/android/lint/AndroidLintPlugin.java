@@ -26,9 +26,7 @@ public class AndroidLintPlugin extends SonarPlugin {
         return Arrays.asList(
                 AndroidLintSensor.class,
                 AndroidLintRuleRepository.class,
-                SonarWayProfile.class,
-                SunConventionsProfile.class,
-                SonarWayWithFindbugsProfile.class
+                AndroidLintProfile.class
         );
 
     }
