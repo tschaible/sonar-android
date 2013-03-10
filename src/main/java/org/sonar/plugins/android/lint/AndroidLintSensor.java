@@ -49,8 +49,7 @@ public class AndroidLintSensor implements Sensor {
         String path = (String) project.getProperty(AndroidLintConstants.ANDROID_LINT_REPORT_PATH_PROPERTY);
 
         if (path == null) {
-            // wasn't configured - skip
-            return;
+            path = AndroidLintConstants.ANDROID_LINT_REPORT_PATH_DEFAULT;
         }
 
         File report = project.getFileSystem().resolvePath(path);
@@ -66,7 +65,7 @@ public class AndroidLintSensor implements Sensor {
             Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
             if (rule == null) {
                 // ignore violations from report, if rule not activated in Sonar
-                logger.warn("Android Lint rule '{}' not active in Sonar.", rule.getId());
+                logger.warn("Android Lint rule '{}' not active in Sonar.", issue.getId());
                 continue;
             }
 
@@ -83,9 +82,11 @@ public class AndroidLintSensor implements Sensor {
                 }
 
                 Violation violation = Violation.create(rule, resource);
-                int line = location.getStart().getLine();
-                violation.setLineId(line == AndroidLintParser.UNKNOWN_LINE_OR_COLUMN ? null : line);
                 violation.setMessage(issue.getDescription());
+                int line = location.getStart().getLine();
+                if (line != AndroidLintParser.UNKNOWN_LINE_OR_COLUMN) {
+                    violation.setLineId(line);
+                }
 
                 sensorContext.saveViolation(violation);
             }
@@ -107,30 +108,5 @@ public class AndroidLintSensor implements Sensor {
         parser.parse(report);
         return parser.getIssues();
     }
-
-    private RulePriority getSonarSeverityFromLintSeverity(Severity severityLint) {
-        RulePriority severity;
-        switch (severityLint) {
-            case FATAL:
-                severity = RulePriority.BLOCKER;
-                break;
-            case ERROR:
-                severity = RulePriority.CRITICAL;
-                break;
-            case WARNING:
-                severity = RulePriority.MAJOR;
-                break;
-            case INFORMATIONAL:
-                severity = RulePriority.MINOR;
-                break;
-            case IGNORE:
-                severity = RulePriority.INFO;
-                break;
-            default:
-                severity = RulePriority.MAJOR;
-        }
-        return severity;
-    }
-
 
 }

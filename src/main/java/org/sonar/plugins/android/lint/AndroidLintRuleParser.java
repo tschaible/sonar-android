@@ -35,6 +35,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMInputCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerComponent;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleParam;
@@ -49,6 +51,8 @@ import com.google.common.io.Closeables;
  * @author SNI
  */
 public final class AndroidLintRuleParser implements ServerComponent {
+
+    private static final Logger logger = LoggerFactory.getLogger(AndroidLintRuleParser.class);
 
     public List<Rule> parse(File file) {
         BufferedReader reader = null;
@@ -81,7 +85,6 @@ public final class AndroidLintRuleParser implements ServerComponent {
         }
     }
 
-    // @SuppressWarnings("deprecation")
     public List<Rule> parse(BufferedReader reader) {
 
         try {
@@ -99,7 +102,8 @@ public final class AndroidLintRuleParser implements ServerComponent {
                 if (line.matches("\\=.*")) {
                     previousWasCategory = false;
                 } else if (line.matches("[\\-]{4,}.*")) {
-                    System.out.println("Rule found : " + previousLine);
+                    logger.debug("Rule found : " + previousLine);
+
                     // remove the rule name from the description of the previous rule
                     if (rule != null) {
                         int index = rule.getDescription().lastIndexOf(previousLine);
@@ -152,89 +156,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
             return rules;
 
         } catch (IOException e) {
-            throw new SonarException("XML is not valid", e);
-        }
-    }
-
-    private static void processRule(Rule rule, SMInputCursor ruleC) throws XMLStreamException {
-        /* BACKWARD COMPATIBILITY WITH DEPRECATED FORMAT */
-        String keyAttribute = ruleC.getAttrValue("key");
-        if (StringUtils.isNotBlank(keyAttribute)) {
-            rule.setKey(StringUtils.trim(keyAttribute));
-        }
-
-        /* BACKWARD COMPATIBILITY WITH DEPRECATED FORMAT */
-        String priorityAttribute = ruleC.getAttrValue("priority");
-        if (StringUtils.isNotBlank(priorityAttribute)) {
-            rule.setSeverity(RulePriority.valueOf(StringUtils.trim(priorityAttribute)));
-        }
-
-        SMInputCursor cursor = ruleC.childElementCursor();
-
-        while (cursor.getNext() != null) {
-            String nodeName = cursor.getLocalName();
-
-            if (StringUtils.equalsIgnoreCase("name", nodeName)) {
-                rule.setName(StringUtils.trim(cursor.collectDescendantText(false)));
-
-            } else if (StringUtils.equalsIgnoreCase("description", nodeName)) {
-                rule.setDescription(StringUtils.trim(cursor.collectDescendantText(false)));
-
-            } else if (StringUtils.equalsIgnoreCase("key", nodeName)) {
-                rule.setKey(StringUtils.trim(cursor.collectDescendantText(false)));
-
-            } else if (StringUtils.equalsIgnoreCase("configKey", nodeName)) {
-                rule.setConfigKey(StringUtils.trim(cursor.collectDescendantText(false)));
-
-            } else if (StringUtils.equalsIgnoreCase("priority", nodeName)) {
-                rule.setSeverity(RulePriority.valueOf(StringUtils.trim(cursor.collectDescendantText(false))));
-
-            } else if (StringUtils.equalsIgnoreCase("cardinality", nodeName)) {
-                rule.setCardinality(Cardinality.valueOf(StringUtils.trim(cursor.collectDescendantText(false))));
-
-            } else if (StringUtils.equalsIgnoreCase("param", nodeName)) {
-                processParameter(rule, cursor);
-            }
-        }
-        if (StringUtils.isEmpty(rule.getKey())) {
-            throw new SonarException("Node <key> is missing in <rule>");
-        }
-    }
-
-    private static void processParameter(Rule rule, SMInputCursor ruleC) throws XMLStreamException {
-        RuleParam param = rule.createParameter();
-
-        String keyAttribute = ruleC.getAttrValue("key");
-        if (StringUtils.isNotBlank(keyAttribute)) {
-            /* BACKWARD COMPATIBILITY WITH DEPRECATED FORMAT */
-            param.setKey(StringUtils.trim(keyAttribute));
-        }
-
-        String typeAttribute = ruleC.getAttrValue("type");
-        if (StringUtils.isNotBlank(typeAttribute)) {
-            /* BACKWARD COMPATIBILITY WITH DEPRECATED FORMAT */
-            // param.setType(type(StringUtils.trim(typeAttribute)));
-        }
-
-        SMInputCursor paramC = ruleC.childElementCursor();
-        while (paramC.getNext() != null) {
-            String propNodeName = paramC.getLocalName();
-            String propText = StringUtils.trim(paramC.collectDescendantText(false));
-            if (StringUtils.equalsIgnoreCase("key", propNodeName)) {
-                param.setKey(propText);
-
-            } else if (StringUtils.equalsIgnoreCase("description", propNodeName)) {
-                param.setDescription(propText);
-
-            } else if (StringUtils.equalsIgnoreCase("type", propNodeName)) {
-                // param.setType(type(propText));
-
-            } else if (StringUtils.equalsIgnoreCase("defaultValue", propNodeName)) {
-                param.setDefaultValue(propText);
-            }
-        }
-        if (StringUtils.isEmpty(param.getKey())) {
-            throw new SonarException("Node <key> is missing in <param>");
+            throw new SonarException("Rules file is not valid", e);
         }
     }
 }

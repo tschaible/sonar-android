@@ -72,7 +72,13 @@ public class AndroidLintParser {
             String severityStr = issue.getAttrValue("severity");
             String message = issue.getAttrValue("message");
             String errorLine1 = issue.getAttrValue("errorLine1");
+            if (errorLine1 == null) {
+                errorLine1 = "";
+            }
             String errorLine2 = issue.getAttrValue("errorLine2");
+            if (errorLine2 == null || errorLine2.contains("~")) {
+                errorLine2 = "";
+            }
             String categoryStr = issue.getAttrValue("category");
             int priority = Integer.valueOf(issue.getAttrValue("priority"));
             String summary = issue.getAttrValue("summary");
