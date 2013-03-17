@@ -19,6 +19,17 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.google.common.io.Closeables;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.ServerComponent;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RulePriority;
+import org.sonar.api.utils.SonarException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -28,27 +39,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.xml.stream.XMLStreamException;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.CharEncoding;
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.ServerComponent;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleParam;
-import org.sonar.api.rules.RulePriority;
-import org.sonar.api.rules.RulesCategory;
-import org.sonar.api.utils.SonarException;
-import org.sonar.check.Cardinality;
-
-import com.google.common.io.Closeables;
-
 /**
- * @author SNI
+ * Rule text file (retrieve with <i>lint --show</i>) parser
+ *
+ * @author Stephane Nicolas
+ * @author Jerome Van Der Linden
  */
 public final class AndroidLintRuleParser implements ServerComponent {
 

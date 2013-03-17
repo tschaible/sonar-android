@@ -20,6 +20,9 @@
 package org.sonar.plugins.android.lint;
 
 
+/**
+ * @author Jerome Van Der Linden
+ */
 public final class AndroidLintConstants {
 
     public static final String REPOSITORY_KEY = "AndroidLint";

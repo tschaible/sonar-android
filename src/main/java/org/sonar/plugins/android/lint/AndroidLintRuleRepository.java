@@ -19,18 +19,19 @@
  */
 package org.sonar.plugins.android.lint;
 
-import java.io.File;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Java;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 
-import com.google.common.collect.Lists;
+import java.io.File;
+import java.util.List;
 
 /**
- * @author SNI
+ * Repository for Android Lint rules (using {@link AndroidLintRuleParser}
+ *
+ * @author Stephane Nicolas
  */
 public final class AndroidLintRuleRepository extends RuleRepository {
     private final ServerFileSystem fileSystem;

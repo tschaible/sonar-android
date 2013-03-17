@@ -1,6 +1,30 @@
+/*
+ * Sonar Java
+ * Copyright (C) 2012 SonarSource
+ * dev@sonar.codehaus.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package org.sonar.plugins.android.lint;
 
-import com.android.tools.lint.detector.api.*;
+import com.android.tools.lint.detector.api.Category;
+import com.android.tools.lint.detector.api.DefaultPosition;
+import com.android.tools.lint.detector.api.Issue;
+import com.android.tools.lint.detector.api.Location;
+import com.android.tools.lint.detector.api.Position;
+import com.android.tools.lint.detector.api.Severity;
 import org.codehaus.staxmate.in.SMEvent;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -14,7 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author jva
+ * Parser of the lint result xml file
+ *
+ * @author Jerome Van Der Linden
  */
 public class AndroidLintParser {
 
@@ -32,7 +58,7 @@ public class AndroidLintParser {
     // ----------------------------------
     // PUBLIC METHODS
     // ----------------------------------
-    public void parse(final File lintxmlFile) {
+    public AndroidLintParser parse(final File lintxmlFile) {
 
         try {
             StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -53,6 +79,7 @@ public class AndroidLintParser {
         } catch (XMLStreamException e) {
             throw new XmlParserException(e);
         }
+        return this;
     }
 
     public List<Issue> getIssues() {
