@@ -170,7 +170,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
                     RulePriority newRulePriority = AndroidLintUtils.getSonarSeverityFromLintSeverity(newSeverity);
                     if (defaultRulePriority != newRulePriority) {
                         logger.info(defaultRulePriority + " -> " + newRulePriority);
-                        profile.getActiveRules().get(ruleIndex).setSeverity(newRulePriority);
+                        activeRules.get(ruleIndex).setSeverity(newRulePriority);
                     }
 
                 }
