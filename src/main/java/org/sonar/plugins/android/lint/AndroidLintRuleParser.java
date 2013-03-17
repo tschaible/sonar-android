@@ -37,7 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Rule text file (retrieve with <i>lint --show</i>) parser
@@ -91,9 +90,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
             Rule rule = null;
             boolean inSummary = false;
             boolean previousWasCategory = false;
-            for (ListIterator<String> iterator = listLines.listIterator(); iterator.hasNext(); ) {
-                String line = iterator.next();
-
+            for (String line : listLines) {
                 if (line.matches("\\=.*")) {
                     previousWasCategory = false;
                 } else if (line.matches("[\\-]{4,}.*")) {
@@ -139,7 +136,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
                         if (line.contains("http://")) {
                             int indexOfLink = line.indexOf("http://");
                             String link = line.substring(indexOfLink);
-                            link  = "<a href=\""+link+"\" target=\"_blank\">"+link+"</a>";
+                            link = "<a href=\"" + link + "\" target=\"_blank\">" + link + "</a>";
                             line = link;
                         }
                         rule.setDescription(rule.getDescription() + "<br>" + line);

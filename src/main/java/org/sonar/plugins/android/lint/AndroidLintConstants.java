@@ -28,11 +28,8 @@ public final class AndroidLintConstants {
     public static final String REPOSITORY_KEY = "AndroidLint";
     public static final String REPOSITORY_NAME = "AndroidLint";
     public static final String PLUGIN_NAME = "AndroidLint";
-    public static final String PLUGIN_KEY = "AndroidLint";
     public static final String ANDROID_LINT_REPORT_PATH_PROPERTY = "sonar.androidLint.reportPath";
     public static final String ANDROID_LINT_REPORT_PATH_DEFAULT = "target/lint-results/lint-results.xml";
-
-
 
     private AndroidLintConstants() {
     }

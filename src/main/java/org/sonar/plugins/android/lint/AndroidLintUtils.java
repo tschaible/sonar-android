@@ -29,9 +29,16 @@ import org.sonar.api.rules.RulePriority;
 public class AndroidLintUtils {
 
     /**
+     * private constructor for utils class
+     */
+    private AndroidLintUtils() {
+
+    }
+
+    /**
      * Convert Android Lint {@link Severity} to Sonar {@link RulePriority}
-     * @param severityLint
-     * @return
+     * @param severityLint Android Lint Severity
+     * @return Sonar Severity
      */
     public static RulePriority getSonarSeverityFromLintSeverity(Severity severityLint) {
         RulePriority severity;

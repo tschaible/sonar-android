@@ -129,7 +129,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
         SMEvent next;
         while ((next = issue.getNext()) != null) {
 
-            if (SMEvent.START_ELEMENT.equals(next) == false) {
+            if (!SMEvent.START_ELEMENT.equals(next)) {
                 continue;
             }
 
@@ -150,7 +150,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
             int ruleIndex = 0;
             while (!ruleFound && ruleIndex < activeRules.size()) {
                 Rule defaultRule = activeRules.get(ruleIndex).getRule();
-                if (rule.equals(defaultRule)) {
+                if (rule != null && rule.equals(defaultRule)) {
                     ruleFound = true;
                 } else {
                     ruleIndex++;

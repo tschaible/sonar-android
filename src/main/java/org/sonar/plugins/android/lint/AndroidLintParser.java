@@ -133,7 +133,7 @@ public class AndroidLintParser {
 
         SMEvent next;
         while ((next = locationXml.getNext()) != null) { // TODO : may have several locations, but "while" cause an error
-            if (SMEvent.START_ELEMENT.equals(next) == false) {
+            if (!SMEvent.START_ELEMENT.equals(next)) {
                 continue;
             }
 

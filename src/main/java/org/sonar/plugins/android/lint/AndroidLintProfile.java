@@ -39,7 +39,6 @@ public class AndroidLintProfile extends ProfileDefinition {
 
     @Override
     public RulesProfile createProfile(ValidationMessages messages) {
-        RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), "org/sonar/plugins/android/lint/profile-android-lint.xml", messages);
-        return profile;
+        return xmlProfileParser.parseResource(getClass().getClassLoader(), "org/sonar/plugins/android/lint/profile-android-lint.xml", messages);
     }
 }
