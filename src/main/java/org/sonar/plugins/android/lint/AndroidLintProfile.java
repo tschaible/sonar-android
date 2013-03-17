@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
@@ -32,8 +30,6 @@ import org.sonar.api.utils.ValidationMessages;
  * @author Jerome Van Der Linden
  */
 public class AndroidLintProfile extends ProfileDefinition {
-
-    private static final Logger logger = LoggerFactory.getLogger(AndroidLintProfile.class);
 
     private XMLProfileParser xmlProfileParser;
 
