@@ -13,7 +13,7 @@ You can give a try:
  - mvn clean install, 
  - copy the jar in your sonar extensions/plugins folder, 
  - restart sonar
- - se the lint mojo of the android-maven-plugin (http://maven-android-plugin-m2site.googlecode.com/svn/lint-mojo.html)
+ - use the lint mojo of the android-maven-plugin (http://maven-android-plugin-m2site.googlecode.com/svn/lint-mojo.html)
  - mvn sonar:sonar -Dsonar.profile="Android Lint" in your project
  - That's it !
 
