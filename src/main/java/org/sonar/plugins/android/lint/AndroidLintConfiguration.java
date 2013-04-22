@@ -1,6 +1,6 @@
 /*
- * Sonar Java
- * Copyright (C) 2012 SonarSource
+ * Sonar Android Plugin
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or

@@ -1,6 +1,6 @@
 /*
- * Sonar Java
- * Copyright (C) 2012 SonarSource
+ * Sonar Android Plugin
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -41,88 +41,88 @@ import java.util.List;
  */
 public class AndroidLintSensor implements Sensor {
 
-    // ----------------------------------
-    // CONSTANTS
-    // ----------------------------------
-    private static final Logger logger = LoggerFactory.getLogger(AndroidLintSensor.class);
+  // ----------------------------------
+  // CONSTANTS
+  // ----------------------------------
+  private static final Logger logger = LoggerFactory.getLogger(AndroidLintSensor.class);
 
-    // ----------------------------------
-    // ATTRIBUTES
-    // ----------------------------------
-    private RuleFinder ruleFinder;
+  // ----------------------------------
+  // ATTRIBUTES
+  // ----------------------------------
+  private RuleFinder ruleFinder;
 
-    // ----------------------------------
-    // CONSTRUCTOR
-    // ----------------------------------
-    public AndroidLintSensor(RuleFinder ruleFinder) {
-        this.ruleFinder = ruleFinder;
+  // ----------------------------------
+  // CONSTRUCTOR
+  // ----------------------------------
+  public AndroidLintSensor(RuleFinder ruleFinder) {
+    this.ruleFinder = ruleFinder;
+  }
+
+  // ----------------------------------
+  // PUBLIC
+  // ----------------------------------
+  @Override
+  public void analyse(Project project, SensorContext sensorContext) {
+    String path = (String) project.getProperty(AndroidLintConstants.ANDROID_LINT_REPORT_PATH_PROPERTY);
+
+    if (path == null) {
+      path = AndroidLintConstants.ANDROID_LINT_REPORT_PATH_DEFAULT;
     }
 
-    // ----------------------------------
-    // PUBLIC
-    // ----------------------------------
-    @Override
-    public void analyse(Project project, SensorContext sensorContext) {
-        String path = (String) project.getProperty(AndroidLintConstants.ANDROID_LINT_REPORT_PATH_PROPERTY);
+    File report = project.getFileSystem().resolvePath(path);
+    if (!report.exists() || !report.isFile()) {
+      logger.warn("Android Lint report not found at {}", report);
+      return;
+    }
 
-        if (path == null) {
-            path = AndroidLintConstants.ANDROID_LINT_REPORT_PATH_DEFAULT;
+    List<Issue> issues = parseReport(report);
+
+    for (Issue issue : issues) {
+
+      Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
+      if (rule == null) {
+        // ignore violations from report, if rule not activated in Sonar
+        logger.warn("Android Lint rule '{}' not active in Sonar.", issue.getId());
+        continue;
+      }
+
+      for (Location location : issue.getLocations()) {
+        File file = location.getFile();
+        Resource resource;
+
+        if (file.isDirectory()) {
+          resource = new Directory(file.getPath());
+        } else if (file.getName().endsWith("java")) {
+          resource = new JavaFile(file.getName(), false);
+        } else {
+          resource = new org.sonar.api.resources.File(file.getName());
         }
 
-        File report = project.getFileSystem().resolvePath(path);
-        if (!report.exists() || !report.isFile()) {
-            logger.warn("Android Lint report not found at {}", report);
-            return;
+        Violation violation = Violation.create(rule, resource);
+        violation.setMessage(issue.getDescription());
+        int line = location.getStart().getLine();
+        if (line != AndroidLintParser.UNKNOWN_LINE_OR_COLUMN) {
+          violation.setLineId(line);
         }
 
-        List<Issue> issues = parseReport(report);
-
-        for (Issue issue : issues) {
-
-            Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
-            if (rule == null) {
-                // ignore violations from report, if rule not activated in Sonar
-                logger.warn("Android Lint rule '{}' not active in Sonar.", issue.getId());
-                continue;
-            }
-
-            for (Location location : issue.getLocations()) {
-                File file = location.getFile();
-                Resource resource;
-
-                if (file.isDirectory()) {
-                    resource = new Directory(file.getPath());
-                } else if (file.getName().endsWith("java")) {
-                    resource = new JavaFile(file.getName(), false);
-                } else {
-                    resource = new org.sonar.api.resources.File(file.getName());
-                }
-
-                Violation violation = Violation.create(rule, resource);
-                violation.setMessage(issue.getDescription());
-                int line = location.getStart().getLine();
-                if (line != AndroidLintParser.UNKNOWN_LINE_OR_COLUMN) {
-                    violation.setLineId(line);
-                }
-
-                sensorContext.saveViolation(violation);
-            }
-        }
+        sensorContext.saveViolation(violation);
+      }
     }
+  }
 
-    @Override
-    public boolean shouldExecuteOnProject(Project project) {
-        return true;
-    }
+  @Override
+  public boolean shouldExecuteOnProject(Project project) {
+    return true;
+  }
 
-    // ----------------------------------
-    // PRIVATE
-    // ----------------------------------
+  // ----------------------------------
+  // PRIVATE
+  // ----------------------------------
 
-    private List<Issue> parseReport(File report) {
-        logger.info("parsing {}", report);
-        AndroidLintParser parser = new AndroidLintParser();
-        return parser.parse(report).getIssues();
-    }
+  private List<Issue> parseReport(File report) {
+    logger.info("parsing {}", report);
+    AndroidLintParser parser = new AndroidLintParser();
+    return parser.parse(report).getIssues();
+  }
 
 }

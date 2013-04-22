@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.octo.android.sonar.lint</groupId>
-    <artifactId>sonar-android-lint-extension-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>sonar-plugin</packaging>
-    <description>Sonar Plugin for Android Lint reports</description>
+  <parent>
+    <groupId>org.codehaus.sonar-plugins</groupId>
+    <artifactId>parent</artifactId>
+    <version>17</version>
+  </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.codehaus.sonar</groupId>
-            <artifactId>sonar-plugin-api</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.9</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>13.0.1</version>
-        </dependency>
-    </dependencies>
+  <groupId>org.codehaus.sonar-plugins.android</groupId>
+  <artifactId>sonar-android-plugin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>sonar-plugin</packaging>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.sonar</groupId>
-                <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>1.1</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <pluginKey>androidlint</pluginKey>
-                    <pluginName>Android Lint</pluginName>
-                    <pluginClass>org.sonar.plugins.android.lint.AndroidLintPlugin</pluginClass>
-                    <pluginDescription>
-                        <![CDATA[
-Analyze Android code with <a href="http://tools.android.com/tips/lint">Lint</a>.
-]]>
-                    </pluginDescription>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <name>Sonar Android Plugin</name>
+  <description>Enables analysis of Android projects into Sonar.</description>
+  <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
+
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>Jerome Van Der Linden, Stephane Nicolas and SonarSource</name>
+    <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GNU LGPL 3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:SonarCommunity/sonar-android.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-android.git</developerConnection>
+    <url>https://github.com/SonarCommunity/sonar-android</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://jira.codehaus.org/browse/SONARPLUGINS/component/15860</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Cloudbees</system>
+    <url>http://sonarplugins.ci.cloudbees.com/job/Android</url>
+  </ciManagement>
+
+  <properties>
+    <sonar.version>3.4.1</sonar.version>
+    <!-- Configuration for sonar-packaging-maven-plugin -->
+    <sonar.pluginClass>org.sonar.plugins.android.lint.AndroidLintPlugin</sonar.pluginClass>
+    <sonar.pluginName>Android</sonar.pluginName>
+    <sonar.requirePlugins>java:1.1</sonar.requirePlugins>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>${sonar.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.9</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 </project>
