@@ -1,7 +1,9 @@
 sonar-android-lint-plugin
 =========================
 
-!!!! IN DEVELOPMENT !!!!
+See http://docs.codehaus.org/display/SONAR/Android+Plugin
+
+
 **Contributions are welcome. Join the effort !**
 
 Extension plugin for Android Lint in Sonar.
