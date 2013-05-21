@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -19,45 +19,69 @@
  */
 package org.sonar.plugins.android.lint;
 
-import com.android.tools.lint.detector.api.Severity;
 import org.sonar.api.rules.RulePriority;
 
 /**
+ * This utility class contains the global project constants and other utility methods
  *
  * @author Jerome Van Der Linden
+ * @author Thomas Bores
  */
-public class AndroidLintUtils {
+public final class AndroidLintUtils {
 
-    /**
-     * private constructor for utils class
-     */
-    private AndroidLintUtils() {
+  /**
+   * Global constants, name of the plugin
+   */
+  public static final String PLUGIN_NAME = "AndroidLint";
 
+  /**
+   * private constructor for util class
+   */
+  private AndroidLintUtils() {
+    // Do nothing
+  }
+
+  /**
+   * Convert Android Lint {@link Severity} to Sonar {@link RulePriority}
+   *
+   * Default mapping:
+   * |------------------------|
+   * | Android     | Sonar    |
+   * |-------------|----------|
+   * | N/A       	 | BLOCKER  |
+   * | FATAL       | CRITICAL |
+   * | ERROR	     | MAJOR    |
+   * | WARNING     | MINOR    |
+   * | INFORMATION | INFO     |
+   * | IGNORE		   | N/A	  	|
+   * |------------------------|
+   *
+   * @param severityLint Android Lint Severity
+   * @return Sonar Severity
+   */
+  public static RulePriority getSonarSeverityFromLintSeverity(String severityLint) {
+    RulePriority severity;
+
+    if (severityLint.equalsIgnoreCase("FATAL"))
+    {
+      severity = RulePriority.CRITICAL;
     }
-
-    /**
-     * Convert Android Lint {@link Severity} to Sonar {@link RulePriority}
-     * @param severityLint Android Lint Severity
-     * @return Sonar Severity
-     */
-    public static RulePriority getSonarSeverityFromLintSeverity(Severity severityLint) {
-        RulePriority severity;
-        switch (severityLint) {
-            case FATAL:
-                severity = RulePriority.BLOCKER;
-                break;
-            case ERROR:
-                severity = RulePriority.CRITICAL;
-                break;
-            case WARNING:
-                severity = RulePriority.MAJOR;
-                break;
-            case INFORMATIONAL:
-                severity = RulePriority.INFO;
-                break;
-            default:
-                severity = null;
-        }
-        return severity;
+    else if (severityLint.equalsIgnoreCase("ERROR"))
+    {
+      severity = RulePriority.MAJOR;
     }
+    else if (severityLint.equalsIgnoreCase("WARNING"))
+    {
+      severity = RulePriority.MINOR;
+    }
+    else if (severityLint.equalsIgnoreCase("INFORMATION"))
+    {
+      severity = RulePriority.INFO;
+    }
+    else
+    {
+      severity = null;
+    }
+    return severity;
+  }
 }

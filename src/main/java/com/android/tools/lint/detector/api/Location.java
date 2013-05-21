@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -30,6 +30,7 @@ import java.io.File;
  */
 public class Location {
     private final File mFile;
+    private final String mJavaKey;
     private final Position mStart;
     private final Position mEnd;
     private String mMessage;
@@ -52,10 +53,19 @@ public class Location {
      * @param end   the ending position, or null
      */
     protected Location(File file, Position start, Position end) {
+      super();
+      this.mFile = file;
+      this.mStart = start;
+      this.mEnd = end;
+      this.mJavaKey = null;
+  }
+
+    protected Location(File file, Position start, Position end, String javaKey) {
         super();
         this.mFile = file;
         this.mStart = start;
         this.mEnd = end;
+        this.mJavaKey = javaKey;
     }
 
     /**
@@ -88,6 +98,10 @@ public class Location {
      */
     public Position getEnd() {
         return mEnd;
+    }
+
+    public String getJavaKey() {
+      return mJavaKey;
     }
 
     /**
@@ -190,6 +204,11 @@ public class Location {
             Position start,
             Position end) {
         return new Location(file, start, end);
+    }
+
+    public static Location create(File file, Position start, Position end, String javaKey)
+    {
+      return new Location(file, start, end, javaKey);
     }
 
     /**

@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * @author jva
+ * @author Thomas Bores
  */
 public class AndroidLintRuleParserTest {
 
@@ -41,6 +42,8 @@ public class AndroidLintRuleParserTest {
 
         // then
         Assert.assertNotNull(rules);
-        Assert.assertEquals(121, rules.size());
+        // Update the number of rules after each Android Lint Update
+        // because the number of rules change.
+        Assert.assertEquals(140, rules.size());
     }
 }

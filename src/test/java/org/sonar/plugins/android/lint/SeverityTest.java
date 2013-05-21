@@ -19,37 +19,26 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.sonar.plugins.android.AndroidSourcesImporter;
+import junit.framework.Assert;
 
-import org.sonar.api.Extension;
+import org.junit.Test;
 
-import org.sonar.api.SonarPlugin;
-
-
-import java.util.ArrayList;
-import java.util.List;
+import com.android.tools.lint.detector.api.Severity;
 
 /**
- * Main class of Android Lint Sonar Plugin
+ * This class tests the Severity class
  *
- * @author Jerome Van Der Linden
- * @author Thomas Boress
+ * @author Florian Roncari
+ *
  */
+public class SeverityTest {
 
-public class AndroidLintPlugin extends SonarPlugin {
+  @Test
+  public void testLocation() throws Exception {
 
-  @Override
-  public List<?> getExtensions() {
-    List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
+    String mDisplay = "Fatal";
+    Severity sev = Severity.fromString(mDisplay);
 
-    list.add(AndroidSourcesImporter.class);
-
-    list.add(AndroidLintConfiguration.class);
-    list.add(AndroidLintSensor.class);
-    list.add(AndroidLintRuleRepository.class);
-    list.add(AndroidLintProfile.class);
-    list.add(AndroidLintProfileImporter.class);
-
-    return list;
+    Assert.assertEquals("Fatal", sev.getDescription());
   }
 }

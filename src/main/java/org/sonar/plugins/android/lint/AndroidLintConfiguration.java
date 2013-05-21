@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -19,10 +19,77 @@
  */
 package org.sonar.plugins.android.lint;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
+import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
+
+import java.io.File;
 
 /**
- * @author Jerome Van Der Linden
+ * This class contains the configuration of the plugin.
+ * It implements the sonar properties dedicated to the plugin.
+ *
+ * @author Thomas Bores
  */
+@Properties({
+  @Property(
+    key = AndroidLintConfiguration.ANDROID_LINT_PATH,
+    defaultValue = "c:\\adt-bundle-windows-x86_64\\sdk\\tools\\lint.bat",
+    name = "Android Lint executable",
+    description = "Path to the Android Lint executable to use in Android Lint analysis. Set to empty to use the default one.",
+    global = true,
+    project = true),
+  @Property(
+    key = AndroidLintConfiguration.ANDROID_LINT_REPORT_PATH_PROPERTY,
+    defaultValue = "lint-results.xml",
+    name = "Android Lint report path",
+    description = "Path (absolute or relative) to Android lint xml report file.",
+    global = true,
+    project = true),
+})
 public class AndroidLintConfiguration implements BatchExtension {
+  public static final String ANDROID_LINT_PATH = "sonar.androidlint.lintPath";
+  public static final String ANDROID_LINT_REPORT_PATH_PROPERTY = "sonar.androidlint.reportPath";
+  public static final String ANDROID_LINT_PROFILE = "Android Lint";
+
+  /**
+   * This variable should be updated after each new version of Android Lint
+   */
+  public static final String ANDROID_LINT_VERSION = "r17";
+
+  private final Settings conf;
+
+  public AndroidLintConfiguration(Settings conf) {
+    this.conf = conf;
+  }
+
+  /**
+   * Return the value of the sonar property sonar.androidlint.reportPath
+   *
+   * @param project
+   * @return string object containing the path to the android lint report
+   */
+  public String getAndroidlintReportPath(Project project) {
+    String configPath = conf.getString(AndroidLintConfiguration.ANDROID_LINT_REPORT_PATH_PROPERTY);
+    if (StringUtils.isEmpty(configPath)) {
+      return null;
+    }
+    File configFile = new File(configPath);
+    if (!configFile.isAbsolute()) {
+      File projectRoot = project.getFileSystem().getBasedir();
+      configFile = new File(projectRoot.getPath(), configPath);
+    }
+    return configFile.getAbsolutePath();
+  }
+
+  /**
+   * Return the value of the sonar property sonar.androidlint.lintPath
+   * @return string object containing the path to the lint executable
+   */
+  public String getAndroidLintPath() {
+    return conf.getString(AndroidLintConfiguration.ANDROID_LINT_PATH);
+  }
 }

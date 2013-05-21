@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -70,7 +70,7 @@ public final class Category implements Comparable<Category> {
      */
     public static Category find(String name) {
         for (Category category : ALL) {
-            if (category.getName().equals(name)) {
+            if (category.getFullName().equals(name)) {
                 return category;
             }
         }

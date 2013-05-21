@@ -19,7 +19,7 @@
 
   <inceptionYear>2013</inceptionYear>
   <organization>
-    <name>Jerome Van Der Linden, Stephane Nicolas and SonarSource</name>
+    <name>Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource</name>
     <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
   </organization>
   <licenses>
@@ -64,6 +64,27 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.9</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint_api</artifactId>
+      <version>r17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonar.plugins.xml</groupId>
+      <artifactId>sonar-xml-plugin</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.2.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

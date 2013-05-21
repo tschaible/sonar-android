@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -19,26 +19,48 @@
  */
 package org.sonar.plugins.android.lint;
 
+import sun.security.pkcs.EncodingException;
+
+import com.google.common.io.Closeables;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.profiles.XMLProfileParser;
+import org.sonar.api.resources.Java;
 import org.sonar.api.utils.ValidationMessages;
 
 /**
  * Android Lint default profile with all rules activated
  *
  * @author Jerome Van Der Linden
+ * @author Thomas Bores
  */
 public class AndroidLintProfile extends ProfileDefinition {
 
-    private XMLProfileParser xmlProfileParser;
+  private AndroidLintProfileImporter androidProfilImporter;
 
-    public AndroidLintProfile(XMLProfileParser xmlProfileParser) {
-        this.xmlProfileParser = xmlProfileParser;
-    }
+  public AndroidLintProfile(AndroidLintProfileImporter androidProfilImporter) {
+    this.androidProfilImporter = androidProfilImporter;
+  }
 
-    @Override
-    public RulesProfile createProfile(ValidationMessages messages) {
-        return xmlProfileParser.parseResource(getClass().getClassLoader(), "org/sonar/plugins/android/lint/profile-android-lint.xml", messages);
+  @Override
+  public RulesProfile createProfile(ValidationMessages messages) {
+    Reader config = null;
+
+    try{
+      config = new InputStreamReader(this.getClass().getResourceAsStream("/org/sonar/plugins/android/lint/profile-android-lint.xml"));
+      RulesProfile profile = this.androidProfilImporter.importProfile(config, messages);
+      profile.setName(AndroidLintConfiguration.ANDROID_LINT_PROFILE+" "+AndroidLintConfiguration.ANDROID_LINT_VERSION);
+      profile.setLanguage(Java.KEY);
+
+      return profile;
     }
+    finally
+    {
+      Closeables.closeQuietly(config);
+    }
+  }
 }

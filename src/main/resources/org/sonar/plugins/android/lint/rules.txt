@@ -32,6 +32,22 @@ Must be a string value, using '\;' to escape characters such as '\n' or
 '\uxxxx' for a unicode character.
 
 
+StopShip
+--------
+Summary: Looks for comment markers of the form "STOPSHIP" which indicates that
+code should not be released yet
+
+Priority: 10 / 10
+Severity: Warning
+Category: Correctness
+NOTE: This issue is disabled by default!
+You can enable it by adding --enable StopShip
+
+Using the comment // STOPSHIP can be used to flag code that is incomplete but
+checked in. This comment marker can be used to indicate that the code should
+not be shipped until the issue is addressed, and lint will look for these.
+
+
 SuspiciousImport
 ----------------
 Summary: Checks for 'import android.R' statements, which are usually
@@ -58,9 +74,9 @@ Priority: 9 / 10
 Severity: Warning
 Category: Correctness
 
-The manifest should contain a <uses-sdk> element which defines the minimum
-minimum API Level required for the application to run, as well as the target
-version (the highest API level you have tested the version for.)
+The manifest should contain a <uses-sdk> element which defines the minimum API
+Level required for the application to run, as well as the target version (the
+highest API level you have tested the version for.)
 
 More information: http://developer.android.com/guide/topics/manifest/uses-sdk-element.html
 
@@ -75,6 +91,19 @@ Category: Correctness
 
 Keeps track of the view types associated with ids and if it finds a usage of
 the id in the Java code it ensures that it is treated as the same type.
+
+
+IllegalResourceRef
+------------------
+Summary: Checks for resource references where only literals are allowed
+
+Priority: 8 / 10
+Severity: Warning
+Category: Correctness
+
+For the versionCode attribute, you have to specify an actual integer literal;
+you cannot use an indirection with a @dimen/name resource. Similarly, the
+versionName attribute should be an actual string, not a string resource url.
 
 
 MissingRegistered
@@ -165,6 +194,21 @@ warning since the id will be created on demand. This check catches errors
 where you have renamed an id without updating all of the references to it.
 
 
+WrongCase
+---------
+Summary: Ensures that the correct case is used for special layout tags such as
+<fragment>
+
+Priority: 8 / 10
+Severity: Warning
+Category: Correctness
+
+Most layout tags, such as <Button>, refer to actual view classes and are
+therefore capitalized. However, there are exceptions such as <fragment> and
+<include>. This lint check looks for incorrect capitalizations.
+
+More information: http://developer.android.com/guide/components/fragments.html
+
 WrongFolder
 -----------
 Summary: Finds resource files that are placed in the wrong folders
@@ -177,6 +221,17 @@ Resource files are sometimes placed in the wrong folder, and it can lead to
 subtle bugs that are hard to understand. This check looks for problems in this
 area, such as attempting to place a layout "alias" file in a layout/ folder
 rather than the values/ folder where it belongs.
+
+
+CommitTransaction
+-----------------
+Summary: Looks for missing commit() calls on FragmentTransactions
+
+Priority: 7 / 10
+Severity: Warning
+Category: Correctness
+
+After creating a FragmentTransaction, you typically need to commit it as well
 
 
 DalvikOverride
@@ -305,6 +360,22 @@ After calling edit() on a SharedPreference, you must call commit() or apply()
 on the editor to save the results.
 
 
+CutPasteId
+----------
+Summary: Looks for code cut & paste mistakes in findViewById() calls
+
+Priority: 6 / 10
+Severity: Warning
+Category: Correctness
+
+This lint check looks for cases where you have cut & pasted calls to
+findViewById but have forgotten to update the R.id field. It's possible that
+your code is simply (redundantly) looking up the field repeatedly, but lint
+cannot distinguish that from a case where you for example want to initialize
+fields prev and next and you cut & pasted findViewById(R.id.prev) and forgot
+to update the second initialization to R.id.next.
+
+
 DefaultLocale
 -------------
 Summary: Finds calls to locale-ambiguous String manipulation methods
@@ -327,6 +398,21 @@ String#toUpperCase(Locale.getDefault()) instead.
 
 More information: http://developer.android.com/reference/java/util/Locale.html#default_locale
 
+DuplicateDefinition
+-------------------
+Summary: Discovers duplicate definitions of resources
+
+Priority: 6 / 10
+Severity: Error
+Category: Correctness
+
+You can define a resource multiple times in different resource folders; that's
+how string translations are done, for example. However, defining the same
+resource more than once in the same resource folder is likely an error, for
+example attempting to add a new resource without realizing that the name is
+already used, and so on.
+
+
 DuplicateIncludedIds
 --------------------
 Summary: Checks for duplicate ids across layouts that are combined with
@@ -342,6 +428,34 @@ chain of included layouts, or Activity#findViewById() can return an unexpected
 view.
 
 
+InlinedApi
+----------
+Summary: Finds inlined fields that may or may not work on older platforms
+
+Priority: 6 / 10
+Severity: Warning
+Category: Correctness
+
+This check scans through all the Android API field references in the
+application and flags certain constants, such as static final integers and
+Strings, which were introduced in later versions. These will actually be
+copied into the class files rather than being referenced, which means that the
+value is available even when running on older devices. In some cases that's
+fine, and in other cases it can result in a runtime crash or incorrect
+behavior. It depends on the context, so consider the code carefully and device
+whether it's safe and can be suppressed or whether the code needs tbe
+guarded.
+
+If you really want to use this API and don't need to support older devices
+just set the minSdkVersion in your AndroidManifest.xml file.
+If your code is deliberately accessing newer APIs, and you have ensured (e.g.
+with conditional execution) that this code will only ever be called on a
+supported platform, then you can annotate your class or method with the
+@TargetApi annotation specifying the local minimum SDK to apply, such as
+@TargetApi(11), such that this check considers 11 rather than your manifest
+file's minimum SDK as the required API level.
+
+
 Instantiatable
 --------------
 Summary: Ensures that classes registered in the manifest file are
@@ -352,9 +466,32 @@ Severity: Warning
 Category: Correctness
 
 Activities, services, broadcast receivers etc. registered in the manifest file
-must be "instiantable" by the system, which means that the class must be
+must be "instantiatable" by the system, which means that the class must be
 public, it must have an empty public constructor, and if it's an inner class,
 it must be a static inner class.
+
+
+InvalidPackage
+--------------
+Summary: Finds API accesses to APIs that are not supported in Android
+
+Priority: 6 / 10
+Severity: Error
+Category: Correctness
+
+This check scans through libraries looking for calls to APIs that are not
+included in Android.
+
+When you create Android projects, the classpath is set up such that you can
+only access classes in the API packages that are included in Android. However,
+if you add other projects to your libs/ folder, there is no guarantee that
+those .jar files were built with an Android specific classpath, and in
+particular, they could be accessing unsupported APIs such as java.applet.
+
+This check scans through library jars and looks for references to API packages
+that are not included in Android and flags these. This is only an error if
+your code calls one of the library classes which wind up referencing the
+unsupported package.
 
 
 LibraryCustomView
@@ -398,10 +535,9 @@ Severity: Fatal
 Category: Correctness
 
 The <uses-sdk> element should appear just once; the tools will not merge the
-contents of all the elements so if you split up the atttributes across
-multiple elements, only one of them will take effect. To fix this, just merge
-all the attributes from the various elements into a single <uses-sdk>
-element.
+contents of all the elements so if you split up the attributes across multiple
+elements, only one of them will take effect. To fix this, just merge all the
+attributes from the various elements into a single <uses-sdk> element.
 
 More information: http://developer.android.com/guide/topics/manifest/uses-sdk-element.html
 
@@ -427,6 +563,14 @@ supported platform, then you can annotate your class or method with the
 @TargetApi(11), such that this check considers 11 rather than your manifest
 file's minimum SDK as the required API level.
 
+If you are deliberately setting android: attributes in style definitions, make
+sure you place this in a values-v11 folder in order to avoid running into
+runtime conflicts on certain devices where manufacturers have added custom
+attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi="11" in an XML file to indicate that
+the element will only be inflated in an adequate context.
+
 
 OldTargetApi
 ------------
@@ -450,6 +594,33 @@ http://developer.android.com/reference/android/os/Build.VERSION_CODES.html
 
 More information: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html
 
+Override
+--------
+Summary: Finds method declarations that will accidentally override methods in
+later versions
+
+Priority: 6 / 10
+Severity: Error
+Category: Correctness
+
+Suppose you are building against Android API 8, and you've subclassed
+Activity. In your subclass you add a new method called isDestroyed(). At some
+later point, a method of the same name and signature is added to Android. Your
+method will now override the Android method, and possibly break its contract.
+Your method is not calling super.isDestroyed(), since your compilation target
+doesn't know about the method.
+
+The above scenario is what this lint detector looks for. The above example is
+real, since isDestroyed() was added in API 17, but it will be true for any
+method you have added to a subclass of an Android class where your build
+target is lower than the version the method was introduced in.
+
+To fix this, either rename your method, or if you are really trying to augment
+the builtin method if available, switch to a higher build target where you can
+deliberately add @Override on your overriding method, and call super if
+appropriate etc.
+
+
 Registered
 ----------
 Summary: Ensures that Activities, Services and Content Providers are
@@ -460,7 +631,7 @@ Severity: Warning
 Category: Correctness
 
 Activities, services and content providers should be registered in the
-AndroidManifext.xml file using <activity>, <service> and <provider> tags.
+AndroidManifest.xml file using <activity>, <service> and <provider> tags.
 
 If your activity is simply a parent class intended to be subclassed by other
 "real" activities, make it an abstract class.
@@ -476,7 +647,10 @@ Severity: Warning
 Category: Correctness
 
 Your code should not reference the /sdcard path directly; instead use
-Environment.getExternalStorageDirectory().getPath()
+Environment.getExternalStorageDirectory().getPath().
+
+Similarly, do not reference the /data/data/ path directly; it can vary in
+multi-user scenarios. Instead, use Context.getFilesDir().getPath().
 
 More information: http://developer.android.com/guide/topics/data/data-storage.html#filesExternal
 
@@ -513,6 +687,24 @@ instance methods, or suppress this error if really know what you are doing.
 
 More information: http://developer.android.com/reference/java/text/SimpleDateFormat.html
 
+Suspicious0dp
+-------------
+Summary: Looks for 0dp as the width in a vertical LinearLayout or as the
+height in a horizontal
+
+Priority: 6 / 10
+Severity: Error
+Category: Correctness
+
+Using 0dp as the width in a horizontal LinearLayout with weights is a useful
+trick to ensure that only the weights (and not the intrinsic sizes) are used
+when sizing the children.
+
+However, if you use 0dp for the opposite dimension, the view will be
+invisible. This can happen if you change the orientation of a layout without
+also flipping the 0dp dimension in all the children.
+
+
 UniquePermission
 ----------------
 Summary: Checks that permission names are unique
@@ -536,7 +728,7 @@ ValidFragment
 Summary: Ensures that Fragment subclasses can be instantiated
 
 Priority: 6 / 10
-Severity: Warning
+Severity: Error
 Category: Correctness
 
 From the Fragment documentation:
@@ -548,6 +740,19 @@ supplied by the caller with setArguments(Bundle) and later retrieved by the
 Fragment with getArguments().
 
 More information: http://developer.android.com/reference/android/app/Fragment.html#Fragment()
+
+WrongCall
+---------
+Summary: Finds cases where the wrong call is made, such as calling onMeasure
+instead of measure
+
+Priority: 6 / 10
+Severity: Error
+Category: Correctness
+
+Custom views typically need to call measure() on their children, not
+onMeasure. Ditto for onDraw, onLayout, etc.
+
 
 WrongManifestParent
 -------------------
@@ -619,8 +824,8 @@ container view.
 
 More information: http://developer.android.com/guide/components/fragments.html
 
-ProtectedPermissons
--------------------
+ProtectedPermissions
+--------------------
 Summary: Looks for permissions that are only granted to system apps
 
 Priority: 5 / 10
@@ -873,6 +1078,39 @@ editor could produce confusing visual artifacts.
 
 More information: https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421
 
+MissingVersion
+--------------
+Summary: Checks that the application name and version are set
+
+Priority: 2 / 10
+Severity: Warning
+Category: Correctness
+
+You should define the version information for your application.
+android:versionCode: An integer value that represents the version of the
+application code, relative to other versions.
+
+android:versionName: A string value that represents the release version of the
+application code, as it should be shown to users.
+
+More information: http://developer.android.com/tools/publishing/versioning.html#appversioning
+
+Orientation
+-----------
+Summary: Checks that LinearLayouts with multiple children set the orientation
+
+Priority: 2 / 10
+Severity: Error
+Category: Correctness
+
+The default orientation of a LinearLayout is horizontal. It's pretty easy to
+believe that the layout is vertical, add multiple children to it, and wonder
+why only the first child is visible (when the subsequent children are off
+screen to the right). This lint rule helps pinpoint this issue by warning
+whenever a LinearLayout is used with an implicit orientation and multiple
+children.
+
+
 PxUsage
 -------
 Summary: Looks for use of the "px" dimension
@@ -961,6 +1199,11 @@ of the strings and fall back to the standard language strings. You can require
 all regions to provide a full translation by setting the environment variable
 ANDROID_LINT_COMPLETE_REGIONS.
 
+You can tell lint (and other tools) which language is the default language in
+your res/values/ folder by specifying tools:locale="languageCode" for the root
+<resources> element in your resource file. (The tools prefix refers to the
+namespace declaration http://schemas.android.com/tools.)
+
 
 Typos
 -----
@@ -1035,6 +1278,21 @@ detector checks for a path URL of just '/' (everything), which is probably not
 what you want; you should limit access to a subset.
 
 
+EasterEgg
+---------
+Summary: Looks for hidden easter eggs
+
+Priority: 6 / 10
+Severity: Warning
+Category: Security
+NOTE: This issue is disabled by default!
+You can enable it by adding --enable EasterEgg
+
+An "easter egg" is code deliberately hidden in the code, both from potential
+users and even from other developers. This lint check looks for code which
+looks like it may be hidden from sight.
+
+
 SetJavaScriptEnabled
 --------------------
 Summary: Looks for invocations of
@@ -1044,7 +1302,7 @@ Priority: 6 / 10
 Severity: Warning
 Category: Security
 
-Your code should not invoke setJavaScriptEnabled if you are not sure thatyour
+Your code should not invoke setJavaScriptEnabled if you are not sure that your
 app really requires JavaScript support.
 
 More information: http://developer.android.com/guide/practices/security.html
@@ -1059,7 +1317,7 @@ Severity: Warning
 Category: Security
 
 Content providers are exported by default and any application on the system
-can potentially use them to read and write data. If the contentprovider
+can potentially use them to read and write data. If the content provider
 provides access to sensitive data, it should be protected by specifying
 export=false in the manifest or by protecting it with a permission that can be
 granted to other applications.
@@ -1173,20 +1431,6 @@ and explicitly set android:allowBackup=(true|false)"
 
 More information: http://developer.android.com/reference/android/R.attr.html#allowBackup
 
-ExportedActivity
-----------------
-Summary: Checks for exported activities that do not require permissions
-
-Priority: 2 / 10
-Severity: Warning
-Category: Security
-
-Exported activities (activities which either set exported=true or contain an
-intent-filter and do not specify exported=false) should define a permission
-that an entity must have in order to launch the activity or bind to it.
-Without this, any application can use this activity.
-
-
 Performance
 ===========
 
@@ -1242,6 +1486,19 @@ correctly managed by the platform as the user moves between applications and
 doesn't require a special permission. See
 http://developer.android.com/reference/android/view/WindowManager.LayoutParams
 html#FLAG_KEEP_SCREEN_ON.
+
+
+Recycle
+-------
+Summary: Looks for missing recycle() calls on resources
+
+Priority: 7 / 10
+Severity: Warning
+Category: Performance
+
+Many resources, such as TypedArrays, VelocityTrackers, etc., should be
+recycled (with a recycle() call) after use. This lint check looks for missing
+recycle() calls.
 
 
 ObsoleteLayoutParam
@@ -1536,9 +1793,9 @@ Priority: 1 / 10
 Severity: Warning
 Category: Performance
 
-Using too many views in a single layout in a layout is bad for performance.
-Consider using compound drawables or other tricks for reducing the number of
-views in this layout.
+Using too many views in a single layout is bad for performance. Consider using
+compound drawables or other tricks for reducing the number of views in this
+layout.
 
 The maximum view count defaults to 80 but can be configured with the
 environment variable ANDROID_LINT_MAX_VIEW_COUNT.
@@ -1584,7 +1841,7 @@ Priority: 5 / 10
 Severity: Warning
 Category: Usability:Typography
 
-The "n dash" (&#8211;) and the "m dash" (&#8212;) characters are used
+The "n dash" (–, &#8211;) and the "m dash" (—, &#8212;) characters are used
 for ranges (n dash) and breaks (m dash). Using these instead of plain hyphens
 can make text easier to read and your application will look more polished.
 
@@ -1600,7 +1857,7 @@ Severity: Warning
 Category: Usability:Typography
 
 You can replace the string "..." with a dedicated ellipsis character, ellipsis
-character (&#8230;). This can help make the text more readable.
+character (…, &#8230;). This can help make the text more readable.
 
 More information: http://en.wikipedia.org/wiki/Ellipsis
 
@@ -1614,7 +1871,7 @@ Severity: Warning
 Category: Usability:Typography
 
 You can replace certain strings, such as 1/2, and 1/4, with dedicated
-characters for these, such as (&#189;) and (&#188;). This can help make
+characters for these, such as ½ (&#189;) and  BC (&#188;). This can help make
 the text more readable.
 
 More information: http://en.wikipedia.org/wiki/Number_Forms
@@ -1643,7 +1900,7 @@ More information: http://en.wikipedia.org/wiki/Quotation_mark
 TypographyOther
 ---------------
 Summary: Looks for miscellaneous typographical problems like replacing (c)
-with Â©
+with ©
 
 Priority: 3 / 10
 Severity: Warning
@@ -1672,6 +1929,20 @@ is ambiguous and probably not intentional. Delete one or the other, or use
 different names for the icons.
 
 
+IconXmlAndPng
+-------------
+Summary: Finds icons that appear both as a drawable .xml file and as bitmaps
+
+Priority: 7 / 10
+Severity: Warning
+Category: Usability:Icons
+
+If a drawable resource appears as an .xml file in the drawable/ folder, it's
+usually not intentional for it to also appear as a bitmap using the same name;
+generally you expect the drawable XML file to define states and each state has
+a corresponding drawable bitmap.
+
+
 IconColors
 ----------
 Summary: Checks that icons follow the recommended visual style
@@ -1686,6 +1957,25 @@ whether an icon is an action bar icon or a notification icon is based on the
 filename prefix: ic_menu_ for action bar icons, ic_stat_ for notification
 icons etc. These correspond to the naming conventions documented in
 http://developer.android.com/guide/practices/ui_guidelines/icon_design.html
+
+More information: http://developer.android.com/design/style/iconography.html
+
+IconLauncherShape
+-----------------
+Summary: Checks that launcher icons follow the recommended visual style
+
+Priority: 6 / 10
+Severity: Warning
+Category: Usability:Icons
+
+According to the Android Design Guide
+(http://developer.android.com/design/style/iconography.html) your launcher
+icons should "use a distinct silhouette", a "three-dimensional, front view,
+with a slight perspective as if viewed from above, so that users perceive some
+depth."
+
+The unique silhouette implies that your launcher icon should not be a filled
+square.
 
 More information: http://developer.android.com/design/style/iconography.html
 
@@ -1857,6 +2147,24 @@ and makes sure that these are on the left.
 
 More information: http://developer.android.com/design/building-blocks/dialogs.html
 
+SelectableText
+--------------
+Summary: Looks for TextViews which should probably allow their text to be
+selected
+
+Priority: 7 / 10
+Severity: Warning
+Category: Usability
+
+If a <TextView> is used to display data, the user might want to copy that data
+and paste it elsewhere. To allow this, the <TextView> should specify
+android:textIsSelectable="true".
+
+This lint check looks for TextViews which are likely to be displaying data:
+views whose text is set dynamically. This value will be ignored on platforms
+older than API 11, so it is okay to set it regardless of your minSdkVersion.
+
+
 BackButton
 ----------
 Summary: Looks for Back buttons, which are not common on the Android
@@ -1880,6 +2188,20 @@ pairs of Back/Next buttons to paginate through screens.
 
 More information: http://developer.android.com/design/patterns/pure-android.html
 
+ButtonStyle
+-----------
+Summary: Ensures that buttons in button bars are borderless
+
+Priority: 5 / 10
+Severity: Warning
+Category: Usability
+
+Button bars typically use a borderless style for the buttons. Set the
+style="?android:attr/buttonBarButtonStyle" attribute on each of the buttons,
+and set style="?android:attr/buttonBarStyle" on the parent layout
+
+More information: http://developer.android.com/design/building-blocks/buttons.html
+
 MenuTitle
 ---------
 Summary: Ensures that all menu items supply a title
@@ -1889,8 +2211,8 @@ Severity: Warning
 Category: Usability
 
 From the action bar documentation:
-"It's important that you always define android:title for each menu item - even
-if you don't declare that the title appear with the action item - for three
+"It's important that you always define android:title for each menu item — even
+if you don't declare that the title appear with the action item — for three
 reasons:
 
 * If there's not enough room in the action bar for the action item, the menu
@@ -1923,6 +2245,17 @@ corresponding type attributes.
 
 If you really want to keep the text field generic, you can suppress this
 warning by setting inputType="text".
+
+
+SmallSp
+-------
+Summary: Looks for text sizes that are too small
+
+Priority: 4 / 10
+Severity: Warning
+Category: Usability
+
+Avoid using sizes smaller than 12sp.
 
 
 AlwaysShowAction
@@ -1999,6 +2332,17 @@ contentDescription attribute to specify a textual description of the widget
 such that screen readers and other accessibility tools can adequately describe
 the user interface.
 
+Note that elements in application screens that are purely decorative and do
+not provide any content or enable a user action should not have accessibility
+content descriptions. In this case, just suppress the lint warning with a
+tools:ignore="ContentDescription" attribute.
+
+Note that for text fields, you should not set both the hint and the
+contentDescription attributes since the hint will never be shown. Just set the
+hint. See
+http://developer.android.com/guide/topics/ui/accessibility/checklist.html#spec
+al-cases.
+
 
 LabelFor
 --------
@@ -2036,6 +2380,9 @@ making changes)
 
 * The application cannot be translated to other languages by just adding new
 translations for existing string resources.
+
+In Eclipse there is a quickfix to automatically extract this hardcoded string
+into a resource lookup.
 
 
 EnforceUTF8

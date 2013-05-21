@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.ServerComponent;
 import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RulePriority;
 import org.sonar.api.utils.SonarException;
 
 import java.io.BufferedReader;
@@ -122,15 +121,7 @@ public final class AndroidLintRuleParser implements ServerComponent {
                     inSummary = false;
                     previousWasCategory = false;
                     String severity = line.substring("Severity: ".length());
-                    RulePriority rulePriority = RulePriority.INFO;
-                    if ("Fatal".equals(severity)) {
-                        rulePriority = RulePriority.BLOCKER;
-                    } else if ("Error".equals(severity)) {
-                        rulePriority = RulePriority.CRITICAL;
-                    } else if ("Warning".equals(severity)) {
-                        rulePriority = RulePriority.MAJOR;
-                    }
-                    rule.setSeverity(rulePriority);
+                    rule.setSeverity(AndroidLintUtils.getSonarSeverityFromLintSeverity(severity));
                 } else {
                     if (inSummary || previousWasCategory) {
                         if (line.contains("http://")) {
@@ -142,7 +133,6 @@ public final class AndroidLintRuleParser implements ServerComponent {
                         rule.setDescription(rule.getDescription() + "<br>" + line);
                     }
                 }
-
                 previousLine = line;
             }
             return rules;

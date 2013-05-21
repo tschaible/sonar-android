@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package org.sonar.plugins.android.lint;
+
+import org.sonar.api.resources.Project;
 
 import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.DefaultPosition;
@@ -38,119 +40,171 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Parser of the lint result xml file
+ * Parser for the lint result xml file
  *
  * @author Jerome Van Der Linden
+ * @author Thomas Bores
  */
 public class AndroidLintParser {
 
-    // ----------------------------------
-    // CONSTANTS
-    // ----------------------------------
-    public static final int UNKNOWN_OFFSET = -1;
-    public static final int UNKNOWN_LINE_OR_COLUMN = 0;
+  public static final int UNKNOWN_OFFSET = -1;
+  public static final int UNKNOWN_LINE_OR_COLUMN = 0;
+  public static final String TWO_NEW_LINES = "\n\n";
+  public static final String BACK_SLASH = "\\";
 
-    // ----------------------------------
-    // ATTRIBUTES
-    // ----------------------------------
-    private List<Issue> issues;
+  private List<Issue> issues;
 
-    // ----------------------------------
-    // PUBLIC METHODS
-    // ----------------------------------
-    public AndroidLintParser parse(final File lintxmlFile) {
+  private Project project;
 
-        try {
-            StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+  AndroidLintParser(Project project)
+  {
+    this.project = project;
+  }
 
-                @Override
-                public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-                    try {
-                        rootCursor.advance();
-                        collectIssues(rootCursor.descendantElementCursor("issue"));
-                    } catch (ParseException e) {
-                        throw new XMLStreamException(e);
-                    }
-                }
-            });
+  public AndroidLintParser parse(final File lintxmlFile) {
 
-            parser.parse(lintxmlFile);
+    try {
+      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
-        } catch (XMLStreamException e) {
-            throw new XmlParserException(e);
+        @Override
+        public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+          try {
+            rootCursor.advance();
+            collectIssues(rootCursor.descendantElementCursor("issue"));
+          } catch (ParseException e) {
+            throw new XMLStreamException(e);
+          }
         }
-        return this;
+      });
+
+      parser.parse(lintxmlFile);
+
+    } catch (XMLStreamException e) {
+      throw new XmlParserException(e);
     }
+    return this;
+  }
 
-    public List<Issue> getIssues() {
-        return issues;
+  public List<Issue> getIssues() {
+    return issues;
+  }
+
+  private void collectIssues(SMInputCursor issue) throws ParseException, XMLStreamException {
+
+    issues = new ArrayList<Issue>();
+
+    while (issue.getNext() != null) {
+      String id = issue.getAttrValue("id");
+      String severityStr = issue.getAttrValue("severity");
+      String message = issue.getAttrValue("message");
+      String errorLine1 = issue.getAttrValue("errorLine1");
+      if (errorLine1 == null) {
+        errorLine1 = "";
+      }
+      String errorLine2 = issue.getAttrValue("errorLine2");
+      if (errorLine2 == null || errorLine2.contains("~")) {
+        errorLine2 = "";
+      }
+      String categoryStr = issue.getAttrValue("category");
+      int priority = Integer.valueOf(issue.getAttrValue("priority"));
+      String summary = issue.getAttrValue("summary");
+      String explanation = issue.getAttrValue("explanation");
+      String url = issue.getAttrValue("url");
+
+      Category category = Category.find(categoryStr);
+      Severity severity = Severity.fromString(severityStr);
+
+      List<Location> locations = collectLocations(issue);
+
+      issues.add(Issue.create(id,
+          message + TWO_NEW_LINES + errorLine1 + TWO_NEW_LINES + errorLine2,
+          summary + TWO_NEW_LINES + explanation + TWO_NEW_LINES + url,
+          category,
+          priority,
+          severity,
+          locations));
     }
+  }
 
-    // ----------------------------------
-    // PRIVATE
-    // ----------------------------------
+  private List<Location> collectLocations(SMInputCursor issue) throws XMLStreamException {
+    SMInputCursor locationXml = issue.descendantElementCursor("location");
+    List<Location> locations = new ArrayList<Location>();
 
-    private void collectIssues(SMInputCursor issue) throws ParseException, XMLStreamException {
+    SMEvent next;
+    while ((next = locationXml.getNext()) != null) {
+      if (!SMEvent.START_ELEMENT.equals(next)) {
+        continue;
+      }
 
-        issues = new ArrayList<Issue>();
+      String filename = locationXml.getAttrValue("file");
 
-        while (issue.getNext() != null) {
-            String id = issue.getAttrValue("id");
-            String severityStr = issue.getAttrValue("severity");
-            String message = issue.getAttrValue("message");
-            String errorLine1 = issue.getAttrValue("errorLine1");
-            if (errorLine1 == null) {
-                errorLine1 = "";
-            }
-            String errorLine2 = issue.getAttrValue("errorLine2");
-            if (errorLine2 == null || errorLine2.contains("~")) {
-                errorLine2 = "";
-            }
-            String categoryStr = issue.getAttrValue("category");
-            int priority = Integer.valueOf(issue.getAttrValue("priority"));
-            String summary = issue.getAttrValue("summary");
-            String explanation = issue.getAttrValue("explanation");
-            String url = issue.getAttrValue("url");
+      int line = UNKNOWN_LINE_OR_COLUMN;
+      int column = UNKNOWN_LINE_OR_COLUMN;
+      if (locationXml.getAttrCount() == 3) {
+        line = locationXml.getAttrIntValue(1);
+        column = locationXml.getAttrIntValue(2);
+      }
+      Position position = new DefaultPosition(line, column, UNKNOWN_OFFSET);
 
-            Category category = Category.find(categoryStr);
-            Severity severity = Severity.fromString(severityStr);
+      Location location = null;
 
-            List<Location> locations = collectLocations(issue);
+      String filenameAbsolutePath = project.getFileSystem().getBasedir() + BACK_SLASH + filename;
 
-            issues.add(Issue.create(id,
-                    message + "\n\n" + errorLine1 + "\n\n" + errorLine2,
-                    summary + "\n\n" + explanation + "\n\n" + url,
-                    category,
-                    priority,
-                    severity,
-                    locations));
+      if (filename.contains(".java"))
+      {
+        // The file is a java file
+        // Java filename aren't directly support by the sonar java plugin
+        // We shall transform the java file into a JavaKey
+        // so the user can drill down the violations in java source code
+        String javaKey = "";
+
+        for (File dir : project.getFileSystem().getSourceDirs())
+        {
+          // Is the file in this source directory?
+          if (filenameAbsolutePath.contains(dir.getPath()))
+          {
+            javaKey = javaFilenameToJavaKey(filename, dir);
+          }
         }
-    }
-
-    private List<Location> collectLocations(SMInputCursor issue) throws XMLStreamException {
-        SMInputCursor locationXml = issue.descendantElementCursor("location");
-        List<Location> locations = new ArrayList<Location>();
-
-        SMEvent next;
-        while ((next = locationXml.getNext()) != null) { // TODO : may have several locations, but "while" cause an error
-            if (!SMEvent.START_ELEMENT.equals(next)) {
-                continue;
-            }
-
-            String filename = locationXml.getAttrValue("file");
-
-            int line = UNKNOWN_LINE_OR_COLUMN;
-            int column = UNKNOWN_LINE_OR_COLUMN;
-            if (locationXml.getAttrCount() == 3) {
-                line = locationXml.getAttrIntValue(1);
-                column = locationXml.getAttrIntValue(2);
-            }
-            Position position = new DefaultPosition(line, column, UNKNOWN_OFFSET);
-
-            Location location = Location.create(new File(filename), position, position);
-
-            locations.add(location);
+        location = Location.create(new File(filename), position, position, javaKey);
+      }
+      else
+      {
+        // The file isn't a java file
+        for (File dir : project.getFileSystem().getSourceDirs())
+        {
+          // Is the file in this source directory?
+          if (filenameAbsolutePath.contains(dir.getPath()))
+          {
+            String srcPath = dir.getAbsolutePath().replace(project.getFileSystem().getBasedir().getPath(), "");
+            srcPath = srcPath.substring(1) + BACK_SLASH;
+            srcPath = filename.replace(srcPath, "");
+          }
         }
-        return locations;
+        location = Location.create(new File(filename), position, position);
+      }
+
+      locations.add(location);
     }
+    return locations;
+  }
+
+  /**
+   * This function transform the Java filename into a JavaKey
+   * @param filename the current Java filename as String
+   * @param sourceDir the current source or test directory read from sonar.sources or sonar.tests
+   * @return the javaKey. For instance com.package.MyClass
+   */
+  private String javaFilenameToJavaKey(String filename, File sourceDir)
+  {
+    // Get the source absolute path and remove the base path of it.
+    String srcPath = sourceDir.getAbsolutePath().replace(project.getFileSystem().getBasedir().getPath(), "");
+    // In most cases srcPath at this step srcPath is "\res" or "\src"
+    // We change it in "res\" or "src\"
+    srcPath = srcPath.substring(1) + BACK_SLASH;
+    // Remove the source path from filename to get build the javakey
+
+    return filename.replace(srcPath, "").replace(".java", "").replace(BACK_SLASH, ".");
+  }
+
 }

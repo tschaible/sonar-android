@@ -19,37 +19,31 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.sonar.plugins.android.AndroidSourcesImporter;
-
-import org.sonar.api.Extension;
-
-import org.sonar.api.SonarPlugin;
-
-
-import java.util.ArrayList;
+import org.junit.Test;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleRepository;
+import org.mockito.Mockito;
 import java.util.List;
 
+import junit.framework.Assert;
+
 /**
- * Main class of Android Lint Sonar Plugin
+ * This class tests the AndroidLintRuleRepository class
  *
- * @author Jerome Van Der Linden
- * @author Thomas Boress
+ * @author Florian Roncari
+ *
  */
+public class RuleRepositoryTest {
 
-public class AndroidLintPlugin extends SonarPlugin {
+  @Test
+  public void createRulesTest() {
+    List<Rule> rules;
+    RuleRepository rulerep = null;
+    ServerFileSystem sfs = Mockito.mock(ServerFileSystem.class);
+    rulerep = new AndroidLintRuleRepository(sfs);
+    rules = rulerep.createRules();
 
-  @Override
-  public List<?> getExtensions() {
-    List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
-
-    list.add(AndroidSourcesImporter.class);
-
-    list.add(AndroidLintConfiguration.class);
-    list.add(AndroidLintSensor.class);
-    list.add(AndroidLintRuleRepository.class);
-    list.add(AndroidLintProfile.class);
-    list.add(AndroidLintProfileImporter.class);
-
-    return list;
+    Assert.assertEquals(140, rules.size());
   }
 }

@@ -1,6 +1,6 @@
 /*
  * Sonar Android Plugin
- * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas and SonarSource
+ * Copyright (C) 2013 Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -32,25 +32,31 @@ import java.util.List;
  * Repository for Android Lint rules (using {@link AndroidLintRuleParser}
  *
  * @author Stephane Nicolas
+ * @author Thomas Bores
  */
 public final class AndroidLintRuleRepository extends RuleRepository {
-    private final ServerFileSystem fileSystem;
-    private AndroidLintRuleParser androidLintRuleParser;
+  public static final String REPOSITORY_KEY = "AndroidLint";
+  public static final String REPOSITORY_NAME = REPOSITORY_KEY;
 
-    public AndroidLintRuleRepository(ServerFileSystem fileSystem) {
-        super(AndroidLintConstants.REPOSITORY_KEY, Java.KEY);
-        setName(AndroidLintConstants.REPOSITORY_NAME);
-        this.fileSystem = fileSystem;
-        this.androidLintRuleParser = new AndroidLintRuleParser();
-    }
+  private static final String RULES_FILE = "/org/sonar/plugins/android/lint/rules.txt";
 
-    @Override
-    public List<Rule> createRules() {
-        List<Rule> rules = Lists.newArrayList();
-        rules.addAll(androidLintRuleParser.parse(getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.txt")));
-        for (File userExtensionXml : fileSystem.getExtensions(AndroidLintConstants.REPOSITORY_KEY, "txt")) {
-            rules.addAll(androidLintRuleParser.parse(userExtensionXml));
-        }
-        return rules;
-    }
+  private final ServerFileSystem fileSystem;
+  private AndroidLintRuleParser androidLintRuleParser;
+
+  public AndroidLintRuleRepository(ServerFileSystem fileSystem) {
+    super(AndroidLintRuleRepository.REPOSITORY_KEY, Java.KEY);
+    setName(AndroidLintRuleRepository.REPOSITORY_NAME);
+    this.fileSystem = fileSystem;
+    this.androidLintRuleParser = new AndroidLintRuleParser();
+  }
+
+  @Override
+  public List<Rule> createRules() {
+    List<Rule> rules = Lists.newArrayList();
+    rules.addAll(androidLintRuleParser.parse(getClass().getResourceAsStream(RULES_FILE)));
+//    for (File userExtensionXml : fileSystem.getExtensions(AndroidLintRuleRepository.REPOSITORY_KEY, "txt")) {
+//      rules.addAll(androidLintRuleParser.parse(userExtensionXml));
+//    }
+    return rules;
+  }
 }
