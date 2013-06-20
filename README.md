@@ -12,7 +12,7 @@ The idea is to visualize Android Lint errors directly in Sonar, in the same way 
 
 This project is part of a larger effort to industrialize Android development.
 
-I -Compiling and Installing the plugin:
+I - Compiling and Installing the plugin:
 ---------------------------------------
  - Install maven
  - Clone the repository
@@ -26,7 +26,7 @@ I -Compiling and Installing the plugin:
 II - Running an analyse:
 ------------------------
 1. On a Maven project
- - mvn sonar:sonar -Dsonar.profile="Android Lint" in your project
+ - mvn sonar:sonar -Dsonar.profile="Android Lint r17" in your project
  - That's it !
 
 2. On another project using sonar-runner
@@ -40,10 +40,12 @@ III - Updating the plugin for new android-lint release:
 	-> lint-rxx.jar
 	-> lint-api-rxx.jar
 	-> lint-checks-rxx.jar
- - Copy the install_lint_r17_in_maven.bat in a new one named install_lint_rxx_in_maven.bat
- - Adapt the install_lint_rx_in_maven.bat and launch it.
+ - Copy the install_lint_rxx_in_maven.bat in a new one named install_lint_rxx_in_maven.bat
+ - Adapt the install_lint_rxx_in_maven.bat and launch it.
+ - Add AndroidLintProfileGenerator.jar in sonar-android/scripts
+You can download this JAR at this link:  <a href="https://github.com/tbores/AndroidLint_SonarProfileGenerator" title="Link to the AndroidLint_SonarProfilegenerator repository">AndroidLint_SonarProfileGenerator</a>
  - Run generate_rules_and_profile.bat to generate the new version for resources:
 	-> src\main\resources\org\sonar\plugins\android\lint\rules.txt
 	-> src\main\resources\org\sonar\plugins\android\lint\profile-android-lint.xml
- - Change the build properties of the project to point to the new version of jar file in maven
+ - Update the Java Build Path properties of the project to point to the new version of jar files
  - Adapt the source code to the new version of android-lint
