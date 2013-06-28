@@ -89,4 +89,16 @@
       <version>1.0</version>
     </dependency>
   </dependencies>
+
+    <repositories>
+    <!-- START Dirty hack -->
+    <!-- This hack is used so long Android Lint Tool jars files aren't in Maven Central Repository -->
+    <!-- See https://groups.google.com/forum/#!topic/adt-dev/HvDcynqIuj4 -->
+    <repository>
+      <id>android-lint-libs</id>
+      <url>file:${project.basedir}\libs\</url>
+    </repository>
+    <!--  END Dirty hack -->
+  </repositories>
+
 </project>

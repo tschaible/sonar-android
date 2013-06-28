@@ -10,14 +10,10 @@ Extension plugin for Android Lint in Sonar.
 
 The idea is to visualize Android Lint errors directly in Sonar, in the same way as findbugs / PMD / checkstyle errors are reported.
 
-This project is part of a larger effort to industrialize Android development.
-
 I - Compiling and Installing the plugin:
 ---------------------------------------
  - Install maven
  - Clone the repository
- - update your local repository of Maven with the last release of android-lint, currently the r17 (2013.04):
-	-> run the .bat file: copy_necessary_jars_in_maven_locally.bat
  - Compile and test the code, then generate the jar:
 	-> run "mvn clean install" command in your terminal
  - copy the jar (in the new generated target folder) in <path_to_your_sonar_install>/extensions/plugins folder,
@@ -36,16 +32,20 @@ II - Running an analyse:
 
 III - Updating the plugin for new android-lint release:
 -------------------------------------------------------
- - Copy the three new android-lint jar in the scripts folder
+For now (2013.06.28), the jars for the Android Lint tool aren't present on the Central Maven Repository.
+That's the reasons why the jars are currently embedded in the Git Repo and you must update the jars manually.
+For more information read: https://groups.google.com/forum/#!topic/adt-dev/HvDcynqIuj4
+
+Steps for the update:
+ - Copy the three new android-lint jar in the libs folder
 	-> lint-rxx.jar
 	-> lint-api-rxx.jar
 	-> lint-checks-rxx.jar
- - Copy the install_lint_rxx_in_maven.bat in a new one named install_lint_rxx_in_maven.bat
- - Adapt the install_lint_rxx_in_maven.bat and launch it.
+ - Update the pom.xml to use the new version of the jar files
  - Add AndroidLintProfileGenerator.jar in sonar-android/scripts
 You can download this JAR at this link:  <a href="https://github.com/tbores/AndroidLint_SonarProfileGenerator" title="Link to the AndroidLint_SonarProfilegenerator repository">AndroidLint_SonarProfileGenerator</a>
  - Run generate_rules_and_profile.bat to generate the new version for resources:
 	-> src\main\resources\org\sonar\plugins\android\lint\rules.txt
 	-> src\main\resources\org\sonar\plugins\android\lint\profile-android-lint.xml
  - Update the Java Build Path properties of the project to point to the new version of jar files
- - Adapt the source code to the new version of android-lint
+ - Adapt the source code (update the Quality Profile name)
