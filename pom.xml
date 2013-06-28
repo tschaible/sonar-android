@@ -68,9 +68,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.android.tools.lint</groupId>
-      <artifactId>lint_api</artifactId>
-      <version>r17</version>
+      <groupId>org.codehaus.sonar-plugins.xml</groupId>
+      <artifactId>sonar-xml-plugin</artifactId>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -84,21 +84,22 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar-plugins</groupId>
-      <artifactId>sonar-xml-plugin</artifactId>
-      <version>1.0</version>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint_api</artifactId>
+      <version>r17</version>
     </dependency>
   </dependencies>
 
-    <repositories>
+  <repositories>
     <!-- START Dirty hack -->
-    <!-- This hack is used so long Android Lint Tool jars files aren't in Maven Central Repository -->
+    <!-- This hack is used so long Android Lint Tool jars files aren't in
+      Maven Central Repository -->
     <!-- See https://groups.google.com/forum/#!topic/adt-dev/HvDcynqIuj4 -->
     <repository>
       <id>android-lint-libs</id>
-      <url>file:${project.basedir}\libs\</url>
+      <url>file:${project.basedir}/libs/</url>
     </repository>
-    <!--  END Dirty hack -->
+    <!-- END Dirty hack -->
   </repositories>
 
 </project>
