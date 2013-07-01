@@ -68,11 +68,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar-plugins.xml</groupId>
-      <artifactId>sonar-xml-plugin</artifactId>
-      <version>1.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.9.5</version>

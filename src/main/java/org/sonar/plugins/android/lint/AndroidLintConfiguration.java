@@ -37,7 +37,7 @@ import java.io.File;
 @Properties({
   @Property(
     key = AndroidLintConfiguration.ANDROID_LINT_PATH,
-    defaultValue = "c:\\adt-bundle-windows-x86_64\\sdk\\tools\\lint.bat",
+    defaultValue = "c:\\adt-bundle-windows-x86_64-20130522\\sdk\\tools\\lint.bat",
     name = "Android Lint executable",
     description = "Path to the Android Lint executable to use in Android Lint analysis. Set to empty to use the default one.",
     global = true,

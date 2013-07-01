@@ -24,9 +24,6 @@ import org.sonar.api.resources.InputFile;
 
 import org.sonar.api.config.Settings;
 
-import org.sonar.plugins.xml.XmlPlugin;
-import org.sonar.plugins.xml.XmlProjectFileSystem;
-
 import org.sonar.api.resources.Project;
 
 import java.io.File;
@@ -41,6 +38,8 @@ public class AndroidSourcesImporter extends AbstractSourceImporter {
 
   private final Project project;
   private final Settings settings;
+  
+  public static final String language = Java.NAME;
 
   public AndroidSourcesImporter(Java java, Project project, Settings settings) {
     super(java);
@@ -49,9 +48,9 @@ public class AndroidSourcesImporter extends AbstractSourceImporter {
   }
 
   public void analyse(ProjectFileSystem fileSystem, SensorContext context) {
-    List<File> files = toFiles(XmlPlugin.getFiles(project, settings));
-    List<File> dirs = XmlProjectFileSystem.getSourceDirs(project);
-    parseDirs(context, files, dirs, false, fileSystem.getSourceCharset());
+	List<File> files = toFiles(fileSystem.mainFiles(language));
+	  List<File> dirs = fileSystem.getSourceDirs();
+	  parseDirs(context, files, dirs, false, fileSystem.getSourceCharset());
   }
 
   @Override
