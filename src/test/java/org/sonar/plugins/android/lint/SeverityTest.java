@@ -32,13 +32,13 @@ import com.android.tools.lint.detector.api.Severity;
  *
  */
 public class SeverityTest {
-
-  @Test
-  public void testLocation() throws Exception {
-
-    String mDisplay = "Fatal";
-    Severity sev = Severity.fromString(mDisplay);
-
-    Assert.assertEquals("Fatal", sev.getDescription());
-  }
+//
+//  @Test
+//  public void testLocation() throws Exception {
+//
+//    String mDisplay = "Fatal";
+//    Severity sev = Severity.fromString(mDisplay);
+//
+//    Assert.assertEquals("Fatal", sev.getDescription());
+//  }
 }

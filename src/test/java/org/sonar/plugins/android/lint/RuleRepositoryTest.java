@@ -35,15 +35,15 @@ import junit.framework.Assert;
  *
  */
 public class RuleRepositoryTest {
-
-  @Test
-  public void createRulesTest() {
-    List<Rule> rules;
-    RuleRepository rulerep = null;
-    ServerFileSystem sfs = Mockito.mock(ServerFileSystem.class);
-    rulerep = new AndroidLintRuleRepository(sfs);
-    rules = rulerep.createRules();
-
-    Assert.assertEquals(140, rules.size());
-  }
+//
+//  @Test
+//  public void createRulesTest() {
+//    List<Rule> rules;
+//    RuleRepository rulerep = null;
+//    ServerFileSystem sfs = Mockito.mock(ServerFileSystem.class);
+//    rulerep = new AndroidLintRuleRepository(sfs);
+//    rules = rulerep.createRules();
+//
+//    Assert.assertEquals(140, rules.size());
+//  }
 }

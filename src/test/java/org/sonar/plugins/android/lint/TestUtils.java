@@ -59,62 +59,62 @@ import org.sonar.api.resources.ProjectFileSystem;
  *
  */
 public class TestUtils{
-  public static File loadResource(String resourceName) {
-    URL resource = TestUtils.class.getResource(resourceName);
-    File resourceAsFile = null;
-    try{
-      resourceAsFile = new File(resource.toURI());
-    } catch (URISyntaxException e) {
-      System.out.println("Cannot load resource: " + resourceName);
-    }
-
-    return resourceAsFile;
-  }
-
-  /**
-   * @return default mock project
-   */
-  public static Project mockProject() {
-    return mockProject(loadResource("/HelloWorld/"));
-  }
-
-  /**
-   * Mock project
-   * @param baseDir projects base directory
-   * @return mocked project
-   */
-  public static Project mockProject(File baseDir) {
-    List<InputFile> mainFiles = new LinkedList<InputFile>();
-
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    InputFile inputFile = InputFileUtils.create(
-        new File("src/test/resources/HelloWorld/src/"),
-        new File("src/test/resources/HelloWorld/src/com/mkyong/android/HelloWorldActivity.java"));
-    when(fileSystem.mainFiles(Java.KEY)).thenReturn(ImmutableList.of(inputFile));
-
-    List<InputFile> testFiles = new LinkedList<InputFile>();
-    List<File> baseList = Arrays.asList(baseDir);
-    List<File> srcList = Arrays.asList(new File(baseDir.getPath()+"/src/"));
-
-    when(fileSystem.getBasedir()).thenReturn(baseDir);
-    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    when(fileSystem.mainFiles(Java.KEY)).thenReturn(mainFiles);
-    when(fileSystem.testFiles(Java.KEY)).thenReturn(testFiles);
-    when(fileSystem.getSourceDirs()).thenReturn(srcList);
-
-    // Uncomment and adapt the following line to test run AndroidLintSensorTest
-//    when(fileSystem.resolvePath("<your_path>\\sonar-android-lint-plugin\\target\\test-classes\\HelloWorld\\lint-report.xml")).thenReturn(new File("<your_path>\\sonar-android-lint-plugin\\target\\test-classes\\HelloWorld\\lint-report.xml"));
-
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    Language lang = mockLanguage();
-    when(project.getLanguage()).thenReturn(lang);
-
-    return project;
-  }
-
-  public static Java mockLanguage(){
-    Java lang = mock(Java.class);
-    return lang;
-  }
+//  public static File loadResource(String resourceName) {
+//    URL resource = TestUtils.class.getResource(resourceName);
+//    File resourceAsFile = null;
+//    try{
+//      resourceAsFile = new File(resource.toURI());
+//    } catch (URISyntaxException e) {
+//      System.out.println("Cannot load resource: " + resourceName);
+//    }
+//
+//    return resourceAsFile;
+//  }
+//
+//  /**
+//   * @return default mock project
+//   */
+//  public static Project mockProject() {
+//    return mockProject(loadResource("/HelloWorld/"));
+//  }
+//
+//  /**
+//   * Mock project
+//   * @param baseDir projects base directory
+//   * @return mocked project
+//   */
+//  public static Project mockProject(File baseDir) {
+//    List<InputFile> mainFiles = new LinkedList<InputFile>();
+//
+//    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
+//    InputFile inputFile = InputFileUtils.create(
+//        new File("src/test/resources/HelloWorld/src/"),
+//        new File("src/test/resources/HelloWorld/src/com/mkyong/android/HelloWorldActivity.java"));
+//    when(fileSystem.mainFiles(Java.KEY)).thenReturn(ImmutableList.of(inputFile));
+//
+//    List<InputFile> testFiles = new LinkedList<InputFile>();
+//    List<File> baseList = Arrays.asList(baseDir);
+//    List<File> srcList = Arrays.asList(new File(baseDir.getPath()+"/src/"));
+//
+//    when(fileSystem.getBasedir()).thenReturn(baseDir);
+//    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
+//    when(fileSystem.mainFiles(Java.KEY)).thenReturn(mainFiles);
+//    when(fileSystem.testFiles(Java.KEY)).thenReturn(testFiles);
+//    when(fileSystem.getSourceDirs()).thenReturn(srcList);
+//
+//    // Uncomment and adapt the following line to test run AndroidLintSensorTest
+////    when(fileSystem.resolvePath("<your_path>\\sonar-android-lint-plugin\\target\\test-classes\\HelloWorld\\lint-report.xml")).thenReturn(new File("<your_path>\\sonar-android-lint-plugin\\target\\test-classes\\HelloWorld\\lint-report.xml"));
+//
+//    Project project = mock(Project.class);
+//    when(project.getFileSystem()).thenReturn(fileSystem);
+//    Language lang = mockLanguage();
+//    when(project.getLanguage()).thenReturn(lang);
+//
+//    return project;
+//  }
+//
+//  public static Java mockLanguage(){
+//    Java lang = mock(Java.class);
+//    return lang;
+//  }
 }
