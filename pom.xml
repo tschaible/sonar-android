@@ -78,17 +78,22 @@
       <version>2.2.1</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
-
-  <repositories>
-    <!-- START Dirty hack -->
-    <!-- This hack is used so long Android Lint Tool jars files aren      <exclusions>
+    <dependency>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint_api</artifactId>
+      <version>r17</version>
+      <exclusions>
       	<exclusion>
       		<artifactId>sonar-xml-plugin</artifactId>
       		<groupId>org.sonar.plugins.xml</groupId>
       	</exclusion>
       </exclusions>
-'t in
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <!-- START Dirty hack -->
+    <!-- This hack is used so long Android Lint Tool jars files aren't in
       Maven Central Repository -->
     <!-- See https://groups.google.com/forum/#!topic/adt-dev/HvDcynqIuj4 -->
     <repository>
