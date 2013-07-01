@@ -82,6 +82,12 @@
       <groupId>com.android.tools.lint</groupId>
       <artifactId>lint_api</artifactId>
       <version>r17</version>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>sonar-xml-plugin</artifactId>
+      		<groupId>org.sonar.plugins.xml</groupId>
+      	</exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
