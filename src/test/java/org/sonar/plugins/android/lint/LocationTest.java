@@ -95,6 +95,13 @@ public class LocationTest {
         }
         Location loc6 = Location.create(filetoanalyze,null,0,4);
         Location loc7 = Location.create(filetoanalyze,"Test \n Tests",0,10);
+        loc7.setClientData(loc6);
+        Assert.assertEquals(loc6,loc7.getClientData());
+        Location loc8 = Location.create(mFile);
+        Location loc9 = Location.create(filetoanalyze, "Test \n Test\n TEST", 1, "Te", "\n");
+        Location loc10 = Location.create(filetoanalyze, "Test \n Test\n TEST", 1, "TestFailed", "\n");
+        loc10.setSecondary(loc9);
+        Assert.assertEquals(loc10.getFile(),loc8.reverse(loc10).getFile());
   }
 
 
