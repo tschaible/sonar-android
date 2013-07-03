@@ -58,7 +58,7 @@ import org.sonar.api.resources.ProjectFileSystem;
  * @author Thomas Bores
  *
  */
-public class TestUtils{
+//public class TestUtils{
 //  public static File loadResource(String resourceName) {
 //    URL resource = TestUtils.class.getResource(resourceName);
 //    File resourceAsFile = null;

@@ -31,19 +31,19 @@ import java.util.List;
  * @author Thomas Bores
  */
 public class AndroidLintRuleParserTest {
-//
-//    @Test
-//    public void testParseTextFile() throws Exception {
-//        // given
-//        AndroidLintRuleParser parser = new AndroidLintRuleParser();
-//
-//        // when
-//        List<Rule> rules = parser.parse(new File(this.getClass().getResource("/org/sonar/plugins/android/lint/rules.txt").toURI()));
-//
-//        // then
-//        Assert.assertNotNull(rules);
-//        // Update the number of rules after each Android Lint Update
-//        // because the number of rules change.
-//        Assert.assertEquals(140, rules.size());
-//    }
+
+    @Test
+    public void testParseTextFile() throws Exception {
+        // given
+        AndroidLintRuleParser parser = new AndroidLintRuleParser();
+
+        // when
+        List<Rule> rules = parser.parse(new File(this.getClass().getResource("/org/sonar/plugins/android/lint/rules.txt").toURI()));
+
+        // then
+        Assert.assertNotNull(rules);
+        // Update the number of rules after each Android Lint Update
+        // because the number of rules change.
+        Assert.assertEquals(140, rules.size());
+    }
 }

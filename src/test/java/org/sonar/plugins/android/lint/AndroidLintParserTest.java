@@ -49,86 +49,86 @@ import static org.mockito.Mockito.when;
  *
  */
 public class AndroidLintParserTest {
-
-  SensorContext context;
-  Project project;
-  Settings settings;
-
-  @Before
-  public void setUp() {
-    project = TestUtils.mockProject();
-    settings = new Settings();
-    context = mock(SensorContext.class);
-    Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
-  }
-
-  @Test
-  public void testParser() throws Exception {
-
-    AndroidLintParser parser = new AndroidLintParser(project);
-
-    // when
-    File filetoanalyze = new File(this.getClass().getResource("/lint-report.xml").toURI());
-    parser.parse(filetoanalyze);
-    List<Issue> issues = parser.getIssues();
-
-    // then
-    Assert.assertNotNull(issues);
-    Assert.assertEquals(21, issues.size());
-
-    // Test the first issue
-    Issue firstIssue = issues.get(0);
-    Assert.assertNotNull(firstIssue);
-    Assert.assertEquals(Severity.ERROR, firstIssue.getSeverity());
-    Assert.assertEquals(Category.CORRECTNESS, firstIssue.getCategory());
-    Assert.assertEquals(8, firstIssue.getPriority());
-    Assert.assertEquals("MissingRegistered", firstIssue.getId());
-
-    List<Location> locations = firstIssue.getLocations();
-    Assert.assertNotNull(locations);
-    Assert.assertEquals(1, locations.size());
-    Location location = locations.get(0);
-    Assert.assertNotNull(location);
-    Assert.assertEquals("AndroidManifest.xml", location.getFile().getName());
-    Assert.assertEquals(64, location.getStart().getLine());
-    Assert.assertEquals(9, location.getStart().getColumn());
-
-    // Test the 11th issue, that has 2 locations
-    Issue eleventhIssue = issues.get(10);
-    Assert.assertNotNull(eleventhIssue);
-    Assert.assertEquals(Severity.WARNING, eleventhIssue.getSeverity());
-    Assert.assertEquals(Category.ICONS, eleventhIssue.getCategory());
-    Assert.assertEquals(5, eleventhIssue.getPriority());
-    Assert.assertEquals("IconDipSize", eleventhIssue.getId());
-
-    locations = null;
-    locations = eleventhIssue.getLocations();
-    Assert.assertNotNull(locations);
-    Assert.assertEquals(2, locations.size());
-
-    location = locations.get(0);
-    Assert.assertEquals("grey_background_pattern_tile.png", location
-        .getFile().getName());
-
-    location = locations.get(1);
-    Assert.assertEquals("grey_background_pattern_tile.png", location
-        .getFile().getName());
-
-    // Test the 21th issue, that is a java violation
-    Issue twentyfirst = issues.get(20);
-    Assert.assertNotNull(twentyfirst);
-    Assert.assertEquals(Severity.WARNING, twentyfirst.getSeverity());
-    Assert.assertEquals(Category.CORRECTNESS, twentyfirst.getCategory());
-    Assert.assertEquals(6, twentyfirst.getPriority());
-    Assert.assertEquals("DefaultLocale", twentyfirst.getId());
-
-    locations = null;
-    locations = twentyfirst.getLocations();
-    Assert.assertNotNull(locations);
-    Assert.assertEquals(1, locations.size());
-
-    location = locations.get(0);
-    Assert.assertEquals("NumberPicker.java", location.getFile().getName());
-  }
+//
+//  SensorContext context;
+//  Project project;
+//  Settings settings;
+//
+//  @Before
+//  public void setUp() {
+//    project = TestUtils.mockProject();
+//    settings = new Settings();
+//    context = mock(SensorContext.class);
+//    Resource resourceMock = mock(Resource.class);
+//    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+//  }
+//
+//  @Test
+//  public void testParser() throws Exception {
+//
+//    AndroidLintParser parser = new AndroidLintParser(project);
+//
+//    // when
+//    File filetoanalyze = new File(this.getClass().getResource("/lint-report.xml").toURI());
+//    parser.parse(filetoanalyze);
+//    List<Issue> issues = parser.getIssues();
+//
+//    // then
+//    Assert.assertNotNull(issues);
+//    Assert.assertEquals(21, issues.size());
+//
+//    // Test the first issue
+//    Issue firstIssue = issues.get(0);
+//    Assert.assertNotNull(firstIssue);
+//    Assert.assertEquals(Severity.ERROR, firstIssue.getSeverity());
+//    Assert.assertEquals(Category.CORRECTNESS, firstIssue.getCategory());
+//    Assert.assertEquals(8, firstIssue.getPriority());
+//    Assert.assertEquals("MissingRegistered", firstIssue.getId());
+//
+//    List<Location> locations = firstIssue.getLocations();
+//    Assert.assertNotNull(locations);
+//    Assert.assertEquals(1, locations.size());
+//    Location location = locations.get(0);
+//    Assert.assertNotNull(location);
+//    Assert.assertEquals("AndroidManifest.xml", location.getFile().getName());
+//    Assert.assertEquals(64, location.getStart().getLine());
+//    Assert.assertEquals(9, location.getStart().getColumn());
+//
+//    // Test the 11th issue, that has 2 locations
+//    Issue eleventhIssue = issues.get(10);
+//    Assert.assertNotNull(eleventhIssue);
+//    Assert.assertEquals(Severity.WARNING, eleventhIssue.getSeverity());
+//    Assert.assertEquals(Category.ICONS, eleventhIssue.getCategory());
+//    Assert.assertEquals(5, eleventhIssue.getPriority());
+//    Assert.assertEquals("IconDipSize", eleventhIssue.getId());
+//
+//    locations = null;
+//    locations = eleventhIssue.getLocations();
+//    Assert.assertNotNull(locations);
+//    Assert.assertEquals(2, locations.size());
+//
+//    location = locations.get(0);
+//    Assert.assertEquals("grey_background_pattern_tile.png", location
+//        .getFile().getName());
+//
+//    location = locations.get(1);
+//    Assert.assertEquals("grey_background_pattern_tile.png", location
+//        .getFile().getName());
+//
+//    // Test the 21th issue, that is a java violation
+//    Issue twentyfirst = issues.get(20);
+//    Assert.assertNotNull(twentyfirst);
+//    Assert.assertEquals(Severity.WARNING, twentyfirst.getSeverity());
+//    Assert.assertEquals(Category.CORRECTNESS, twentyfirst.getCategory());
+//    Assert.assertEquals(6, twentyfirst.getPriority());
+//    Assert.assertEquals("DefaultLocale", twentyfirst.getId());
+//
+//    locations = null;
+//    locations = twentyfirst.getLocations();
+//    Assert.assertNotNull(locations);
+//    Assert.assertEquals(1, locations.size());
+//
+//    location = locations.get(0);
+//    Assert.assertEquals("NumberPicker.java", location.getFile().getName());
+//  }
 }
