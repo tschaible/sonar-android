@@ -31,28 +31,28 @@ import com.android.tools.lint.detector.api.Category;
  *
  */
 public class CategoryTest {
-//  @Test
-//    public void testCreate() throws Exception {
-//      String name = "test";
-//      String explanation = "";
-//      int priority = 9;
-//
-//      Category parent = null;
-//      Category category_parent = Category.create(parent, name,  explanation, priority);
-//      Category category = Category.create(category_parent, name,  explanation, priority);
-//      Category category_other = Category.create(category_parent, name,  explanation, 9);
-//      Category category_other2 = Category.create(category, name,  explanation, 9);
-//
-//      Assert.assertEquals(category_parent,category.getParent());
-//      Assert.assertEquals("test",category.getName());
-//      Assert.assertEquals(null,category.getExplanation());
-//      Assert.assertEquals(Category.CORRECTNESS,Category.find("Correctness"));
-//
-//      Assert.assertEquals("test:test",category.getFullName());
-//      Assert.assertEquals("test",category_parent.getFullName());
-//      Assert.assertEquals(1, category.compareTo(category_parent));
-//      Assert.assertEquals(0, category.compareTo(category_other));
-//      Assert.assertEquals(-1, category.compareTo(category_other2));
-//    }
+  @Test
+    public void testCreate() throws Exception {
+      String name = "test";
+      String explanation = "";
+      int priority = 9;
+
+      Category parent = null;
+      Category category_parent = Category.create(parent, name,  explanation, priority);
+      Category category = Category.create(category_parent, name,  explanation, priority);
+      Category category_other = Category.create(category_parent, name,  explanation, 9);
+      Category category_other2 = Category.create(category, name,  explanation, 9);
+
+      Assert.assertEquals(category_parent,category.getParent());
+      Assert.assertEquals("test",category.getName());
+      Assert.assertEquals(null,category.getExplanation());
+      Assert.assertEquals(Category.CORRECTNESS,Category.find("Correctness"));
+
+      Assert.assertEquals("test:test",category.getFullName());
+      Assert.assertEquals("test",category_parent.getFullName());
+      Assert.assertEquals(1, category.compareTo(category_parent));
+      Assert.assertEquals(0, category.compareTo(category_other));
+      Assert.assertEquals(-1, category.compareTo(category_other2));
+    }
 
 }
