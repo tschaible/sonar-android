@@ -45,23 +45,23 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AndroidSourcesImporterTest {
-//  SensorContext context;
-//  Project project;
-//  Settings settings;
-//
-//  @Before
-//  public void setUp() {
-//    project = TestUtils.mockProject();
-//    settings = new Settings();
-//    context = mock(SensorContext.class);
-//    Resource resourceMock = mock(Resource.class);
-//    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
-//  }
-//
-//  @Test
-//  public void testImporter() throws Exception {
-//    AndroidSourcesImporter importer = new AndroidSourcesImporter(new Java(), project, settings);
-//    importer.analyse(project.getFileSystem(), null);
-//    Assert.assertEquals("AndroidSourcesImporter",importer.toString());
-//  }
+  SensorContext context;
+  Project project;
+  Settings settings;
+
+  @Before
+  public void setUp() {
+    project = TestUtils.mockProject();
+    settings = new Settings();
+    context = mock(SensorContext.class);
+    Resource resourceMock = mock(Resource.class);
+    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+  }
+
+  @Test
+  public void testImporter() throws Exception {
+    AndroidSourcesImporter importer = new AndroidSourcesImporter(new Java(), project, settings);
+    importer.analyse(project.getFileSystem(), null);
+    Assert.assertEquals("AndroidSourcesImporter",importer.toString());
+  }
 }

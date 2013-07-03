@@ -37,36 +37,36 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AndroidLintSensorTest {
-//  SensorContext context;
-//  Project project;
-//  Settings settings;
-//  AndroidLintSensor sensor;
-//  AndroidLintConfiguration config;
-//  RuleFinder ruleFinder;
-//
-//  @Before
-//  public void setUp() throws URISyntaxException {
-//    project = TestUtils.mockProject();
-//
-//    settings = new Settings();
-//    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_REPORT_PATH_PROPERTY, "lint-report.xml");
-//    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_PATH, "c:\\adt-bundle-windows-x86_64\\sdk\\tools\\lint.bat");
-//
-//    context = mock(SensorContext.class);
-//    Resource resourceMock = mock(Resource.class);
-//    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
-//    RulesProfile ruleProfileForTest = RulesProfile.create();
-//
-//    ruleFinder = mock(RuleFinder.class);
-//    config = new AndroidLintConfiguration(settings);
-//    sensor = new AndroidLintSensor(ruleFinder, config, ruleProfileForTest);
-//
-//  }
-//
-//  @Test
-//  public void testSensor() throws Exception {
-//    // sensor.analyse(project, context);
-//  }
-//
+  SensorContext context;
+  Project project;
+  Settings settings;
+  AndroidLintSensor sensor;
+  AndroidLintConfiguration config;
+  RuleFinder ruleFinder;
+
+  @Before
+  public void setUp() throws URISyntaxException {
+    project = TestUtils.mockProject();
+
+    settings = new Settings();
+    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_REPORT_PATH_PROPERTY, "lint-report.xml");
+    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_PATH, "c:\\adt-bundle-windows-x86_64\\sdk\\tools\\lint.bat");
+
+    context = mock(SensorContext.class);
+    Resource resourceMock = mock(Resource.class);
+    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+    RulesProfile ruleProfileForTest = RulesProfile.create();
+
+    ruleFinder = mock(RuleFinder.class);
+    config = new AndroidLintConfiguration(settings);
+    sensor = new AndroidLintSensor(ruleFinder, config, ruleProfileForTest);
+
+  }
+
+  @Test
+  public void testSensor() throws Exception {
+    // sensor.analyse(project, context);
+  }
+
 
 }
