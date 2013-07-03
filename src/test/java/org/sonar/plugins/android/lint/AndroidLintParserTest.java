@@ -31,7 +31,7 @@ import com.android.tools.lint.detector.api.Severity;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.sonar.api.resources.Project;
-import org.sonar.plugins.android.lint.TestUtils;
+//import org.sonar.plugins.android.lint.TestUtils;
 
 import java.io.File;
 import java.util.List;
