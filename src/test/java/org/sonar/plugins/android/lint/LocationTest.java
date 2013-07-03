@@ -48,55 +48,55 @@ import com.android.tools.lint.detector.api.Position;
  *
  */
 public class LocationTest {
-//
-//  SensorContext context;
-//  Project project;
-//  Settings settings;
-//
-//
-//  @Test
-//    public void testLocation() throws Exception {
-//
-//      File mFile = null;
-//      String mJavaKey = "key";
-//      Position mStart = null;
-//      Position mEnd = null;;
-//
-//      Location loc = Location.create(mFile,mStart, mEnd);
-//      Assert.assertEquals(null,loc.getFile());
-//      Assert.assertEquals(null,loc.getStart());
-//      Assert.assertEquals(null,loc.getEnd());
-//
-//      Location loc2 = Location.create(mFile, mStart, mEnd, mJavaKey);
-//      Assert.assertEquals("key",loc2.getJavaKey());
-//      loc.setSecondary(loc2);
-//      Assert.assertEquals(loc2,loc.getSecondary());
-//      loc.setMessage("Test");
-//      Assert.assertEquals("Test",loc.getMessage());
-//      Assert.assertEquals("Location [file=" + mFile + ", start=" + mStart + ", end=" + mEnd + ", message="
-//          + "Test" + "]",loc.toString());
-//
-//      File filetoanalyze = new File(this.getClass().getResource("/lint-report.xml").toURI());
-//      Location loc3 = Location.create(filetoanalyze);
-//      Location loc4 = Location.create(filetoanalyze,"test",0,10);
-//
-//      try {
-//        Location loc5 = Location.create(filetoanalyze,"test",-2,10);
-//        fail("Invalid offsets");
-//        } catch (IllegalArgumentException e) {
-//        //Do nothing
-//        }
-//
-//      try {
-//        Location loc6 = Location.create(filetoanalyze,"test",8,4);
-//        fail("Invalid offsets");
-//        } catch (IllegalArgumentException e) {
-//        //Do nothing
-//        }
-//        Location loc6 = Location.create(filetoanalyze,null,0,4);
-//        Location loc7 = Location.create(filetoanalyze,"Test \n Tests",0,10);
-//  }
-//
-//
+
+  SensorContext context;
+  Project project;
+  Settings settings;
+
+
+  @Test
+    public void testLocation() throws Exception {
+
+      File mFile = null;
+      String mJavaKey = "key";
+      Position mStart = null;
+      Position mEnd = null;;
+
+      Location loc = Location.create(mFile,mStart, mEnd);
+      Assert.assertEquals(null,loc.getFile());
+      Assert.assertEquals(null,loc.getStart());
+      Assert.assertEquals(null,loc.getEnd());
+
+      Location loc2 = Location.create(mFile, mStart, mEnd, mJavaKey);
+      Assert.assertEquals("key",loc2.getJavaKey());
+      loc.setSecondary(loc2);
+      Assert.assertEquals(loc2,loc.getSecondary());
+      loc.setMessage("Test");
+      Assert.assertEquals("Test",loc.getMessage());
+      Assert.assertEquals("Location [file=" + mFile + ", start=" + mStart + ", end=" + mEnd + ", message="
+          + "Test" + "]",loc.toString());
+
+      File filetoanalyze = new File(this.getClass().getResource("/lint-report.xml").toURI());
+      Location loc3 = Location.create(filetoanalyze);
+      Location loc4 = Location.create(filetoanalyze,"test",0,10);
+
+      try {
+        Location loc5 = Location.create(filetoanalyze,"test",-2,10);
+        fail("Invalid offsets");
+        } catch (IllegalArgumentException e) {
+        //Do nothing
+        }
+
+      try {
+        Location loc6 = Location.create(filetoanalyze,"test",8,4);
+        fail("Invalid offsets");
+        } catch (IllegalArgumentException e) {
+        //Do nothing
+        }
+        Location loc6 = Location.create(filetoanalyze,null,0,4);
+        Location loc7 = Location.create(filetoanalyze,"Test \n Tests",0,10);
+  }
+
+
 
 }
