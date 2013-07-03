@@ -129,6 +129,6 @@ public class AndroidLintParserTest {
     Assert.assertEquals(1, locations.size());
 
     location = locations.get(0);
-    Assert.assertEquals("NumberPicker.java", location.getFile().getName());
+    Assert.assertEquals("src\\com\\michaelnovakjr\\numberpicker\\NumberPicker.java", location.getFile().getName());
   }
 }
