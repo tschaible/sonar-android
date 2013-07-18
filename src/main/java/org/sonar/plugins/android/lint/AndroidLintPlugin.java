@@ -19,12 +19,8 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.sonar.plugins.android.AndroidSourcesImporter;
-
 import org.sonar.api.Extension;
-
 import org.sonar.api.SonarPlugin;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +37,6 @@ public class AndroidLintPlugin extends SonarPlugin {
   @Override
   public List<?> getExtensions() {
     List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
-
-    list.add(AndroidSourcesImporter.class);
 
     list.add(AndroidLintConfiguration.class);
     list.add(AndroidLintSensor.class);
