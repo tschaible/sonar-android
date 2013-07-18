@@ -1,16 +1,29 @@
-*.class
+# Maven
+target/
 
-# Package Files #
-*.war
-*.ear
-
-# intellij
-.idea
+# IntelliJ IDEA
+*.iws
 *.iml
+*.ipr
+.idea/
+sonar-server/src/main/webapp/WEB-INF/.rakeTasks
 
-# eclipse
+# Eclipse
+.classpath
 .project
 .settings
 
-# maven
-target
+# ---- Mac OS X
+.DS_Store
+Icon?
+# Thumbnails
+._*
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# ---- Windows
+# Windows image file caches
+Thumbs.db 
+# Folder config file
+Desktop.ini
