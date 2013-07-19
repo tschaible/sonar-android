@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.android.annotations.NonNull;
 import com.android.tools.lint.LintCliXmlParser;
 import com.android.tools.lint.LombokParser;
 import com.android.tools.lint.checks.BuiltinIssueRegistry;
@@ -36,36 +37,47 @@ import com.android.tools.lint.detector.api.LintUtils;
 import com.android.tools.lint.detector.api.Location;
 import com.android.tools.lint.detector.api.Project;
 import com.android.tools.lint.detector.api.Severity;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.JavaFile;
 import org.sonar.api.resources.JavaPackage;
-import org.sonar.api.resources.ProjectFileSystem;
-import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.scan.filesystem.PathResolver;
+import org.sonar.api.scan.filesystem.PathResolver.RelativePath;
+import org.sonar.api.utils.SonarException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
   private static final Logger LOG = LoggerFactory.getLogger(AndroidLintExecutor.class);
-  private ProjectFileSystem fs;
+  private ModuleFileSystem fs;
   private SensorContext sensorContext;
   private RuleFinder ruleFinder;
   private RulesProfile rulesProfile;
+  private ProjectClasspath projectClasspath;
+  private PathResolver resolver;
 
-  public AndroidLintExecutor(RuleFinder ruleFinder, ProjectFileSystem fs, RulesProfile rulesProfile) {
+  public AndroidLintExecutor(RuleFinder ruleFinder, ModuleFileSystem fs, RulesProfile rulesProfile, ProjectClasspath projectClasspath, PathResolver resolver) {
     this.ruleFinder = ruleFinder;
     this.fs = fs;
     this.rulesProfile = rulesProfile;
+    this.projectClasspath = projectClasspath;
+    this.resolver = resolver;
   }
 
   public void execute(SensorContext sensorContext) {
@@ -73,7 +85,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     IssueRegistry registry = new BuiltinIssueRegistry();
     LintDriver driver = new LintDriver(registry, this);
 
-    driver.analyze(new LintRequest(this, Arrays.asList(fs.getBasedir())));
+    driver.analyze(new LintRequest(this, Arrays.asList(fs.baseDir())));
   }
 
   @Override
@@ -102,21 +114,21 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
       if (rule.isEnabled()) {
         Violation violation = null;
 
-        Resource<?> r = fs.toResource(location.getFile());
+        RelativePath r = resolver.relativePath(fs.sourceDirs(), location.getFile());
         if (r != null) {
-          if (r instanceof org.sonar.api.resources.File && r.getKey().endsWith(".java")) {
+          if (location.getFile().isFile() && location.getFile().getName().endsWith(".java")) {
             // The file concerned is a java one
-            JavaFile javaFile = new JavaFile(StringUtils.removeEnd(r.getKey(), ".java").replaceAll("/", "."));
+            JavaFile javaFile = new JavaFile(StringUtils.removeEnd(r.path(), ".java").replaceAll("/", "."));
             violation = Violation.create(rule, javaFile);
           }
-          else if (r instanceof org.sonar.api.resources.Directory) {
+          else if (location.getFile().isDirectory()) {
             // The folder concerned is a java package
-            JavaPackage javaPackage = new JavaPackage(r.getKey().replaceAll("/", "."));
+            JavaPackage javaPackage = new JavaPackage(r.path().replaceAll("/", "."));
             violation = Violation.create(rule, javaPackage);
           }
           else {
-            // Any other file located in sonar.sources folder
-            violation = Violation.create(rule, r);
+            // Any other file located in sonar.sources folder is a regular file
+            Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
           }
         }
         else {
@@ -148,7 +160,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   }
 
   private String getRelativePath(File file) {
-    return fs.getBasedir().toURI().relativize(file.toURI()).getPath();
+    return fs.baseDir().toURI().relativize(file.toURI()).getPath();
   }
 
   @Override
@@ -173,6 +185,40 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         break;
     }
 
+  }
+
+  @Override
+  @NonNull
+  protected ClassPathInfo getClassPath(@NonNull Project project) {
+    List<File> sources = fs.sourceDirs();
+    List<File> classes = fs.binaryDirs();
+    List<File> libraries = new ArrayList<File>();
+    boolean hasExistingBinaryDir = false;
+
+    try {
+
+      Set<String> binaryDirPaths = Sets.newHashSet();
+      for (File binaryDir : fs.binaryDirs()) {
+        if (binaryDir.exists()) {
+          hasExistingBinaryDir = true;
+          binaryDirPaths.add(binaryDir.getCanonicalPath());
+        }
+      }
+      if (!hasExistingBinaryDir) {
+        throw new SonarException("Android Lint needs sources to be compiled. "
+          + "Please build project before executing SonarQube and check the location of compiled classes.");
+      }
+
+      for (File file : projectClasspath.getElements()) {
+        if (file.isFile() || !binaryDirPaths.contains(file.getCanonicalPath())) {
+          libraries.add(file);
+        }
+      }
+    } catch (IOException e) {
+      throw new SonarException("Unable to configure project classpath", e);
+    }
+
+    return new ClassPathInfo(sources, classes, libraries);
   }
 
   @Override

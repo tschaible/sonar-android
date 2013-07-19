@@ -25,9 +25,9 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.net.URISyntaxException;
 
@@ -55,7 +55,7 @@ public class AndroidLintSensorTest {
     RulesProfile ruleProfileForTest = RulesProfile.create();
 
     ruleFinder = mock(RuleFinder.class);
-    sensor = new AndroidLintSensor(ruleProfileForTest, mock(AndroidLintExecutor.class), mock(ProjectFileSystem.class));
+    sensor = new AndroidLintSensor(ruleProfileForTest, mock(AndroidLintExecutor.class), mock(ModuleFileSystem.class));
 
   }
 
