@@ -54,6 +54,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.scan.filesystem.PathResolver.RelativePath;
 import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.TimeProfiler;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,7 +86,9 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     IssueRegistry registry = new BuiltinIssueRegistry();
     LintDriver driver = new LintDriver(registry, this);
 
+    TimeProfiler profiler = new TimeProfiler().start("Execute Android Lint " + AndroidLintVersion.getVersion());
     driver.analyze(new LintRequest(this, Arrays.asList(fs.baseDir())));
+    profiler.stop();
   }
 
   @Override
