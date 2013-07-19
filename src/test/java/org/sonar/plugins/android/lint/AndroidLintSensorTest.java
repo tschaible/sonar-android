@@ -19,18 +19,16 @@
  */
 package org.sonar.plugins.android.lint;
 
-
-import java.net.URISyntaxException;
-import org.sonar.api.rules.RuleFinder;
-
-import org.sonar.api.profiles.RulesProfile;
-
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RuleFinder;
+
+import java.net.URISyntaxException;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
@@ -41,7 +39,7 @@ public class AndroidLintSensorTest {
   Project project;
   Settings settings;
   AndroidLintSensor sensor;
-  AndroidLintConfiguration config;
+  AndroidLintConstants config;
   RuleFinder ruleFinder;
 
   @Before
@@ -49,17 +47,14 @@ public class AndroidLintSensorTest {
     project = TestUtils.mockProject();
 
     settings = new Settings();
-    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_REPORT_PATH_PROPERTY, "lint-report.xml");
-    settings.setProperty(AndroidLintConfiguration.ANDROID_LINT_PATH, "c:\\adt-bundle-windows-x86_64\\sdk\\tools\\lint.bat");
 
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+    when(context.getResource((Resource) anyObject())).thenReturn(resourceMock);
     RulesProfile ruleProfileForTest = RulesProfile.create();
 
     ruleFinder = mock(RuleFinder.class);
-    config = new AndroidLintConfiguration(settings);
-    sensor = new AndroidLintSensor(ruleFinder, config, ruleProfileForTest);
+    sensor = new AndroidLintSensor(ruleProfileForTest, mock(AndroidLintExecutor.class));
 
   }
 
@@ -67,6 +62,5 @@ public class AndroidLintSensorTest {
   public void testSensor() throws Exception {
     // sensor.analyse(project, context);
   }
-
 
 }

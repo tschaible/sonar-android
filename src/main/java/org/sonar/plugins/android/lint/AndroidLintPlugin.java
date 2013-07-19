@@ -19,10 +19,9 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.sonar.api.Extension;
+import com.google.common.collect.ImmutableList;
 import org.sonar.api.SonarPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,14 +35,11 @@ public class AndroidLintPlugin extends SonarPlugin {
 
   @Override
   public List<?> getExtensions() {
-    List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
-
-    list.add(AndroidLintConfiguration.class);
-    list.add(AndroidLintSensor.class);
-    list.add(AndroidLintRuleRepository.class);
-    list.add(AndroidLintProfile.class);
-    list.add(AndroidLintProfileImporter.class);
-
-    return list;
+    return ImmutableList.of(
+        AndroidLintSensor.class,
+        AndroidLintRuleRepository.class,
+        AndroidLintProfile.class,
+        AndroidLintProfileImporter.class,
+        AndroidLintExecutor.class);
   }
 }

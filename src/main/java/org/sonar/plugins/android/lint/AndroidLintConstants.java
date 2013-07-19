@@ -19,26 +19,12 @@
  */
 package org.sonar.plugins.android.lint;
 
-import junit.framework.Assert;
 
-import org.junit.Test;
+public class AndroidLintConstants {
+  public static final String ANDROID_LINT_PROFILE = "Android Lint";
 
-import com.android.tools.lint.detector.api.Severity;
+  private AndroidLintConstants() {
 
-/**
- * This class tests the Severity class
- *
- * @author Florian Roncari
- *
- */
-public class SeverityTest {
-
-  @Test
-  public void testLocation() throws Exception {
-
-    String mDisplay = "Fatal";
-    Severity sev = Severity.fromString(mDisplay);
-
-    Assert.assertEquals("Fatal", sev.getDescription());
   }
+
 }

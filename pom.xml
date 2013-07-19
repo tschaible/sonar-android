@@ -7,11 +7,12 @@
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>17</version>
+    <relativePath />
   </parent>
 
   <groupId>org.codehaus.sonar-plugins.android</groupId>
   <artifactId>sonar-android-plugin</artifactId>
-  <version>1.0</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
 
   <name>Sonar Android Plugin</name>
@@ -47,11 +48,12 @@
   </ciManagement>
 
   <properties>
-    <sonar.version>3.4.1</sonar.version>
+    <sonar.version>3.0</sonar.version>
     <!-- Configuration for sonar-packaging-maven-plugin -->
     <sonar.pluginClass>org.sonar.plugins.android.lint.AndroidLintPlugin</sonar.pluginClass>
     <sonar.pluginName>Android</sonar.pluginName>
     <sonar.requirePlugins>java:1.1</sonar.requirePlugins>
+    <lint.version>22.1.1</lint.version>
   </properties>
 
   <dependencies>
@@ -60,7 +62,33 @@
       <artifactId>sonar-plugin-api</artifactId>
       <version>${sonar.version}</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+
+    <!-- Lint -->
+    <dependency>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint</artifactId>
+      <version>${lint.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok.ast</artifactId>
+      <version>0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>13.0.1</version>
+    </dependency>
+
+
+    <!-- Tests -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -78,29 +106,20 @@
       <version>2.2.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.android.tools.lint</groupId>
-      <artifactId>lint_api</artifactId>
-      <version>r17</version>
-      <exclusions>
-      	<exclusion>
-      		<artifactId>sonar-xml-plugin</artifactId>
-      		<groupId>org.sonar.plugins.xml</groupId>
-      	</exclusion>
-      </exclusions>
-    </dependency>
   </dependencies>
 
-  <repositories>
-    <!-- START Dirty hack -->
-    <!-- This hack is used so long Android Lint Tool jars files aren't in
-      Maven Central Repository -->
-    <!-- See https://groups.google.com/forum/#!topic/adt-dev/HvDcynqIuj4 -->
-    <repository>
-      <id>android-lint-libs</id>
-      <url>file:${project.basedir}/libs/</url>
-    </repository>
-    <!-- END Dirty hack -->
-  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.sonar</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <!-- To overrides guava -->
+          <useChildFirstClassLoader>true</useChildFirstClassLoader>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

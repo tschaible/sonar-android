@@ -19,18 +19,14 @@
  */
 package org.sonar.plugins.android.lint;
 
-import sun.security.pkcs.EncodingException;
-
 import com.google.common.io.Closeables;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Java;
 import org.sonar.api.utils.ValidationMessages;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * Android Lint default profile with all rules activated
@@ -50,15 +46,14 @@ public class AndroidLintProfile extends ProfileDefinition {
   public RulesProfile createProfile(ValidationMessages messages) {
     Reader config = null;
 
-    try{
+    try {
       config = new InputStreamReader(this.getClass().getResourceAsStream("/org/sonar/plugins/android/lint/profile-android-lint.xml"));
       RulesProfile profile = this.androidProfilImporter.importProfile(config, messages);
-      profile.setName(AndroidLintConfiguration.ANDROID_LINT_PROFILE+" "+AndroidLintConfiguration.ANDROID_LINT_VERSION);
+      profile.setName(AndroidLintConstants.ANDROID_LINT_PROFILE);
       profile.setLanguage(Java.KEY);
 
       return profile;
-    }
-    finally
+    } finally
     {
       Closeables.closeQuietly(config);
     }
