@@ -22,6 +22,7 @@ package org.sonar.plugins.android.lint;
 import com.android.tools.lint.LintCliXmlParser;
 import com.android.tools.lint.LombokParser;
 import com.android.tools.lint.checks.BuiltinIssueRegistry;
+import com.android.tools.lint.client.api.Configuration;
 import com.android.tools.lint.client.api.IDomParser;
 import com.android.tools.lint.client.api.IJavaParser;
 import com.android.tools.lint.client.api.IssueRegistry;
@@ -33,12 +34,14 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.Issue.OutputFormat;
 import com.android.tools.lint.detector.api.LintUtils;
 import com.android.tools.lint.detector.api.Location;
+import com.android.tools.lint.detector.api.Project;
 import com.android.tools.lint.detector.api.Severity;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.JavaFile;
 import org.sonar.api.resources.JavaPackage;
 import org.sonar.api.resources.ProjectFileSystem;
@@ -57,10 +60,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   private ProjectFileSystem fs;
   private SensorContext sensorContext;
   private RuleFinder ruleFinder;
+  private RulesProfile rulesProfile;
 
-  public AndroidLintExecutor(RuleFinder ruleFinder, ProjectFileSystem fs) {
+  public AndroidLintExecutor(RuleFinder ruleFinder, ProjectFileSystem fs, RulesProfile rulesProfile) {
     this.ruleFinder = ruleFinder;
     this.fs = fs;
+    this.rulesProfile = rulesProfile;
   }
 
   public void execute(SensorContext sensorContext) {
@@ -69,6 +74,25 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     LintDriver driver = new LintDriver(registry, this);
 
     driver.analyze(new LintRequest(this, Arrays.asList(fs.getBasedir())));
+  }
+
+  @Override
+  public Configuration getConfiguration(Project project) {
+    return new Configuration() {
+
+      @Override
+      public boolean isEnabled(Issue issue) {
+        return rulesProfile.getActiveRule(AndroidLintRuleRepository.REPOSITORY_KEY, issue.getId()) != null;
+      }
+
+      @Override
+      public void setSeverity(Issue issue, Severity severity) {
+      }
+
+      @Override
+      public void ignore(Context context, Issue issue, Location location, String message, Object data) {
+      }
+    };
   }
 
   @Override
@@ -145,7 +169,8 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         LOG.info(msg, exception);
         break;
       case IGNORE:
-        // Do nothing
+        LOG.debug(msg, exception);
+        break;
     }
 
   }
