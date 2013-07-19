@@ -32,7 +32,6 @@ import com.android.tools.lint.client.api.LintDriver;
 import com.android.tools.lint.client.api.LintRequest;
 import com.android.tools.lint.detector.api.Context;
 import com.android.tools.lint.detector.api.Issue;
-import com.android.tools.lint.detector.api.Issue.OutputFormat;
 import com.android.tools.lint.detector.api.LintUtils;
 import com.android.tools.lint.detector.api.Location;
 import com.android.tools.lint.detector.api.Project;
@@ -97,7 +96,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
       @Override
       public boolean isEnabled(Issue issue) {
-        return rulesProfile.getActiveRule(AndroidLintRuleRepository.REPOSITORY_KEY, issue.getId()) != null;
+        return rulesProfile.getActiveRule(AndroidLintConstants.REPOSITORY_KEY, issue.getId()) != null;
       }
 
       @Override
@@ -112,7 +111,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
   @Override
   public void report(Context context, Issue issue, Severity severity, Location location, String message, Object data) {
-    Rule rule = ruleFinder.findByKey(AndroidLintRuleRepository.REPOSITORY_KEY, issue.getId());
+    Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
     if (rule != null) {
       if (rule.isEnabled()) {
         Violation violation = null;
@@ -153,7 +152,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
           violation.setLineId(line);
         }
 
-        violation.setMessage(issue.getBriefDescription(OutputFormat.TEXT));
+        violation.setMessage(message);
         sensorContext.saveViolation(violation);
       }
       else {

@@ -51,7 +51,7 @@ public class AndroidLintSensor implements Sensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return Java.KEY.equals(project.getLanguageKey())
-      && !profile.getActiveRulesByRepository(AndroidLintRuleRepository.REPOSITORY_KEY).isEmpty()
+      && !profile.getActiveRulesByRepository(AndroidLintConstants.REPOSITORY_KEY).isEmpty()
       && new File(fs.baseDir(), SdkConstants.ANDROID_MANIFEST_XML).exists();
   }
 

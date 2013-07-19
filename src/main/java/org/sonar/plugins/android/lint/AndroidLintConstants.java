@@ -19,9 +19,11 @@
  */
 package org.sonar.plugins.android.lint;
 
-
 public class AndroidLintConstants {
+
   public static final String ANDROID_LINT_PROFILE = "Android Lint";
+  public static final String REPOSITORY_KEY = "android-lint";
+  public static final String REPOSITORY_NAME = "Android Lint";
 
   private AndroidLintConstants() {
 

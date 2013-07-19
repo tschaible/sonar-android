@@ -38,8 +38,7 @@ public class AndroidLintPlugin extends SonarPlugin {
     return ImmutableList.of(
         AndroidLintSensor.class,
         AndroidLintRuleRepository.class,
-        AndroidLintProfile.class,
-        AndroidLintProfileImporter.class,
+        AndroidLintSonarWay.class,
         AndroidLintExecutor.class);
   }
 }
