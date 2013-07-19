@@ -25,6 +25,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.RuleFinder;
 
@@ -54,7 +55,7 @@ public class AndroidLintSensorTest {
     RulesProfile ruleProfileForTest = RulesProfile.create();
 
     ruleFinder = mock(RuleFinder.class);
-    sensor = new AndroidLintSensor(ruleProfileForTest, mock(AndroidLintExecutor.class));
+    sensor = new AndroidLintSensor(ruleProfileForTest, mock(AndroidLintExecutor.class), mock(ProjectFileSystem.class));
 
   }
 

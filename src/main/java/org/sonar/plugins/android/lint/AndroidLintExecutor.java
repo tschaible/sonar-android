@@ -97,8 +97,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         }
         else {
           // Any other file/folder located outside sonar.sources folder
-          org.sonar.api.resources.File resFile = new org.sonar.api.resources.File(location.getFile().getName());
-          violation = Violation.create(rule, resFile);
+          if (location.getFile().isDirectory()) {
+            violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
+          }
+          else {
+            violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
+          }
         }
 
         int line = location.getStart() != null ? location.getStart().getLine() + 1 : 0;
@@ -117,6 +121,10 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
       // ignore violations from report, if rule not activated in Sonar
       LOG.warn("Android Lint rule '{}' is unknown in Sonar", issue.getId());
     }
+  }
+
+  private String getRelativePath(File file) {
+    return fs.getBasedir().toURI().relativize(file.toURI()).getPath();
   }
 
   @Override

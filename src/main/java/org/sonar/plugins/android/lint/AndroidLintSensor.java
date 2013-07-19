@@ -24,6 +24,9 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Java;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
+
+import java.io.File;
 
 public class AndroidLintSensor implements Sensor {
 
@@ -31,9 +34,12 @@ public class AndroidLintSensor implements Sensor {
 
   private AndroidLintExecutor executor;
 
-  public AndroidLintSensor(RulesProfile profile, AndroidLintExecutor executor) {
+  private ProjectFileSystem fs;
+
+  public AndroidLintSensor(RulesProfile profile, AndroidLintExecutor executor, ProjectFileSystem fs) {
     this.profile = profile;
     this.executor = executor;
+    this.fs = fs;
   }
 
   @Override
@@ -44,7 +50,8 @@ public class AndroidLintSensor implements Sensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return Java.KEY.equals(project.getLanguageKey())
-      && !profile.getActiveRulesByRepository(AndroidLintRuleRepository.REPOSITORY_KEY).isEmpty();
+      && !profile.getActiveRulesByRepository(AndroidLintRuleRepository.REPOSITORY_KEY).isEmpty()
+      && new File(fs.getBasedir(), "AndroidManifest.xml").exists();
   }
 
   @Override
