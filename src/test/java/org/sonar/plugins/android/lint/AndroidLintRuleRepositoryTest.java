@@ -48,7 +48,7 @@ import static org.fest.assertions.Assertions.assertThat;
  * @author Florian Roncari
  *
  */
-public class RuleRepositoryTest {
+public class AndroidLintRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {

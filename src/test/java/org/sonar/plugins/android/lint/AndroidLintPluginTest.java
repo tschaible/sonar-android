@@ -19,19 +19,14 @@
  */
 package org.sonar.plugins.android.lint;
 
-import com.google.common.collect.ImmutableList;
-import org.sonar.api.SonarPlugin;
+import org.junit.Test;
 
-import java.util.List;
+import static org.fest.assertions.Assertions.assertThat;
 
-public class AndroidLintPlugin extends SonarPlugin {
+public class AndroidLintPluginTest {
 
-  @Override
-  public List<?> getExtensions() {
-    return ImmutableList.of(
-        AndroidLintSensor.class,
-        AndroidLintRuleRepository.class,
-        AndroidLintSonarWay.class,
-        AndroidLintExecutor.class);
+  @Test
+  public void testGetExtensions() {
+    assertThat(new AndroidLintPlugin().getExtensions().size()).isEqualTo(4);
   }
 }

@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -37,15 +37,20 @@ public enum AndroidLintVersion {
   }
 
   private AndroidLintVersion() {
-    InputStream input = getClass().getResourceAsStream(PROPERTIES_PATH);
+    this.version = readVersion(PROPERTIES_PATH);
+  }
+
+  @VisibleForTesting
+  static String readVersion(String propertyPath) {
+    InputStream input = AndroidLintVersion.class.getResourceAsStream(propertyPath);
     try {
       Properties properties = new Properties();
       properties.load(input);
-      this.version = properties.getProperty("lint.version");
+      return properties.getProperty("lint.version");
 
-    } catch (IOException e) {
-      LoggerFactory.getLogger(getClass()).warn("Can not load the Android Lint version from the file " + PROPERTIES_PATH);
-      this.version = "";
+    } catch (Exception e) {
+      LoggerFactory.getLogger(AndroidLintVersion.class).warn("Can not load the Android Lint version from the file " + propertyPath);
+      return "";
 
     } finally {
       IOUtils.closeQuietly(input);

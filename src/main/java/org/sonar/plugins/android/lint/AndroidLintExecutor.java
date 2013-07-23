@@ -112,56 +112,52 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   @Override
   public void report(Context context, Issue issue, Severity severity, Location location, String message, Object data) {
     Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
-    if (rule != null) {
-      if (rule.isEnabled()) {
-        Violation violation = null;
+    if (rule == null) {
+      throw new SonarException("No Android Lint rule for key " + issue.getId());
+    }
+    if (!rule.isEnabled()) {
+      throw new SonarException("Android Lint rule with key " + issue.getId() + " disabled");
+    }
 
-        RelativePath r = resolver.relativePath(fs.sourceDirs(), location.getFile());
-        if (r != null) {
-          if (location.getFile().isFile() && location.getFile().getName().endsWith(".java")) {
-            // The file concerned is a java one
-            JavaFile javaFile = new JavaFile(StringUtils.removeEnd(r.path(), ".java").replaceAll("/", "."));
-            if (sensorContext.getResource(javaFile) != null) {
-              violation = Violation.create(rule, javaFile);
-            }
-          }
-          else if (location.getFile().isDirectory()) {
-            // The folder concerned is a java package
-            JavaPackage javaPackage = new JavaPackage(r.path().replaceAll("/", "."));
-            if (sensorContext.getResource(javaPackage) != null) {
-              violation = Violation.create(rule, javaPackage);
-            }
-          }
-          else {
-            // Any other file located in sonar.sources folder is a regular file
-            Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
-          }
+    Violation violation = null;
+    RelativePath r = resolver.relativePath(fs.sourceDirs(), location.getFile());
+    if (r != null) {
+      if (location.getFile().isFile() && location.getFile().getName().endsWith(".java")) {
+        // The file concerned is a java one
+        JavaFile javaFile = new JavaFile(StringUtils.removeEnd(r.path(), ".java").replaceAll("/", "."));
+        if (sensorContext.getResource(javaFile) != null) {
+          violation = Violation.create(rule, javaFile);
         }
-        else {
-          // Any other file/folder located outside sonar.sources folder
-          if (location.getFile().isDirectory()) {
-            violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
-          }
-          else {
-            violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
-          }
+      }
+      else if (location.getFile().isDirectory()) {
+        // The folder concerned is a java package
+        JavaPackage javaPackage = new JavaPackage(r.path().replaceAll("/", "."));
+        if (sensorContext.getResource(javaPackage) != null) {
+          violation = Violation.create(rule, javaPackage);
         }
-
-        int line = location.getStart() != null ? location.getStart().getLine() + 1 : 0;
-        if (line > 0) {
-          violation.setLineId(line);
-        }
-
-        violation.setMessage(message);
-        sensorContext.saveViolation(violation);
       }
       else {
-        LOG.warn("Android Lint rule '{}' not active in Sonar.", issue.getId());
+        // Any other file located in sonar.sources folder is a regular file
+        Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
       }
     }
     else {
-      // ignore violations from report, if rule not activated in Sonar
-      LOG.warn("Android Lint rule '{}' is unknown in Sonar", issue.getId());
+      // Any other file/folder located outside sonar.sources folder
+      if (location.getFile().isDirectory()) {
+        violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
+      }
+      else {
+        violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
+      }
+    }
+
+    if (violation != null) {
+      int line = location.getStart() != null ? location.getStart().getLine() + 1 : 0;
+      if (line > 0) {
+        violation.setLineId(line);
+      }
+      violation.setMessage(message);
+      sensorContext.saveViolation(violation);
     }
   }
 
