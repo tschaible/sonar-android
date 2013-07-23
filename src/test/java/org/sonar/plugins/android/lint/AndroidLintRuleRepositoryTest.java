@@ -88,18 +88,18 @@ public class AndroidLintRuleRepositoryTest {
 
     File rules = new File("target/rules.xml");
     FileUtils.write(rules, rulesxml.toString(), Charsets.UTF_8.name());
-    assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.xml"))).isEqualTo(rulesxml.toString());
+    assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.xml"), Charsets.UTF_8.name())).isEqualTo(rulesxml.toString());
 
     File props = new File("target/android.properties");
     FileUtils.write(props, androidProperties.toString(), Charsets.UTF_8.name());
-    assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/l10n/android.properties"))).isEqualTo(androidProperties.toString());
+    assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/l10n/android.properties"), Charsets.UTF_8.name())).isEqualTo(androidProperties.toString());
 
     for (Entry<String, String> entry : rulesDescriptions.entrySet()) {
       File desc = new File("target/rules/" + entry.getKey() + ".html");
       FileUtils.write(desc, entry.getValue(), Charsets.UTF_8.name());
     }
     for (Entry<String, String> entry : rulesDescriptions.entrySet()) {
-      assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/l10n/android/rules/android-lint/" + entry.getKey() + ".html"))).isEqualTo(
+      assertThat(IOUtils.toString(this.getClass().getResourceAsStream("/org/sonar/l10n/android/rules/android-lint/" + entry.getKey() + ".html"), Charsets.UTF_8.name())).isEqualTo(
           entry.getValue());
     }
   }
