@@ -2,4 +2,4 @@
 * text=auto
 
 # Declare files that will always have LF line endings on checkout.
-src/main/resources text eol=lf
+src/main/resources/* text eol=lf
