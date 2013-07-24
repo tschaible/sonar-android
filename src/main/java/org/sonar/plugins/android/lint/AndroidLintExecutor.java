@@ -111,14 +111,21 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
   @Override
   public void report(Context context, Issue issue, Severity severity, Location location, String message, Object data) {
-    Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
-    if (rule == null) {
-      throw new SonarException("No Android Lint rule for key " + issue.getId());
-    }
-    if (!rule.isEnabled()) {
-      throw new SonarException("Android Lint rule with key " + issue.getId() + " disabled");
-    }
+    Rule rule = findRule(issue);
 
+    Violation violation = createViolation(location, rule);
+
+    if (violation != null) {
+      int line = location.getStart() != null ? location.getStart().getLine() + 1 : 0;
+      if (line > 0) {
+        violation.setLineId(line);
+      }
+      violation.setMessage(message);
+      sensorContext.saveViolation(violation);
+    }
+  }
+
+  private Violation createViolation(Location location, Rule rule) {
     Violation violation = null;
     RelativePath r = resolver.relativePath(fs.sourceDirs(), location.getFile());
     if (r != null) {
@@ -138,7 +145,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
       }
       else {
         // Any other file located in sonar.sources folder is a regular file
-        Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
+        violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
       }
     }
     else {
@@ -150,15 +157,18 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
       }
     }
+    return violation;
+  }
 
-    if (violation != null) {
-      int line = location.getStart() != null ? location.getStart().getLine() + 1 : 0;
-      if (line > 0) {
-        violation.setLineId(line);
-      }
-      violation.setMessage(message);
-      sensorContext.saveViolation(violation);
+  private Rule findRule(Issue issue) {
+    Rule rule = ruleFinder.findByKey(AndroidLintConstants.REPOSITORY_KEY, issue.getId());
+    if (rule == null) {
+      throw new SonarException("No Android Lint rule for key " + issue.getId());
     }
+    if (!rule.isEnabled()) {
+      throw new SonarException("Android Lint rule with key " + issue.getId() + " disabled");
+    }
+    return rule;
   }
 
   private String getRelativePath(File file) {
@@ -183,6 +193,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         LOG.info(msg, exception);
         break;
       case IGNORE:
+      default:
         LOG.debug(msg, exception);
         break;
     }
