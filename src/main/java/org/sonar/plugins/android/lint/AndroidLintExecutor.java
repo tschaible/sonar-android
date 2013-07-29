@@ -135,25 +135,21 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
         if (sensorContext.getResource(javaFile) != null) {
           violation = Violation.create(rule, javaFile);
         }
-      }
-      else if (location.getFile().isDirectory()) {
+      } else if (location.getFile().isDirectory()) {
         // The folder concerned is a java package
         JavaPackage javaPackage = new JavaPackage(r.path().replaceAll("/", "."));
         if (sensorContext.getResource(javaPackage) != null) {
           violation = Violation.create(rule, javaPackage);
         }
-      }
-      else {
+      } else {
         // Any other file located in sonar.sources folder is a regular file
         violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
       }
-    }
-    else {
+    } else {
       // Any other file/folder located outside sonar.sources folder
       if (location.getFile().isDirectory()) {
         violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
-      }
-      else {
+      } else {
         violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
       }
     }
