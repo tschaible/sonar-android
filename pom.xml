@@ -15,14 +15,14 @@
   <version>0.1-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
 
-  <name>Sonar Android Plugin</name>
-  <description>Enables analysis of Android projects into Sonar.</description>
+  <name>SonarQube Android Plugin</name>
+  <description>Enables analysis and reporting on Android projects.</description>
   <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
 
   <inceptionYear>2013</inceptionYear>
   <organization>
-    <name>Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores and SonarSource</name>
-    <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
+    <name>SonarSource and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores</name>
+    <url>http://www.sonarsource.com</url>
   </organization>
   <licenses>
     <license>
