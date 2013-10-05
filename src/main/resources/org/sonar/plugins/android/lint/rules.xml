@@ -190,6 +190,11 @@
     <priority>MAJOR</priority>
   </rule>
   <rule>
+    <key>MissingSuperCall</key>
+    <configKey>MissingSuperCall</configKey>
+    <priority>MINOR</priority>
+  </rule>
+  <rule>
     <key>OnClick</key>
     <configKey>OnClick</configKey>
     <priority>MAJOR</priority>

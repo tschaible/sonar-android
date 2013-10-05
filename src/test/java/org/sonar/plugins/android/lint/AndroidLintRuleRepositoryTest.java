@@ -58,7 +58,7 @@ public class AndroidLintRuleRepositoryTest {
     rulerep = new AndroidLintRuleRepository(new XMLRuleParser());
     rules = rulerep.createRules();
 
-    assertThat(rules.size()).isEqualTo(157);
+    assertThat(rules.size()).isEqualTo(158);
   }
 
   @Test
