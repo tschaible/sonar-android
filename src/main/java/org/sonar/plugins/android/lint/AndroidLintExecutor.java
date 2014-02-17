@@ -46,6 +46,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.JavaFile;
 import org.sonar.api.resources.JavaPackage;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
@@ -67,6 +68,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   private static final Logger LOG = LoggerFactory.getLogger(AndroidLintExecutor.class);
   private ModuleFileSystem fs;
   private SensorContext sensorContext;
+  private org.sonar.api.resources.Project project;
   private RuleFinder ruleFinder;
   private RulesProfile rulesProfile;
   private ProjectClasspath projectClasspath;
@@ -80,8 +82,9 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     this.resolver = resolver;
   }
 
-  public void execute(SensorContext sensorContext) {
+  public void execute(SensorContext sensorContext, org.sonar.api.resources.Project project) {
     this.sensorContext = sensorContext;
+    this.project = project;
     IssueRegistry registry = new BuiltinIssueRegistry();
     LintDriver driver = new LintDriver(registry, this);
 
@@ -126,32 +129,11 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   }
 
   private Violation createViolation(Location location, Rule rule) {
-    Violation violation = null;
-    RelativePath r = resolver.relativePath(fs.sourceDirs(), location.getFile());
-    if (r != null) {
-      if (location.getFile().isFile() && location.getFile().getName().endsWith(".java")) {
-        // The file concerned is a java one
-        JavaFile javaFile = new JavaFile(StringUtils.removeEnd(r.path(), ".java").replaceAll("/", "."));
-        if (sensorContext.getResource(javaFile) != null) {
-          violation = Violation.create(rule, javaFile);
-        }
-      } else if (location.getFile().isDirectory()) {
-        // The folder concerned is a java package
-        JavaPackage javaPackage = new JavaPackage(r.path().replaceAll("/", "."));
-        if (sensorContext.getResource(javaPackage) != null) {
-          violation = Violation.create(rule, javaPackage);
-        }
-      } else {
-        // Any other file located in sonar.sources folder is a regular file
-        violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
-      }
+    Violation violation;
+    if (location.getFile().isDirectory()) {
+      violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
     } else {
-      // Any other file/folder located outside sonar.sources folder
-      if (location.getFile().isDirectory()) {
-        violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
-      } else {
-        violation = Violation.create(rule, new org.sonar.api.resources.File(getRelativePath(location.getFile())));
-      }
+      violation = Violation.create(rule, org.sonar.api.resources.File.fromIOFile(location.getFile(), project));
     }
     return violation;
   }

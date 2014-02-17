@@ -27,6 +27,7 @@ import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.JavaFile;
+import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.Rule;
@@ -78,7 +79,8 @@ public class AndroidLintExecutorTest {
   public void lintExecutionTest() {
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(new JavaFile("foo"));
-    executor.execute(sensorContext);
+    Project project = new Project("key");
+    executor.execute(sensorContext, project);
 
     verify(sensorContext, times(22)).saveViolation(any(Violation.class));
   }
@@ -89,7 +91,8 @@ public class AndroidLintExecutorTest {
 
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(new JavaFile("foo"));
-    executor.execute(sensorContext);
+    Project project = new Project("key");
+    executor.execute(sensorContext, project);
 
     verify(sensorContext, never()).saveViolation(any(Violation.class));
   }
@@ -98,7 +101,8 @@ public class AndroidLintExecutorTest {
   public void testSonarExclusions() {
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(new JavaFile("foo"));
-    executor.execute(sensorContext);
+    Project project = new Project("key");
+    executor.execute(sensorContext, project);
 
     verify(sensorContext, times(21)).saveViolation(any(Violation.class));
   }
@@ -109,10 +113,11 @@ public class AndroidLintExecutorTest {
 
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(new JavaFile("foo"));
+    Project project = new Project("key");
 
     thrown.expect(SonarException.class);
     thrown.expectMessage("Android Lint needs sources to be compiled.");
-    executor.execute(sensorContext);
+    executor.execute(sensorContext, project);
   }
 
   @Test
