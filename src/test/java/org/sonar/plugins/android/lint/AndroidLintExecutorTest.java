@@ -21,6 +21,7 @@ package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.Severity;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.batch.ProjectClasspath;
@@ -49,6 +50,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Ignore("requires Android SDK")
 public class AndroidLintExecutorTest {
 
   @org.junit.Rule
