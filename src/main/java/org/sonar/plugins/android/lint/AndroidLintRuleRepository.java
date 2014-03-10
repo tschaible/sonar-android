@@ -19,33 +19,64 @@
  */
 package org.sonar.plugins.android.lint;
 
-import com.google.common.collect.Lists;
-import org.sonar.api.resources.Java;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleRepository;
-import org.sonar.api.rules.XMLRuleParser;
+import com.google.common.base.Preconditions;
+import org.sonar.api.server.rule.RuleDefinitions;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 /**
- * Repository for Android Lint rules (using {@link AndroidLintRuleParser}
+ * Repository for Android Lint rules
  *
  * @author Stephane Nicolas
  * @author Thomas Bores
  */
-public final class AndroidLintRuleRepository extends RuleRepository {
-  private final XMLRuleParser xmlRuleParser;
-
-  public AndroidLintRuleRepository(XMLRuleParser xmlRuleParser) {
-    super(AndroidLintConstants.REPOSITORY_KEY, Java.KEY);
-    setName(AndroidLintConstants.REPOSITORY_NAME);
-    this.xmlRuleParser = xmlRuleParser;
-  }
+public final class AndroidLintRuleRepository implements RuleDefinitions {
 
   @Override
-  public List<Rule> createRules() {
-    List<Rule> rules = Lists.newArrayList();
-    rules.addAll(xmlRuleParser.parse(getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.xml")));
-    return rules;
+  public void define(Context context) {
+    NewRepository androidRepo = context.newRepository(AndroidLintConstants.REPOSITORY_KEY, "Java");
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    try {
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document document = db.parse(getClass().getResourceAsStream("/org/sonar/plugins/android/lint/rules.xml"));
+      NodeList rules = document.getElementsByTagName("rule");
+      int ruleIndex = 0;
+      Node rule = rules.item(ruleIndex);
+      while(rule!=null){
+        String key = null;
+        String severity = null;
+        int ruleChildIndex = 0;
+        NodeList ruleChilds = rule.getChildNodes();
+        Node ruleChild = ruleChilds.item(ruleChildIndex);
+        while(ruleChild!=null){
+          if("key".equals(ruleChild.getNodeName())){
+            key  = ruleChild.getTextContent();
+          }else if("severity".equals(ruleChild.getNodeName())){
+            severity = ruleChild.getTextContent();
+          }
+          ruleChild = ruleChilds.item(++ruleChildIndex);
+        }
+        Preconditions.checkNotNull(key, "A rule is defined without a mandatory key");
+        androidRepo.newRule(key)
+            .setName(key)
+            .setSeverity(severity)
+            .setHtmlDescription(getClass().getResource("/org/sonar/l10n/android/rules/android-lint/" + key + ".html"));
+        rule = rules.item(++ruleIndex);
+      }
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    } catch (SAXException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    androidRepo.done();
   }
 }

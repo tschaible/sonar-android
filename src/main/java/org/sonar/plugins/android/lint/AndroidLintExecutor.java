@@ -43,6 +43,7 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
@@ -124,13 +125,13 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   }
 
   private Violation createViolation(Location location, Rule rule) {
-    Violation violation;
+    Resource resource;
     if (location.getFile().isDirectory()) {
-      violation = Violation.create(rule, new org.sonar.api.resources.Directory(getRelativePath(location.getFile())));
+      resource = org.sonar.api.resources.Directory.fromIOFile(location.getFile(), project);
     } else {
-      violation = Violation.create(rule, org.sonar.api.resources.File.fromIOFile(location.getFile(), project));
+      resource = org.sonar.api.resources.File.fromIOFile(location.getFile(), project);
     }
-    return violation;
+    return Violation.create(rule, resource);
   }
 
   private Rule findRule(Issue issue) {
@@ -192,7 +193,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
       }
       if (!hasExistingBinaryDir) {
         throw new SonarException("Android Lint needs sources to be compiled. "
-          + "Please build project before executing SonarQube and check the location of compiled classes.");
+            + "Please build project before executing SonarQube and check the location of compiled classes.");
       }
 
       for (File file : projectClasspath.getElements()) {

@@ -1,792 +1,634 @@
 <rules>
   <rule>
     <key>ContentDescription</key>
-    <configKey>ContentDescription</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>LabelFor</key>
-    <configKey>LabelFor</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>FloatMath</key>
-    <configKey>FloatMath</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>FieldGetter</key>
-    <configKey>FieldGetter</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SdCardPath</key>
-    <configKey>SdCardPath</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>NewApi</key>
-    <configKey>NewApi</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>InlinedApi</key>
-    <configKey>InlinedApi</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Override</key>
-    <configKey>Override</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>InvalidPackage</key>
-    <configKey>InvalidPackage</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>DuplicateIncludedIds</key>
-    <configKey>DuplicateIncludedIds</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DuplicateIds</key>
-    <configKey>DuplicateIds</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DuplicateDefinition</key>
-    <configKey>DuplicateDefinition</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>UnknownId</key>
-    <configKey>UnknownId</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>UnknownIdInLayout</key>
-    <configKey>UnknownIdInLayout</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>NotSibling</key>
-    <configKey>NotSibling</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>InvalidId</key>
-    <configKey>InvalidId</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>InconsistentLayout</key>
-    <configKey>InconsistentLayout</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>StateListReachable</key>
-    <configKey>StateListReachable</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>StyleCycle</key>
-    <configKey>StyleCycle</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>InefficientWeight</key>
-    <configKey>InefficientWeight</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>NestedWeights</key>
-    <configKey>NestedWeights</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DisableBaselineAlignment</key>
-    <configKey>DisableBaselineAlignment</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Suspicious0dp</key>
-    <configKey>Suspicious0dp</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>Orientation</key>
-    <configKey>Orientation</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ScrollViewSize</key>
-    <configKey>ScrollViewSize</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Deprecated</key>
-    <configKey>Deprecated</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ObsoleteLayoutParam</key>
-    <configKey>ObsoleteLayoutParam</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MergeRootFrame</key>
-    <configKey>MergeRootFrame</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>NestedScrolling</key>
-    <configKey>NestedScrolling</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ScrollViewCount</key>
-    <configKey>ScrollViewCount</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>AdapterViewChildren</key>
-    <configKey>AdapterViewChildren</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UseCompoundDrawables</key>
-    <configKey>UseCompoundDrawables</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UselessParent</key>
-    <configKey>UselessParent</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UselessLeaf</key>
-    <configKey>UselessLeaf</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TooManyViews</key>
-    <configKey>TooManyViews</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TooDeepLayout</key>
-    <configKey>TooDeepLayout</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>GridLayout</key>
-    <configKey>GridLayout</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>DalvikOverride</key>
-    <configKey>DalvikOverride</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>MissingSuperCall</key>
-    <configKey>MissingSuperCall</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>OnClick</key>
-    <configKey>OnClick</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ViewTag</key>
-    <configKey>ViewTag</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DefaultLocale</key>
-    <configKey>DefaultLocale</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SimpleDateFormat</key>
-    <configKey>SimpleDateFormat</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Registered</key>
-    <configKey>Registered</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MissingRegistered</key>
-    <configKey>MissingRegistered</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>Instantiatable</key>
-    <configKey>Instantiatable</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>InnerclassSeparator</key>
-    <configKey>InnerclassSeparator</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MissingId</key>
-    <configKey>MissingId</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>WrongCase</key>
-    <configKey>WrongCase</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>HandlerLeak</key>
-    <configKey>HandlerLeak</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ValidFragment</key>
-    <configKey>ValidFragment</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ExtraTranslation</key>
-    <configKey>ExtraTranslation</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>MissingTranslation</key>
-    <configKey>MissingTranslation</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>MissingQuantity</key>
-    <configKey>MissingQuantity</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UnusedQuantity</key>
-    <configKey>UnusedQuantity</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>HardcodedText</key>
-    <configKey>HardcodedText</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>EnforceUTF8</key>
-    <configKey>EnforceUTF8</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MangledCRLF</key>
-    <configKey>MangledCRLF</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>EasterEgg</key>
-    <configKey>EasterEgg</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>StopShip</key>
-    <configKey>StopShip</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Proguard</key>
-    <configKey>Proguard</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>ProguardSplit</key>
-    <configKey>ProguardSplit</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>PxUsage</key>
-    <configKey>PxUsage</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SpUsage</key>
-    <configKey>SpUsage</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>InOrMmUsage</key>
-    <configKey>InOrMmUsage</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SmallSp</key>
-    <configKey>SmallSp</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TextFields</key>
-    <configKey>TextFields</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TextViewEdits</key>
-    <configKey>TextViewEdits</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SelectableText</key>
-    <configKey>SelectableText</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UnusedResources</key>
-    <configKey>UnusedResources</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UnusedIds</key>
-    <configKey>UnusedIds</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ExtraText</key>
-    <configKey>ExtraText</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>PrivateResource</key>
-    <configKey>PrivateResource</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>InconsistentArrays</key>
-    <configKey>InconsistentArrays</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>HardcodedDebugMode</key>
-    <configKey>HardcodedDebugMode</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ManifestOrder</key>
-    <configKey>ManifestOrder</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UsesMinSdkAttributes</key>
-    <configKey>UsesMinSdkAttributes</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MultipleUsesSdk</key>
-    <configKey>MultipleUsesSdk</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>WrongManifestParent</key>
-    <configKey>WrongManifestParent</configKey>
-    <priority>CRITICAL</priority>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>DuplicateActivity</key>
-    <configKey>DuplicateActivity</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>OldTargetApi</key>
-    <configKey>OldTargetApi</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>AllowBackup</key>
-    <configKey>AllowBackup</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UniquePermission</key>
-    <configKey>UniquePermission</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>MissingVersion</key>
-    <configKey>MissingVersion</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IllegalResourceRef</key>
-    <configKey>IllegalResourceRef</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DuplicateUsesFeature</key>
-    <configKey>DuplicateUsesFeature</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MissingApplicationIcon</key>
-    <configKey>MissingApplicationIcon</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>DeviceAdmin</key>
-    <configKey>DeviceAdmin</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ManifestTypo</key>
-    <configKey>ManifestTypo</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ExportedContentProvider</key>
-    <configKey>ExportedContentProvider</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ExportedService</key>
-    <configKey>ExportedService</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ExportedReceiver</key>
-    <configKey>ExportedReceiver</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>GrantAllUris</key>
-    <configKey>GrantAllUris</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>WorldReadableFiles</key>
-    <configKey>WorldReadableFiles</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>WorldWriteableFiles</key>
-    <configKey>WorldWriteableFiles</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SecureRandom</key>
-    <configKey>SecureRandom</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>GifUsage</key>
-    <configKey>GifUsage</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconDensities</key>
-    <configKey>IconDensities</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconMissingDensityFolder</key>
-    <configKey>IconMissingDensityFolder</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconDipSize</key>
-    <configKey>IconDipSize</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconExpectedSize</key>
-    <configKey>IconExpectedSize</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconLocation</key>
-    <configKey>IconLocation</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconDuplicates</key>
-    <configKey>IconDuplicates</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconDuplicatesConfig</key>
-    <configKey>IconDuplicatesConfig</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconNoDpi</key>
-    <configKey>IconNoDpi</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconMixedNinePatch</key>
-    <configKey>IconMixedNinePatch</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconExtension</key>
-    <configKey>IconExtension</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconColors</key>
-    <configKey>IconColors</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconXmlAndPng</key>
-    <configKey>IconXmlAndPng</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>IconLauncherShape</key>
-    <configKey>IconLauncherShape</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TypographyDashes</key>
-    <configKey>TypographyDashes</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TypographyQuotes</key>
-    <configKey>TypographyQuotes</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TypographyFractions</key>
-    <configKey>TypographyFractions</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TypographyEllipsis</key>
-    <configKey>TypographyEllipsis</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>TypographyOther</key>
-    <configKey>TypographyOther</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ButtonOrder</key>
-    <configKey>ButtonOrder</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ButtonCase</key>
-    <configKey>ButtonCase</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>BackButton</key>
-    <configKey>BackButton</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ButtonStyle</key>
-    <configKey>ButtonStyle</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MissingPrefix</key>
-    <configKey>MissingPrefix</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>Overdraw</key>
-    <configKey>Overdraw</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>StringFormatInvalid</key>
-    <configKey>StringFormatInvalid</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>StringFormatCount</key>
-    <configKey>StringFormatCount</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>StringFormatMatches</key>
-    <configKey>StringFormatMatches</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>Typos</key>
-    <configKey>Typos</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>WrongViewCast</key>
-    <configKey>WrongViewCast</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ServiceCast</key>
-    <configKey>ServiceCast</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ParcelCreator</key>
-    <configKey>ParcelCreator</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SuspiciousImport</key>
-    <configKey>SuspiciousImport</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>WrongFolder</key>
-    <configKey>WrongFolder</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ViewConstructor</key>
-    <configKey>ViewConstructor</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>LibraryCustomView</key>
-    <configKey>LibraryCustomView</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>UnusedNamespace</key>
-    <configKey>UnusedNamespace</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>NamespaceTypo</key>
-    <configKey>NamespaceTypo</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ResAuto</key>
-    <configKey>ResAuto</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>AlwaysShowAction</key>
-    <configKey>AlwaysShowAction</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>MenuTitle</key>
-    <configKey>MenuTitle</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>ResourceAsColor</key>
-    <configKey>ResourceAsColor</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>DrawAllocation</key>
-    <configKey>DrawAllocation</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UseValueOf</key>
-    <configKey>UseValueOf</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UseSparseArrays</key>
-    <configKey>UseSparseArrays</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Wakelock</key>
-    <configKey>Wakelock</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>Recycle</key>
-    <configKey>Recycle</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>CommitTransaction</key>
-    <configKey>CommitTransaction</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>SetJavaScriptEnabled</key>
-    <configKey>SetJavaScriptEnabled</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>JavascriptInterface</key>
-    <configKey>JavascriptInterface</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ShowToast</key>
-    <configKey>ShowToast</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>CommitPrefEdits</key>
-    <configKey>CommitPrefEdits</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>CutPasteId</key>
-    <configKey>CutPasteId</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>UnlocalizedSms</key>
-    <configKey>UnlocalizedSms</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>PackagedPrivateKey</key>
-    <configKey>PackagedPrivateKey</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>LocalSuppress</key>
-    <configKey>LocalSuppress</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ProtectedPermissions</key>
-    <configKey>ProtectedPermissions</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>RequiredSize</key>
-    <configKey>RequiredSize</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>WrongCall</key>
-    <configKey>WrongCall</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>RtlCompat</key>
-    <configKey>RtlCompat</configKey>
-    <priority>MAJOR</priority>
+    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>RtlEnabled</key>
-    <configKey>RtlEnabled</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>RtlHardcoded</key>
-    <configKey>RtlHardcoded</configKey>
-    <priority>MINOR</priority>
+    <severity>MINOR</severity>
   </rule>
 </rules>
