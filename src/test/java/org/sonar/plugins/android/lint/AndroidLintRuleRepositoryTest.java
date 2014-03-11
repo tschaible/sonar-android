@@ -44,14 +44,13 @@ import static org.fest.assertions.Assertions.assertThat;
  * This class tests the AndroidLintRuleRepository class
  *
  * @author Florian Roncari
- *
  */
 public class AndroidLintRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
     RuleDefinitions rulerep = new AndroidLintRuleRepository();
-    RuleDefinitions.Context ctx  = new RuleDefinitions.Context();
+    RuleDefinitions.Context ctx = new RuleDefinitions.Context();
     rulerep.define(ctx);
     assertThat(ctx.repositories()).hasSize(1);
     assertThat(ctx.repositories().get(0).rules()).hasSize(158);
@@ -105,7 +104,7 @@ public class AndroidLintRuleRepositoryTest {
 
   /**
    * Convert Android Lint {@link Severity} to Sonar {@link RulePriority}
-   *
+   * <p/>
    * Default mapping:
    * |------------------------|
    * | Android     | Sonar    |
