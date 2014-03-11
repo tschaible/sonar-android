@@ -42,12 +42,12 @@ import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 //@Ignore("requires Android SDK")
 public class AndroidLintExecutorTest {
@@ -76,9 +76,9 @@ public class AndroidLintExecutorTest {
     when(fs.binaryDirs()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/bin").toURI())));
     when(projectClasspath.getElements()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/bin").toURI())));
     ActiveRule activeRule = mock(ActiveRule.class);
-    when(rulesProfile.getActiveRule(eq(AndroidLintConstants.REPOSITORY_KEY), anyString())).thenReturn(activeRule);
-    Rule rule = Rule.create(AndroidLintConstants.REPOSITORY_KEY, "foo");
-    when(ruleFinder.findByKey(eq(AndroidLintConstants.REPOSITORY_KEY), anyString())).thenReturn(rule);
+    when(rulesProfile.getActiveRule(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(activeRule);
+    Rule rule = Rule.create(AndroidLintRuleRepository.REPOSITORY_KEY, "foo");
+    when(ruleFinder.findByKey(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(rule);
   }
 
   @Test
@@ -92,7 +92,7 @@ public class AndroidLintExecutorTest {
 
   @Test
   public void shouldNotCreateViolationWhenRuleIsDisabled() {
-    when(rulesProfile.getActiveRule(eq(AndroidLintConstants.REPOSITORY_KEY), anyString())).thenReturn(null);
+    when(rulesProfile.getActiveRule(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(null);
 
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
