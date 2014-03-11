@@ -29,12 +29,15 @@ import com.google.common.base.Joiner;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RulePriority;
-import org.sonar.api.server.rule.RuleDefinitions;
+import org.sonar.api.rules.RuleRepository;
+import org.sonar.api.rules.XMLRuleParser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -49,11 +52,11 @@ public class AndroidLintRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    RuleDefinitions rulerep = new AndroidLintRuleRepository();
-    RuleDefinitions.Context ctx = new RuleDefinitions.Context();
-    rulerep.define(ctx);
-    assertThat(ctx.repositories()).hasSize(1);
-    assertThat(ctx.repositories().get(0).rules()).hasSize(158);
+    List<Rule> rules;
+    RuleRepository rulerep = new AndroidLintRuleRepository(new XMLRuleParser());
+    rules = rulerep.createRules();
+
+    assertThat(rules.size()).isEqualTo(158);
   }
 
   @Test
@@ -66,7 +69,8 @@ public class AndroidLintRuleRepositoryTest {
     for (Issue issue : registry.getIssues()) {
       rulesxml.append("  <rule>").append("\n");
       rulesxml.append("    <key>").append(issue.getId()).append("</key>").append("\n");
-      rulesxml.append("    <severity>").append(toSonarSeverity(issue.getDefaultSeverity())).append("</severity>").append("\n");
+      rulesxml.append("    <configKey>").append(issue.getId()).append("</configKey>").append("\n");
+      rulesxml.append("    <priority>").append(toSonarSeverity(issue.getDefaultSeverity())).append("</priority>").append("\n");
       rulesxml.append("  </rule>").append("\n");
 
       androidProperties.append("rule.android-lint.").append(issue.getId()).append(".name=").append(issue.getBriefDescription(OutputFormat.TEXT)).append("\n");
