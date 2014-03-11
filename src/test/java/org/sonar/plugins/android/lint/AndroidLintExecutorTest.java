@@ -21,23 +21,23 @@ package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.Severity;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.utils.SonarException;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore("requires Android SDK")
+//@Ignore("requires Android SDK")
 public class AndroidLintExecutorTest {
 
   @org.junit.Rule
@@ -58,14 +58,19 @@ public class AndroidLintExecutorTest {
   private AndroidLintExecutor executor;
   private RulesProfile rulesProfile;
   private ModuleFileSystem fs;
+  private Project project;
 
   @Before
   public void prepare() throws Exception {
+    project = new Project("key");
+    ProjectFileSystem pfs = mock(ProjectFileSystem.class);
+    when(pfs.getBasedir()).thenReturn(new File(this.getClass().getResource("/HelloWorld").toURI()));
+    project.setFileSystem(pfs);
     fs = mock(ModuleFileSystem.class);
     rulesProfile = mock(RulesProfile.class);
     ProjectClasspath projectClasspath = mock(ProjectClasspath.class);
     RuleFinder ruleFinder = mock(RuleFinder.class);
-    executor = new AndroidLintExecutor(ruleFinder, fs, rulesProfile, projectClasspath, new PathResolver());
+    executor = new AndroidLintExecutor(ruleFinder, fs, rulesProfile, projectClasspath);
     when(fs.baseDir()).thenReturn(new File(this.getClass().getResource("/HelloWorld").toURI()));
     when(fs.sourceDirs()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/src").toURI())));
     when(fs.binaryDirs()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/bin").toURI())));
@@ -77,10 +82,9 @@ public class AndroidLintExecutorTest {
   }
 
   @Test
-  public void lintExecutionTest() {
-    Project project = new Project("key");
+  public void lintExecutionTest() throws URISyntaxException {
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.fromIOFile(new File("foo"), project));
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);
 
     verify(sensorContext, times(22)).saveViolation(any(Violation.class));
@@ -88,11 +92,10 @@ public class AndroidLintExecutorTest {
 
   @Test
   public void shouldNotCreateViolationWhenRuleIsDisabled() {
-    Project project = new Project("key");
     when(rulesProfile.getActiveRule(eq(AndroidLintConstants.REPOSITORY_KEY), anyString())).thenReturn(null);
 
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.fromIOFile(new File("foo"), project));
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);
 
     verify(sensorContext, never()).saveViolation(any(Violation.class));
@@ -100,9 +103,8 @@ public class AndroidLintExecutorTest {
 
   @Test
   public void testSonarExclusions() {
-    Project project = new Project("key");
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(org.sonar.api.resources.File.fromIOFile(new File("foo"), project));
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);
 
     verify(sensorContext, times(22)).saveViolation(any(Violation.class));
@@ -110,11 +112,10 @@ public class AndroidLintExecutorTest {
 
   @Test
   public void shouldRequireCompiledSources() throws Exception {
-    Project project = new Project("key");
     when(fs.binaryDirs()).thenReturn(Arrays.asList(new File("/not/exist")));
 
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.fromIOFile(new File("foo"), project));
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
 
     thrown.expect(SonarException.class);
     thrown.expectMessage("Android Lint needs sources to be compiled.");

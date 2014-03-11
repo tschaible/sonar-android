@@ -68,14 +68,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   private RuleFinder ruleFinder;
   private RulesProfile rulesProfile;
   private ProjectClasspath projectClasspath;
-  private PathResolver resolver;
 
-  public AndroidLintExecutor(RuleFinder ruleFinder, ModuleFileSystem fs, RulesProfile rulesProfile, ProjectClasspath projectClasspath, PathResolver resolver) {
+  public AndroidLintExecutor(RuleFinder ruleFinder, ModuleFileSystem fs, RulesProfile rulesProfile, ProjectClasspath projectClasspath) {
     this.ruleFinder = ruleFinder;
     this.fs = fs;
     this.rulesProfile = rulesProfile;
     this.projectClasspath = projectClasspath;
-    this.resolver = resolver;
   }
 
   public void execute(SensorContext sensorContext, org.sonar.api.resources.Project project) {
@@ -143,10 +141,6 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
       throw new SonarException("Android Lint rule with key " + issue.getId() + " disabled");
     }
     return rule;
-  }
-
-  private String getRelativePath(File file) {
-    return fs.baseDir().toURI().relativize(file.toURI()).getPath();
   }
 
   @Override

@@ -27,7 +27,7 @@ import java.util.List;
 public class AndroidLintPlugin extends SonarPlugin {
 
   @Override
-  public List<?> getExtensions() {
+  public List getExtensions() {
     return ImmutableList.of(
         AndroidLintSensor.class,
         AndroidLintRuleRepository.class,
