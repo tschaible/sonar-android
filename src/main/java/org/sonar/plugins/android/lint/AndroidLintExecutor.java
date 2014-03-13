@@ -36,6 +36,7 @@ import com.android.tools.lint.detector.api.LintUtils;
 import com.android.tools.lint.detector.api.Location;
 import com.android.tools.lint.detector.api.Project;
 import com.android.tools.lint.detector.api.Severity;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,20 +68,26 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   private RuleFinder ruleFinder;
   private RulesProfile rulesProfile;
   private ProjectClasspath projectClasspath;
+  private IssueRegistry registry;
 
   public AndroidLintExecutor(RuleFinder ruleFinder, ModuleFileSystem fs, RulesProfile rulesProfile, ProjectClasspath projectClasspath) {
     this.ruleFinder = ruleFinder;
     this.fs = fs;
     this.rulesProfile = rulesProfile;
     this.projectClasspath = projectClasspath;
+    registry = new BuiltinIssueRegistry();
+  }
+
+  @VisibleForTesting
+  AndroidLintExecutor(RuleFinder ruleFinder, ModuleFileSystem fs, RulesProfile rulesProfile, ProjectClasspath projectClasspath, IssueRegistry registry) {
+    this(ruleFinder, fs, rulesProfile, projectClasspath);
+    this.registry = registry;
   }
 
   public void execute(SensorContext sensorContext, org.sonar.api.resources.Project project) {
     this.sensorContext = sensorContext;
     this.project = project;
-    IssueRegistry registry = new BuiltinIssueRegistry();
     LintDriver driver = new LintDriver(registry, this);
-
     TimeProfiler profiler = new TimeProfiler().start("Execute Android Lint " + AndroidLintVersion.getVersion());
     driver.analyze(new LintRequest(this, Arrays.asList(fs.baseDir())));
     profiler.stop();
