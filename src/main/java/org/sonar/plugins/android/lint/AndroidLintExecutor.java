@@ -180,20 +180,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     List<File> sources = fs.sourceDirs();
     List<File> classes = fs.binaryDirs();
     List<File> libraries = new ArrayList<File>();
-    boolean hasExistingBinaryDir = false;
-
     try {
-
       Set<String> binaryDirPaths = Sets.newHashSet();
       for (File binaryDir : fs.binaryDirs()) {
         if (binaryDir.exists()) {
-          hasExistingBinaryDir = true;
           binaryDirPaths.add(binaryDir.getCanonicalPath());
         }
-      }
-      if (!hasExistingBinaryDir) {
-        throw new SonarException("Android Lint needs sources to be compiled. "
-            + "Please build project before executing SonarQube and check the location of compiled classes.");
       }
 
       for (File file : projectClasspath.getElements()) {

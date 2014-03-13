@@ -125,20 +125,7 @@ public class AndroidLintExecutorTest {
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);
-
     verify(sensorContext, times(12)).saveViolation(any(Violation.class));
-  }
-
-  @Test
-  public void shouldRequireCompiledSources() throws Exception {
-    when(fs.binaryDirs()).thenReturn(Arrays.asList(new File("/not/exist")));
-
-    SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
-
-    thrown.expect(SonarException.class);
-    thrown.expectMessage("Android Lint needs sources to be compiled.");
-    executor.execute(sensorContext, project);
   }
 
   @Test
