@@ -122,14 +122,12 @@ public class AndroidEmmaProcessor {
     String fullName = "";
 
     public Object visit(AllItem item, Object o) {
-      System.out.println(item.getName());
       work(item, o);
       return o;
     }
 
     public Object visit(PackageItem item, Object o) {
       String name = item.getName();
-      System.out.println(name);
       fullName += name.replace('.', File.separatorChar);
       work(item, o);
       fullName = fullName.substring(fullName.length() - name.length(), fullName.length());
