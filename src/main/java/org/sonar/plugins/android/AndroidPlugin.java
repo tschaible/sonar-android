@@ -17,14 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.android.lint;
+package org.sonar.plugins.android;
 
 import com.google.common.collect.ImmutableList;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
+import org.sonar.plugins.android.emma.AndroidEmmaSensor;
+import org.sonar.plugins.android.lint.AndroidLintExecutor;
+import org.sonar.plugins.android.lint.AndroidLintRuleRepository;
+import org.sonar.plugins.android.lint.AndroidLintSensor;
+import org.sonar.plugins.android.lint.AndroidLintSonarWay;
 
 import java.util.List;
 
-public class AndroidLintPlugin extends SonarPlugin {
+@Properties({
+    @Property(
+        key = AndroidPlugin.EMMA_REPORT_DIR_PROPERTY,
+        name = "Report file",
+        description = "Path (absolute or relative) of directory where the .ec and the .em Emma files are generated.",
+        module = true,
+        project = true,
+        global = false
+    )
+})
+public class AndroidPlugin extends SonarPlugin {
+
+  public static final String EMMA_REPORT_DIR_PROPERTY = "sonar.android.emma.report";
 
   @Override
   public List getExtensions() {
@@ -32,6 +51,8 @@ public class AndroidLintPlugin extends SonarPlugin {
         AndroidLintSensor.class,
         AndroidLintRuleRepository.class,
         AndroidLintSonarWay.class,
-        AndroidLintExecutor.class);
+        AndroidLintExecutor.class,
+        AndroidEmmaSensor.class
+        );
   }
 }
