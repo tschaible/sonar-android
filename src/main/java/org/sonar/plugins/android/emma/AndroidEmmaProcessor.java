@@ -115,11 +115,19 @@ public class AndroidEmmaProcessor {
   }
 
   public void process() {
-    model.getView(IReportDataView.HIER_SRC_VIEW).getRoot().accept(new MyVisitor(), null);
+    MyVisitor myVisitor = new MyVisitor();
+    model.getView(IReportDataView.HIER_SRC_VIEW).getRoot().accept(myVisitor, null);
+    LOGGER.warn("Matched files in report : {}%", myVisitor.getMatchedPercentage());
+    if (!myVisitor.missedFiles.isEmpty()) {
+      LOGGER.warn("{} files in emma report did not match any file in SonarQube Index : {}", myVisitor.filesUnmatched, myVisitor.missedFiles);
+    }
   }
 
   class MyVisitor extends AbstractItemVisitor {
-    String fullName = "";
+    private String fullName = "";
+    private int filesUnmatched = 0;
+    private int totalFiles = 0;
+    private String missedFiles = "";
 
     public Object visit(AllItem item, Object o) {
       work(item, o);
@@ -135,6 +143,7 @@ public class AndroidEmmaProcessor {
     }
 
     public Object visit(SrcFileItem item, Object o) {
+      totalFiles++;
       lineHitsBuilder.clear();
       int lines = 0;
       int coveredLines = 0;
@@ -142,7 +151,6 @@ public class AndroidEmmaProcessor {
       IntObjectMap map = item.getLineCoverage();
       for (int lineId : map.keys()) {
         SrcFileItem.LineCoverageData lineCoverageData = (SrcFileItem.LineCoverageData) map.get(lineId);
-
         lines++;
         final int fakeHits;
         if (lineCoverageData.m_coverageStatus == SrcFileItem.LineCoverageData.LINE_COVERAGE_COMPLETE) {
@@ -153,10 +161,17 @@ public class AndroidEmmaProcessor {
         }
         lineHitsBuilder.add(lineId, fakeHits);
       }
-      InputFile resource = fileSystem.inputFile(FilePredicates.hasRelativePath(fullName + File.separator + item.getName()));
-      context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) lines);
-      context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double) lines - coveredLines);
-      context.saveMeasure(resource, lineHitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE));
+      String relativePath = fullName + File.separator + item.getName();
+      InputFile resource = fileSystem.inputFile(FilePredicates.hasRelativePath(relativePath));
+      if (resource == null) {
+        LOGGER.warn("File with relative path : {} was not found in SonarQube index", relativePath);
+        missedFiles += relativePath + ", ";
+        filesUnmatched++;
+      } else {
+        context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) lines);
+        context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double) lines - coveredLines);
+        context.saveMeasure(resource, lineHitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE));
+      }
 
       return o;
     }
@@ -168,5 +183,13 @@ public class AndroidEmmaProcessor {
         child.accept(this, ctx);
       }
     }
+
+    public int getMatchedPercentage() {
+      if(totalFiles==0){
+        return 0;
+      }
+      return (totalFiles - filesUnmatched) * 100 / totalFiles;
+    }
+
   }
 }

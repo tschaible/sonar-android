@@ -63,8 +63,23 @@ public class AndroidEmmaProcessorTest {
     verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
         eq(CoreMetrics.UNCOVERED_LINES),
         eq(1d));
+  }
 
-
+  @Test
+  public void process_should_log_files_in_error() throws Exception {
+    File dir = new File(getClass().getResource("/emma").getFile());
+    SensorContext context = mock(SensorContext.class);
+    DefaultFileSystem fs = new DefaultFileSystem();
+    DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
+    buildConfig.setLanguage("java");
+    fs.add(buildConfig);
+    new AndroidEmmaProcessor(dir, fs, context).process();
+    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+        eq(CoreMetrics.LINES_TO_COVER),
+        eq(1d));
+    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+        eq(CoreMetrics.UNCOVERED_LINES),
+        eq(1d));
   }
 
 

@@ -90,6 +90,12 @@ public class AndroidEmmaSensorTest {
     DefaultInputFile dif = new DefaultInputFile("emma");
     dif.setAbsolutePath(this.getClass().getResource("/emma").getFile());
     fs.add(dif);
+    DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
+    buildConfig.setLanguage("java");
+    fs.add(buildConfig);
+    DefaultInputFile exampleActivity = new DefaultInputFile("org/example/ExampleActivity.java");
+    exampleActivity.setLanguage("java");
+    fs.add(exampleActivity);
     AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
