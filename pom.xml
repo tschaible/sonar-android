@@ -53,6 +53,7 @@
     <sonar.pluginName>Android</sonar.pluginName>
     <sonar.requirePlugins>java:2.1-RC1</sonar.requirePlugins>
     <lint.version>22.2.0</lint.version>
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
 
   <dependencies>
