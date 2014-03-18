@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
@@ -49,12 +50,10 @@ public class AndroidEmmaSensorTest {
   private Project project;
   private Settings settings;
   private SensorContext context;
-  private ProjectFileSystem pfs;
 
   @Before
   public void setUp() throws Exception {
     project = mock(Project.class);
-    pfs = mock(ProjectFileSystem.class);
     settings = new Settings();
     context = mock(SensorContext.class);
   }
@@ -73,21 +72,51 @@ public class AndroidEmmaSensorTest {
 
   @Test
   public void should_do_nothing_if_no_report() {
-    when(pfs.resolvePath(anyString())).thenReturn(new File("Foo"));
-    when(project.getFileSystem()).thenReturn(pfs);
-    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "src/test/resources");
-    new AndroidEmmaSensor(settings, new DefaultFileSystem()).analyse(project, context);
+    DefaultFileSystem fs = new DefaultFileSystem();
+    DefaultInputFile dif = new DefaultInputFile("HelloWorld");
+    dif.setAbsolutePath(this.getClass().getResource("/HelloWorld").getFile());
+    fs.add(dif);
+    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "HelloWorld");
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    androidEmmaSensor.shouldExecuteOnProject(project);
+    androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
   }
 
   @Test
   public void should_process_emma_reports() throws Exception {
-    when(pfs.resolvePath(anyString())).thenReturn(new File(getClass().getResource("/emma").getFile()));
-    when(project.getFileSystem()).thenReturn(pfs);
-    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "src/test/resources");
+    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "emma");
     DefaultFileSystem fs = new DefaultFileSystem();
-    new AndroidEmmaSensor(settings, fs).analyse(project, context);
+    DefaultInputFile dif = new DefaultInputFile("emma");
+    dif.setAbsolutePath(this.getClass().getResource("/emma").getFile());
+    fs.add(dif);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    androidEmmaSensor.shouldExecuteOnProject(project);
+    androidEmmaSensor.analyse(project, context);
     verify(context, times(4)).saveMeasure(any(InputFile.class), any(Metric.class), anyDouble());
+  }
+
+  @Test
+  public void should_handle_non_existing_directory() throws Exception {
+    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "foo");
+    DefaultFileSystem fs = new DefaultFileSystem();
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    androidEmmaSensor.shouldExecuteOnProject(project);
+    androidEmmaSensor.analyse(project, context);
+    verifyZeroInteractions(context);
+  }
+
+  @Test
+  public void should_handle_refering_a_file() throws Exception {
+    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "emma/coverage.ec");
+    DefaultFileSystem fs = new DefaultFileSystem();
+    DefaultInputFile dif = new DefaultInputFile("emma/coverage.ec");
+    dif.setAbsolutePath(this.getClass().getResource("/emma/coverage.ec").getFile());
+    fs.add(dif);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    androidEmmaSensor.shouldExecuteOnProject(project);
+    androidEmmaSensor.analyse(project, context);
+    verifyZeroInteractions(context);
   }
 
   @Test

@@ -26,12 +26,14 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.CoverageExtension;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.android.AndroidPlugin;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class AndroidEmmaSensor implements Sensor, CoverageExtension {
 
@@ -51,7 +53,15 @@ public class AndroidEmmaSensor implements Sensor, CoverageExtension {
   }
 
   public void analyse(Project project, SensorContext context) {
-    File reportsPath = project.getFileSystem().resolvePath(emmaReportDirectory);
+    Iterator<File> files = fileSystem.files(FilePredicates.hasPath(emmaReportDirectory)).iterator();
+    File reportsPath = null;
+    if(files.hasNext()) {
+      reportsPath = files.next();
+    }
+    if(reportsPath == null) {
+      LOGGER.warn("Directory {} not found on file system", emmaReportDirectory);
+      return;
+    }
     if (!reportsPath.exists() || !reportsPath.isDirectory()) {
       LOGGER.warn("Emma reports not found in {}", reportsPath);
       return;
