@@ -27,12 +27,16 @@ import com.android.tools.lint.client.api.IssueRegistry;
 import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.Severity;
 import com.google.common.collect.Lists;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
@@ -50,6 +54,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -103,16 +108,18 @@ public class AndroidLintExecutorTest {
   @Test
   public void lintExecutionTest() throws URISyntaxException {
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
+    Resource xmlResource = org.sonar.api.resources.File.create("foo.xml", "foo.xml", getLang("xml"), false);
+    Resource javaResource = org.sonar.api.resources.File.create("foo.java", "foo.java", getLang("java"), false);
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(xmlResource).thenReturn(xmlResource).thenReturn(javaResource);
     executor.execute(sensorContext, project);
 
-    verify(sensorContext, times(12)).saveViolation(any(Violation.class));
+    verify(sensorContext, times(10)).saveViolation(argThat(new MatchViolationResource(javaResource)));
+    verify(sensorContext, times(2)).saveViolation(argThat(new MatchViolationResource(project)));
   }
 
   @Test
   public void shouldNotCreateViolationWhenRuleIsDisabled() {
     when(rulesProfile.getActiveRule(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(null);
-
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);
@@ -123,7 +130,7 @@ public class AndroidLintExecutorTest {
   @Test
   public void testSonarExclusions() {
     SensorContext sensorContext = mock(SensorContext.class);
-    when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(org.sonar.api.resources.File.create("foo"));
+    when(sensorContext.getResource(any(Resource.class))).thenReturn(null).thenReturn(org.sonar.api.resources.File.create("foo.xml", "foo.xml", getLang("xml"), false));
     executor.execute(sensorContext, project);
     verify(sensorContext, times(12)).saveViolation(any(Violation.class));
   }
@@ -135,5 +142,46 @@ public class AndroidLintExecutorTest {
     executor.log(Severity.IGNORE, null, "Something %s", "arg");
     executor.log(Severity.INFORMATIONAL, new SonarException(), "Something %s", "arg");
     executor.log(Severity.WARNING, null, "Something %s", "arg");
+  }
+
+  private Language getLang(final String key) {
+    return new Language() {
+      @Override
+      public String getKey() {
+        return key;
+      }
+
+      @Override
+      public String getName() {
+        return key;
+      }
+
+      @Override
+      public String[] getFileSuffixes() {
+        return new String[]{key};
+      }
+    };
+  }
+
+  private static class MatchViolationResource extends BaseMatcher<Violation> {
+
+    private final Resource resource;
+
+    private MatchViolationResource(Resource resource) {
+      this.resource = resource;
+    }
+
+    @Override
+    public boolean matches(Object item) {
+      if(item instanceof  Violation) {
+        return ((Violation) item).getResource().equals(resource);
+      }
+      return false;
+    }
+
+    @Override
+    public void describeTo(Description description) {
+
+    }
   }
 }

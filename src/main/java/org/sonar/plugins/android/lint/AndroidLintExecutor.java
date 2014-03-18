@@ -104,10 +104,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
       @Override
       public void setSeverity(Issue issue, Severity severity) {
+        //Allows to reassociate severity and issue. Not needed in SonarQube context this is handled by quality profile.
       }
 
       @Override
       public void ignore(Context context, Issue issue, Location location, String message, Object data) {
+        //Allows to customize ignore/exclusion patterns. Not needed in Sonarqube context.
       }
     };
   }
@@ -135,7 +137,12 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
     } else {
       resource = org.sonar.api.resources.File.fromIOFile(location.getFile(), project);
     }
-    return Violation.create(rule, resource);
+    resource = sensorContext.getResource(resource);
+    if (resource == null || !"java".equals(resource.getLanguage().getKey())) {
+      return Violation.create(rule, project);
+    } else {
+      return Violation.create(rule, resource);
+    }
   }
 
   private Rule findRule(Issue issue) {
