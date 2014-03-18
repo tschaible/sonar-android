@@ -39,7 +39,7 @@ public class AndroidEmmaProcessorTest {
 
   @Test
   public void process_should_read_emma_files() throws Exception {
-    File dir = new File(getClass().getResource("/").getFile());
+    File dir = new File(getClass().getResource("/emma").getFile());
 
     SensorContext context = mock(SensorContext.class);
     DefaultFileSystem fs = new DefaultFileSystem();
