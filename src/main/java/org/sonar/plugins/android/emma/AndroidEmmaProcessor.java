@@ -162,7 +162,7 @@ public class AndroidEmmaProcessor {
         lineHitsBuilder.add(lineId, fakeHits);
       }
       String relativePath = fullName + File.separator + item.getName();
-      InputFile resource = fileSystem.inputFile(FilePredicates.hasRelativePath(relativePath));
+      InputFile resource = fileSystem.inputFile(fileSystem.predicates().hasRelativePath(relativePath));
       if (resource == null) {
         LOGGER.warn("File with relative path : {} was not found in SonarQube index", relativePath);
         missedFiles += relativePath + ", ";

@@ -53,7 +53,7 @@ public class AndroidEmmaSensor implements Sensor, CoverageExtension {
   }
 
   public void analyse(Project project, SensorContext context) {
-    Iterator<File> files = fileSystem.files(FilePredicates.hasPath(emmaReportDirectory)).iterator();
+    Iterator<File> files = fileSystem.files(fileSystem.predicates().hasPath(emmaReportDirectory)).iterator();
     File reportsPath = null;
     if(files.hasNext()) {
       reportsPath = files.next();
