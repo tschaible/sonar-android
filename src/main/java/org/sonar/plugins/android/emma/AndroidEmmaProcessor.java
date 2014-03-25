@@ -59,15 +59,15 @@ public class AndroidEmmaProcessor {
 
   private final SensorContext context;
   private final IReportDataModel model;
-  private final JavaResourceLocator fileSystem;
+  private final JavaResourceLocator javaResourceLocator;
 
-  public AndroidEmmaProcessor(File buildDir, JavaResourceLocator fileSystem, SensorContext context) {
+  public AndroidEmmaProcessor(File buildDir, JavaResourceLocator javaResourceLocator, SensorContext context) {
     try {
       ICoverageData coverageData = mergeCoverageData(buildDir);
       IMetaData metaData = mergeMetadata(buildDir);
       this.model = IReportDataModel.Factory.create(metaData, coverageData);
       this.context = context;
-      this.fileSystem = fileSystem;
+      this.javaResourceLocator = javaResourceLocator;
     } catch (IOException e) {
       throw new SonarException(e);
     }
@@ -157,7 +157,7 @@ public class AndroidEmmaProcessor {
 
       String packageName = item.getParent().getName();
       String className = packageName + "." + StringUtils.substringBeforeLast(item.getName(), ".");
-      Resource resource = fileSystem.findResourceByClassName(className);
+      Resource resource = javaResourceLocator.findResourceByClassName(className);
       if (resource == null) {
         LOGGER.warn("Class with name : {} was not found in SonarQube index", className);
         missedClass += className + ", ";

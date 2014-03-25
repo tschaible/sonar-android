@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.CoverageExtension;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.android.AndroidPlugin;
@@ -36,18 +37,21 @@ import java.io.File;
 public class AndroidEmmaSensor implements Sensor, CoverageExtension {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AndroidEmmaSensor.class);
-  private final JavaResourceLocator fileSystem;
+  private final JavaResourceLocator javaResourceLocator;
   private final Settings settings;
+  private final FileSystem fileSystem;
   private String emmaReportDirectory;
 
-  public AndroidEmmaSensor(Settings settings, JavaResourceLocator fileSystem) {
-    this.fileSystem = fileSystem;
+  public AndroidEmmaSensor(Settings settings, JavaResourceLocator javaResourceLocator, FileSystem fileSystem) {
+    this.javaResourceLocator = javaResourceLocator;
     this.settings = settings;
+    this.fileSystem = fileSystem;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
     emmaReportDirectory = settings.getString(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY);
-    return !StringUtils.isEmpty(emmaReportDirectory);
+
+    return !StringUtils.isEmpty(emmaReportDirectory) && fileSystem.hasFiles(fileSystem.predicates().hasLanguage("java"));
   }
 
   public void analyse(Project project, SensorContext context) {
@@ -62,7 +66,7 @@ public class AndroidEmmaSensor implements Sensor, CoverageExtension {
     }
 
     LOGGER.info("Parse reports: " + reportsPath);
-    new AndroidEmmaProcessor(reportsPath, fileSystem, context).process();
+    new AndroidEmmaProcessor(reportsPath, javaResourceLocator, context).process();
   }
 
   @Override

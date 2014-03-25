@@ -51,6 +51,7 @@ public class AndroidEmmaSensorTest {
   private SensorContext context;
   private ProjectFileSystem pfs;
   private JavaResourceLocator jrl;
+  private DefaultFileSystem fs;
 
   @Before
   public void setUp() throws Exception {
@@ -59,29 +60,37 @@ public class AndroidEmmaSensorTest {
     when(project.getFileSystem()).thenReturn(pfs);
     settings = new Settings();
     jrl = mock(JavaResourceLocator.class);
+    fs = new DefaultFileSystem();
     context = mock(SensorContext.class);
   }
 
   @Test
   public void should_not_execute_if_report_directory_empty() {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "");
-    assertThat(new AndroidEmmaSensor(settings, jrl).shouldExecuteOnProject(project)).isFalse();
+    assertThat(new AndroidEmmaSensor(settings, jrl, fs).shouldExecuteOnProject(project)).isFalse();
+  }
+
+  @Test
+  public void should_not_execute_if_report_directory_not_empty_and_no_java_files() {
+    settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "src/test/resources");
+    assertThat(new AndroidEmmaSensor(settings, jrl, fs).shouldExecuteOnProject(project)).isFalse();
   }
 
   @Test
   public void should_execute_if_report_directory_not_empty() {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "src/test/resources");
-    assertThat(new AndroidEmmaSensor(settings, jrl).shouldExecuteOnProject(project)).isTrue();
+    fs.add(new DefaultInputFile("HelloWorld.java").setLanguage("java"));
+    assertThat(new AndroidEmmaSensor(settings, jrl, fs).shouldExecuteOnProject(project)).isTrue();
   }
 
   @Test
   public void should_do_nothing_if_no_report() {
-    DefaultFileSystem fs = new DefaultFileSystem();
     DefaultInputFile dif = new DefaultInputFile("HelloWorld");
     dif.setAbsolutePath(this.getClass().getResource("/HelloWorld").getFile());
     fs.add(dif);
+    fs.add(new DefaultInputFile("HelloWorld.java").setLanguage("java"));
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "HelloWorld");
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl, fs);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -91,7 +100,6 @@ public class AndroidEmmaSensorTest {
   public void should_process_emma_reports() throws Exception {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "emma");
     when(pfs.resolvePath("emma")).thenReturn(new File(this.getClass().getResource("/emma").getFile()));
-    DefaultFileSystem fs = new DefaultFileSystem();
     DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
     buildConfig.setLanguage("java");
     fs.add(buildConfig);
@@ -99,7 +107,7 @@ public class AndroidEmmaSensorTest {
     exampleActivity.setLanguage("java");
     fs.add(exampleActivity);
     when(jrl.findResourceByClassName(anyString())).thenReturn(mock(org.sonar.api.resources.File.class));
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl, fs);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verify(context, times(4)).saveMeasure(any(org.sonar.api.resources.File.class), any(Metric.class), anyDouble());
@@ -108,7 +116,8 @@ public class AndroidEmmaSensorTest {
   @Test
   public void should_handle_non_existing_directory() throws Exception {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "foo");
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
+    fs.add(new DefaultInputFile("HelloWorld.java").setLanguage("java"));
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl, fs);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -117,11 +126,11 @@ public class AndroidEmmaSensorTest {
   @Test
   public void should_handle_refering_a_file() throws Exception {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "emma/coverage.ec");
-    DefaultFileSystem fs = new DefaultFileSystem();
     DefaultInputFile dif = new DefaultInputFile("emma/coverage.ec");
     dif.setAbsolutePath(this.getClass().getResource("/emma/coverage.ec").getFile());
     fs.add(dif);
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
+    fs.add(new DefaultInputFile("HelloWorld.java").setLanguage("java"));
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl, fs);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -129,6 +138,6 @@ public class AndroidEmmaSensorTest {
 
   @Test
   public void test_toString() {
-    assertThat(new AndroidEmmaSensor(new Settings(), jrl).toString()).isEqualTo("AndroidEmmaSensor");
+    assertThat(new AndroidEmmaSensor(new Settings(), jrl, fs).toString()).isEqualTo("AndroidEmmaSensor");
   }
 }

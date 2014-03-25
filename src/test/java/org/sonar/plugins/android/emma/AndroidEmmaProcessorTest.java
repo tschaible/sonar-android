@@ -19,11 +19,8 @@
  */
 package org.sonar.plugins.android.emma;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.plugins.java.api.JavaResourceLocator;
 
@@ -76,28 +73,5 @@ public class AndroidEmmaProcessorTest {
     verify(context).saveMeasure(eq(file),
         eq(CoreMetrics.UNCOVERED_LINES),
         eq(1d));
-  }
-
-
-  private static class MatchInputFile extends BaseMatcher<InputFile> {
-
-    private String relativePath;
-
-    private MatchInputFile(String relativePath) {
-      this.relativePath = relativePath;
-    }
-
-    @Override
-    public boolean matches(Object o) {
-      if (o instanceof InputFile) {
-        return ((InputFile) o).relativePath().equals(relativePath);
-      }
-      return false;
-    }
-
-    @Override
-    public void describeTo(Description description) {
-
-    }
   }
 }
