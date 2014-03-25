@@ -34,7 +34,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.batch.ProjectClasspath;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
@@ -173,7 +172,7 @@ public class AndroidLintExecutorTest {
 
     @Override
     public boolean matches(Object item) {
-      if(item instanceof  Violation) {
+      if (item instanceof Violation) {
         return ((Violation) item).getResource().equals(resource);
       }
       return false;

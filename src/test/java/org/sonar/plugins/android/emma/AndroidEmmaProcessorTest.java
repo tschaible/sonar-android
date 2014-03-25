@@ -24,16 +24,15 @@ import org.hamcrest.Description;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
 
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AndroidEmmaProcessorTest {
 
@@ -42,25 +41,23 @@ public class AndroidEmmaProcessorTest {
     File dir = new File(getClass().getResource("/emma").getFile());
 
     SensorContext context = mock(SensorContext.class);
-    DefaultFileSystem fs = new DefaultFileSystem();
-    DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
-    buildConfig.setLanguage("java");
-    fs.add(buildConfig);
-    DefaultInputFile exampleActivity = new DefaultInputFile("org/example/ExampleActivity.java");
-    exampleActivity.setLanguage("java");
-    fs.add(exampleActivity);
-    new AndroidEmmaProcessor(dir, fs, context).process();
+    org.sonar.api.resources.File exampleActivity = mock(org.sonar.api.resources.File.class);
+    org.sonar.api.resources.File buildConfig = mock(org.sonar.api.resources.File.class);
+    JavaResourceLocator jrl = mock(JavaResourceLocator.class);
+    when(jrl.findResourceByClassName("org.example.ExampleActivity")).thenReturn(exampleActivity);
+    when(jrl.findResourceByClassName("org.example.BuildConfig")).thenReturn(buildConfig);
+    new AndroidEmmaProcessor(dir, jrl, context).process();
 
-    verify(context).saveMeasure(argThat(new MatchInputFile(exampleActivity.relativePath())),
+    verify(context).saveMeasure(eq(exampleActivity),
         eq(CoreMetrics.LINES_TO_COVER),
         eq(7d));
-    verify(context).saveMeasure(argThat(new MatchInputFile(exampleActivity.relativePath())),
+    verify(context).saveMeasure(eq(exampleActivity),
         eq(CoreMetrics.UNCOVERED_LINES),
         eq(1d));
-    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+    verify(context).saveMeasure(eq(buildConfig),
         eq(CoreMetrics.LINES_TO_COVER),
         eq(1d));
-    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+    verify(context).saveMeasure(eq(buildConfig),
         eq(CoreMetrics.UNCOVERED_LINES),
         eq(1d));
   }
@@ -69,15 +66,14 @@ public class AndroidEmmaProcessorTest {
   public void process_should_log_files_in_error() throws Exception {
     File dir = new File(getClass().getResource("/emma").getFile());
     SensorContext context = mock(SensorContext.class);
-    DefaultFileSystem fs = new DefaultFileSystem();
-    DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
-    buildConfig.setLanguage("java");
-    fs.add(buildConfig);
-    new AndroidEmmaProcessor(dir, fs, context).process();
-    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+    JavaResourceLocator jrl = mock(JavaResourceLocator.class);
+    org.sonar.api.resources.File file = mock(org.sonar.api.resources.File.class);
+    when(jrl.findResourceByClassName("org.example.BuildConfig")).thenReturn(file);
+    new AndroidEmmaProcessor(dir, jrl, context).process();
+    verify(context).saveMeasure(eq(file),
         eq(CoreMetrics.LINES_TO_COVER),
         eq(1d));
-    verify(context).saveMeasure(argThat(new MatchInputFile(buildConfig.relativePath())),
+    verify(context).saveMeasure(eq(file),
         eq(CoreMetrics.UNCOVERED_LINES),
         eq(1d));
   }

@@ -23,7 +23,6 @@ package org.sonar.plugins.android.emma;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.config.Settings;
@@ -31,9 +30,9 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.plugins.android.AndroidPlugin;
+import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
-import java.net.URL;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -50,24 +49,29 @@ public class AndroidEmmaSensorTest {
   private Project project;
   private Settings settings;
   private SensorContext context;
+  private ProjectFileSystem pfs;
+  private JavaResourceLocator jrl;
 
   @Before
   public void setUp() throws Exception {
     project = mock(Project.class);
+    pfs = mock(ProjectFileSystem.class);
+    when(project.getFileSystem()).thenReturn(pfs);
     settings = new Settings();
+    jrl = mock(JavaResourceLocator.class);
     context = mock(SensorContext.class);
   }
 
   @Test
   public void should_not_execute_if_report_directory_empty() {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "");
-    assertThat(new AndroidEmmaSensor(settings, new DefaultFileSystem()).shouldExecuteOnProject(project)).isFalse();
+    assertThat(new AndroidEmmaSensor(settings, jrl).shouldExecuteOnProject(project)).isFalse();
   }
 
   @Test
   public void should_execute_if_report_directory_not_empty() {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "src/test/resources");
-    assertThat(new AndroidEmmaSensor(settings, new DefaultFileSystem()).shouldExecuteOnProject(project)).isTrue();
+    assertThat(new AndroidEmmaSensor(settings, jrl).shouldExecuteOnProject(project)).isTrue();
   }
 
   @Test
@@ -77,7 +81,7 @@ public class AndroidEmmaSensorTest {
     dif.setAbsolutePath(this.getClass().getResource("/HelloWorld").getFile());
     fs.add(dif);
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "HelloWorld");
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -86,27 +90,25 @@ public class AndroidEmmaSensorTest {
   @Test
   public void should_process_emma_reports() throws Exception {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "emma");
+    when(pfs.resolvePath("emma")).thenReturn(new File(this.getClass().getResource("/emma").getFile()));
     DefaultFileSystem fs = new DefaultFileSystem();
-    DefaultInputFile dif = new DefaultInputFile("emma");
-    dif.setAbsolutePath(this.getClass().getResource("/emma").getFile());
-    fs.add(dif);
     DefaultInputFile buildConfig = new DefaultInputFile("org/example/BuildConfig.java");
     buildConfig.setLanguage("java");
     fs.add(buildConfig);
     DefaultInputFile exampleActivity = new DefaultInputFile("org/example/ExampleActivity.java");
     exampleActivity.setLanguage("java");
     fs.add(exampleActivity);
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    when(jrl.findResourceByClassName(anyString())).thenReturn(mock(org.sonar.api.resources.File.class));
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
-    verify(context, times(4)).saveMeasure(any(InputFile.class), any(Metric.class), anyDouble());
+    verify(context, times(4)).saveMeasure(any(org.sonar.api.resources.File.class), any(Metric.class), anyDouble());
   }
 
   @Test
   public void should_handle_non_existing_directory() throws Exception {
     settings.setProperty(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY, "foo");
-    DefaultFileSystem fs = new DefaultFileSystem();
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -119,7 +121,7 @@ public class AndroidEmmaSensorTest {
     DefaultInputFile dif = new DefaultInputFile("emma/coverage.ec");
     dif.setAbsolutePath(this.getClass().getResource("/emma/coverage.ec").getFile());
     fs.add(dif);
-    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, fs);
+    AndroidEmmaSensor androidEmmaSensor = new AndroidEmmaSensor(settings, jrl);
     androidEmmaSensor.shouldExecuteOnProject(project);
     androidEmmaSensor.analyse(project, context);
     verifyZeroInteractions(context);
@@ -127,6 +129,6 @@ public class AndroidEmmaSensorTest {
 
   @Test
   public void test_toString() {
-    assertThat(new AndroidEmmaSensor(new Settings(), new DefaultFileSystem()).toString()).isEqualTo("AndroidEmmaSensor");
+    assertThat(new AndroidEmmaSensor(new Settings(), jrl).toString()).isEqualTo("AndroidEmmaSensor");
   }
 }

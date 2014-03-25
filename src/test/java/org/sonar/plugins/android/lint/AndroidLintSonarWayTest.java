@@ -20,7 +20,6 @@
 package org.sonar.plugins.android.lint;
 
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.sonar.api.profiles.RulesProfile;

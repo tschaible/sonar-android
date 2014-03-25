@@ -33,15 +33,16 @@ import com.vladium.emma.report.IReportDataView;
 import com.vladium.emma.report.PackageItem;
 import com.vladium.emma.report.SrcFileItem;
 import com.vladium.util.IntObjectMap;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.SonarException;
+import org.sonar.plugins.java.api.JavaResourceLocator;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -49,9 +50,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
 
-/**
- * @author Evgeny Mandrikov
- */
 public class AndroidEmmaProcessor {
 
   public static final String META_DATA_SUFFIX = ".em";
@@ -61,9 +59,9 @@ public class AndroidEmmaProcessor {
 
   private final SensorContext context;
   private final IReportDataModel model;
-  private final FileSystem fileSystem;
+  private final JavaResourceLocator fileSystem;
 
-  public AndroidEmmaProcessor(File buildDir, FileSystem fileSystem, SensorContext context) {
+  public AndroidEmmaProcessor(File buildDir, JavaResourceLocator fileSystem, SensorContext context) {
     try {
       ICoverageData coverageData = mergeCoverageData(buildDir);
       IMetaData metaData = mergeMetadata(buildDir);
@@ -117,16 +115,15 @@ public class AndroidEmmaProcessor {
     MyVisitor myVisitor = new MyVisitor();
     model.getView(IReportDataView.HIER_SRC_VIEW).getRoot().accept(myVisitor, null);
     LOGGER.warn("Matched files in report : {}%", myVisitor.getMatchedPercentage());
-    if (!myVisitor.missedFiles.isEmpty()) {
-      LOGGER.warn("{} files in emma report did not match any file in SonarQube Index : {}", myVisitor.filesUnmatched, myVisitor.missedFiles);
+    if (!myVisitor.missedClass.isEmpty()) {
+      LOGGER.warn("{} files in emma report did not match any file in SonarQube Index : {}", myVisitor.filesUnmatched, myVisitor.missedClass);
     }
   }
 
   class MyVisitor extends AbstractItemVisitor {
-    private String fullName = "";
     private int filesUnmatched = 0;
     private int totalFiles = 0;
-    private String missedFiles = "";
+    private String missedClass = "";
 
     public Object visit(AllItem item, Object o) {
       work(item, o);
@@ -134,10 +131,7 @@ public class AndroidEmmaProcessor {
     }
 
     public Object visit(PackageItem item, Object o) {
-      String name = item.getName();
-      fullName += name.replace('.', File.separatorChar);
       work(item, o);
-      fullName = fullName.substring(fullName.length() - name.length(), fullName.length());
       return o;
     }
 
@@ -160,11 +154,14 @@ public class AndroidEmmaProcessor {
         }
         lineHitsBuilder.add(lineId, fakeHits);
       }
-      String relativePath = fullName + File.separator + item.getName();
-      InputFile resource = fileSystem.inputFile(fileSystem.predicates().hasRelativePath(relativePath));
+
+//      InputFile resource = fileSystem.inputFile(fileSystem.predicates().matchesPathPattern("**"+File.separator+relativePath));
+      String packageName = item.getParent().getName();
+      String className = packageName + "." + StringUtils.substringBeforeLast(item.getName(), ".");
+      Resource resource = fileSystem.findResourceByClassName(className);
       if (resource == null) {
-        LOGGER.warn("File with relative path : {} was not found in SonarQube index", relativePath);
-        missedFiles += relativePath + ", ";
+        LOGGER.warn("Class with name : {} was not found in SonarQube index", className);
+        missedClass += className + ", ";
         filesUnmatched++;
       } else {
         context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) lines);
@@ -184,7 +181,7 @@ public class AndroidEmmaProcessor {
     }
 
     public int getMatchedPercentage() {
-      if(totalFiles==0){
+      if (totalFiles == 0) {
         return 0;
       }
       return (totalFiles - filesUnmatched) * 100 / totalFiles;

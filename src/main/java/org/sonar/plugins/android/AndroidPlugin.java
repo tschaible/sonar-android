@@ -53,6 +53,6 @@ public class AndroidPlugin extends SonarPlugin {
         AndroidLintSonarWay.class,
         AndroidLintExecutor.class,
         AndroidEmmaSensor.class
-        );
+    );
   }
 }
