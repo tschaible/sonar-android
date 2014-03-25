@@ -155,7 +155,6 @@ public class AndroidEmmaProcessor {
         lineHitsBuilder.add(lineId, fakeHits);
       }
 
-//      InputFile resource = fileSystem.inputFile(fileSystem.predicates().matchesPathPattern("**"+File.separator+relativePath));
       String packageName = item.getParent().getName();
       String className = packageName + "." + StringUtils.substringBeforeLast(item.getName(), ".");
       Resource resource = fileSystem.findResourceByClassName(className);
