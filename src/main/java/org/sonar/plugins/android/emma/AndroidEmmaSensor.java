@@ -48,12 +48,14 @@ public class AndroidEmmaSensor implements Sensor, CoverageExtension {
     this.fileSystem = fileSystem;
   }
 
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     emmaReportDirectory = settings.getString(AndroidPlugin.EMMA_REPORT_DIR_PROPERTY);
 
     return !StringUtils.isEmpty(emmaReportDirectory) && fileSystem.hasFiles(fileSystem.predicates().hasLanguage("java"));
   }
 
+  @Override
   public void analyse(Project project, SensorContext context) {
     File reportsPath = project.getFileSystem().resolvePath(emmaReportDirectory);
     if (reportsPath == null) {

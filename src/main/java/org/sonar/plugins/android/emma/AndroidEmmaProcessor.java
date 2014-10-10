@@ -125,16 +125,19 @@ public class AndroidEmmaProcessor {
     private int totalFiles = 0;
     private String missedClass = "";
 
+    @Override
     public Object visit(AllItem item, Object o) {
       work(item, o);
       return o;
     }
 
+    @Override
     public Object visit(PackageItem item, Object o) {
       work(item, o);
       return o;
     }
 
+    @Override
     public Object visit(SrcFileItem item, Object o) {
       totalFiles++;
       lineHitsBuilder.clear();
