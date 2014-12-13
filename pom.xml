@@ -16,7 +16,7 @@
 
   <name>SonarQube Android Plugin</name>
   <description>Enables analysis and reporting on Android projects.</description>
-  <url>http://docs.codehaus.org/display/SONAR/Android+Plugin</url>
+  <url>http://redirect.sonarsource.com/plugins/android.html</url>
 
   <inceptionYear>2013</inceptionYear>
   <organization>
