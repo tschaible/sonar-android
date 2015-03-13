@@ -20,23 +20,33 @@
 package org.sonar.plugins.android;
 
 import com.google.common.collect.ImmutableList;
+import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
-import org.sonar.plugins.android.lint.AndroidLintExecutor;
 import org.sonar.plugins.android.lint.AndroidLintRulesDefinition;
 import org.sonar.plugins.android.lint.AndroidLintSensor;
 import org.sonar.plugins.android.lint.AndroidLintSonarWay;
 
 import java.util.List;
 
+@Property(
+  key = AndroidPlugin.LINT_REPORT_PROPERTY,
+  name = "Lint Report file",
+  description = "Path (absolute or relative) to the lint-results.xml file.",
+  defaultValue = AndroidPlugin.LINT_REPORT_PROPERTY_DEFAULT,
+  module = true,
+  project = true,
+  global = false)
 public class AndroidPlugin extends SonarPlugin {
+
+  public static final String LINT_REPORT_PROPERTY = "sonar.android.lint.report";
+  public static final String LINT_REPORT_PROPERTY_DEFAULT = "build/outputs/lint-results.xml";
 
   @Override
   public List getExtensions() {
     return ImmutableList.of(
-        AndroidLintSensor.class,
-        AndroidLintRulesDefinition.class,
-        AndroidLintSonarWay.class,
-        AndroidLintExecutor.class
-    );
+      AndroidLintSensor.class,
+      AndroidLintRulesDefinition.class,
+      AndroidLintSonarWay.class
+      );
   }
 }

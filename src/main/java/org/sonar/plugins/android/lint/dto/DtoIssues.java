@@ -17,30 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.android.lint;
+package org.sonar.plugins.android.lint.dto;
 
-import org.junit.Test;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+@Root(name = "issues", strict = false)
+public class DtoIssues {
+  @ElementList(inline = true)
+  private List<DtoIssue> issues;
 
-/**
- * This class tests the AndroidLintRuleRepository class
- *
- * @author Florian Roncari
- */
-public class AndroidLintRulesDefinitionTest {
+  public List<DtoIssue> getIssues() {
+    return issues;
+  }
 
-  @Test
-  public void createRulesTest() {
-    RulesDefinition rulesDefinition = new AndroidLintRulesDefinition(new RulesDefinitionXmlLoader());
-    RulesDefinition.Context context = new RulesDefinition.Context();
-    rulesDefinition.define(context);
-    RulesDefinition.Repository repository = context.repository(AndroidLintRulesDefinition.REPOSITORY_KEY);
-    List<RulesDefinition.Rule> rules = repository.rules();
-    assertThat(rules.size()).isEqualTo(158);
+  public void setIssues(List<DtoIssue> issues) {
+    this.issues = issues;
   }
 }

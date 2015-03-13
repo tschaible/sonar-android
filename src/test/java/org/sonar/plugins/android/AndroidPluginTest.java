@@ -27,6 +27,6 @@ public class AndroidPluginTest {
 
   @Test
   public void testGetExtensions() {
-    assertThat(new AndroidPlugin().getExtensions().size()).isEqualTo(4);
+    assertThat(new AndroidPlugin().getExtensions().size()).isEqualTo(3);
   }
 }

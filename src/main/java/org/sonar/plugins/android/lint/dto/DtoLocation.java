@@ -17,30 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.android.lint;
+package org.sonar.plugins.android.lint.dto;
 
-import org.junit.Test;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
 
-import java.util.List;
+@Root(name="location", strict = false)
+public class DtoLocation {
 
-import static org.fest.assertions.Assertions.assertThat;
+  @Attribute
+  private String file;
 
-/**
- * This class tests the AndroidLintRuleRepository class
- *
- * @author Florian Roncari
- */
-public class AndroidLintRulesDefinitionTest {
+  @Attribute(required = false)
+  private Integer line;
 
-  @Test
-  public void createRulesTest() {
-    RulesDefinition rulesDefinition = new AndroidLintRulesDefinition(new RulesDefinitionXmlLoader());
-    RulesDefinition.Context context = new RulesDefinition.Context();
-    rulesDefinition.define(context);
-    RulesDefinition.Repository repository = context.repository(AndroidLintRulesDefinition.REPOSITORY_KEY);
-    List<RulesDefinition.Rule> rules = repository.rules();
-    assertThat(rules.size()).isEqualTo(158);
+  public String getFile() {
+    return file;
+  }
+
+  public void setFile(String file) {
+    this.file = file;
+  }
+
+  public Integer getLine() {
+    return line;
+  }
+
+  public void setLine(Integer line) {
+    this.line = line;
   }
 }

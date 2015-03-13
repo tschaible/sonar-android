@@ -40,13 +40,13 @@ public class AndroidLintSonarWayTest {
   public void createSonarWayTest() {
     RuleFinder ruleFinder = mock(RuleFinder.class);
     when(ruleFinder.findByKey(eq(AndroidLintRulesDefinition.REPOSITORY_KEY), anyString()))
-        .thenAnswer(new Answer<Rule>() {
-          @Override
-          public Rule answer(InvocationOnMock invocation) throws Throwable {
-            return Rule.create(AndroidLintRulesDefinition.REPOSITORY_KEY, (String) invocation.getArguments()[1], (String) invocation.getArguments()[1]);
-          }
+      .thenAnswer(new Answer<Rule>() {
+        @Override
+        public Rule answer(InvocationOnMock invocation) throws Throwable {
+          return Rule.create(AndroidLintRulesDefinition.REPOSITORY_KEY, (String) invocation.getArguments()[1], (String) invocation.getArguments()[1]);
         }
-        );
+      }
+      );
     AndroidLintSonarWay sonarWay = new AndroidLintSonarWay(new XMLProfileParser(ruleFinder));
 
     RulesProfile profile = sonarWay.createProfile(ValidationMessages.create());
