@@ -39,11 +39,11 @@ public class AndroidLintSonarWayTest {
   @Test
   public void createSonarWayTest() {
     RuleFinder ruleFinder = mock(RuleFinder.class);
-    when(ruleFinder.findByKey(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString()))
+    when(ruleFinder.findByKey(eq(AndroidLintRulesDefinition.REPOSITORY_KEY), anyString()))
         .thenAnswer(new Answer<Rule>() {
           @Override
           public Rule answer(InvocationOnMock invocation) throws Throwable {
-            return Rule.create(AndroidLintRuleRepository.REPOSITORY_KEY, (String) invocation.getArguments()[1], (String) invocation.getArguments()[1]);
+            return Rule.create(AndroidLintRulesDefinition.REPOSITORY_KEY, (String) invocation.getArguments()[1], (String) invocation.getArguments()[1]);
           }
         }
         );

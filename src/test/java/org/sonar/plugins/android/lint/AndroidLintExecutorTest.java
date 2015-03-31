@@ -99,9 +99,9 @@ public class AndroidLintExecutorTest {
     when(fs.binaryDirs()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/bin").toURI())));
     when(projectClasspath.getElements()).thenReturn(Arrays.asList(new File(this.getClass().getResource("/HelloWorld/bin").toURI())));
     ActiveRule activeRule = mock(ActiveRule.class);
-    when(rulesProfile.getActiveRule(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(activeRule);
-    Rule rule = Rule.create(AndroidLintRuleRepository.REPOSITORY_KEY, "foo");
-    when(ruleFinder.findByKey(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(rule);
+    when(rulesProfile.getActiveRule(eq(AndroidLintRulesDefinition.REPOSITORY_KEY), anyString())).thenReturn(activeRule);
+    Rule rule = Rule.create(AndroidLintRulesDefinition.REPOSITORY_KEY, "foo");
+    when(ruleFinder.findByKey(eq(AndroidLintRulesDefinition.REPOSITORY_KEY), anyString())).thenReturn(rule);
   }
 
   @Test
@@ -118,7 +118,7 @@ public class AndroidLintExecutorTest {
 
   @Test
   public void shouldNotCreateViolationWhenRuleIsDisabled() {
-    when(rulesProfile.getActiveRule(eq(AndroidLintRuleRepository.REPOSITORY_KEY), anyString())).thenReturn(null);
+    when(rulesProfile.getActiveRule(eq(AndroidLintRulesDefinition.REPOSITORY_KEY), anyString())).thenReturn(null);
     SensorContext sensorContext = mock(SensorContext.class);
     when(sensorContext.getResource(any(Resource.class))).thenReturn(org.sonar.api.resources.File.create("foo"));
     executor.execute(sensorContext, project);

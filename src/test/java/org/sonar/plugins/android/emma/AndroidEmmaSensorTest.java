@@ -60,7 +60,7 @@ public class AndroidEmmaSensorTest {
     when(project.getFileSystem()).thenReturn(pfs);
     settings = new Settings();
     jrl = mock(JavaResourceLocator.class);
-    fs = new DefaultFileSystem();
+    fs = new DefaultFileSystem(new File(""));
     context = mock(SensorContext.class);
   }
 

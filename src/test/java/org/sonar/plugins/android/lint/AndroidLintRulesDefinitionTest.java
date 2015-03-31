@@ -32,7 +32,7 @@ import static org.fest.assertions.Assertions.assertThat;
  *
  * @author Florian Roncari
  */
-public class AndroidLintRuleRepositoryTest {
+public class AndroidLintRulesDefinitionTest {
 
   @Test
   public void createRulesTest() {
@@ -40,7 +40,7 @@ public class AndroidLintRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     rulesDefinition.define(context);
     RulesDefinition.Repository repository = context.repository(AndroidLintRulesDefinition.REPOSITORY_KEY);
-    List<RulesDefinition.Rule> rules = repository.rules();
+    List < RulesDefinition.Rule > rules = repository.rules();
     assertThat(rules.size()).isEqualTo(158);
   }
 }

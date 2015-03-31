@@ -99,7 +99,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
 
       @Override
       public boolean isEnabled(Issue issue) {
-        return rulesProfile.getActiveRule(AndroidLintRuleRepository.REPOSITORY_KEY, issue.getId()) != null;
+        return rulesProfile.getActiveRule(AndroidLintRulesDefinition.REPOSITORY_KEY, issue.getId()) != null;
       }
 
       @Override
@@ -146,7 +146,7 @@ public class AndroidLintExecutor extends LintClient implements BatchExtension {
   }
 
   private Rule findRule(Issue issue) {
-    Rule rule = ruleFinder.findByKey(AndroidLintRuleRepository.REPOSITORY_KEY, issue.getId());
+    Rule rule = ruleFinder.findByKey(AndroidLintRulesDefinition.REPOSITORY_KEY, issue.getId());
     if (rule == null) {
       throw new SonarException("No Android Lint rule for key " + issue.getId());
     }

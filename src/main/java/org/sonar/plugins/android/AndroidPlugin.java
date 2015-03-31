@@ -25,7 +25,7 @@ import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
 import org.sonar.plugins.android.emma.AndroidEmmaSensor;
 import org.sonar.plugins.android.lint.AndroidLintExecutor;
-import org.sonar.plugins.android.lint.AndroidLintRuleRepository;
+import org.sonar.plugins.android.lint.AndroidLintRulesDefinition;
 import org.sonar.plugins.android.lint.AndroidLintSensor;
 import org.sonar.plugins.android.lint.AndroidLintSonarWay;
 
@@ -49,7 +49,7 @@ public class AndroidPlugin extends SonarPlugin {
   public List getExtensions() {
     return ImmutableList.of(
         AndroidLintSensor.class,
-        AndroidLintRuleRepository.class,
+        AndroidLintRulesDefinition.class,
         AndroidLintSonarWay.class,
         AndroidLintExecutor.class,
         AndroidEmmaSensor.class
