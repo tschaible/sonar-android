@@ -22,6 +22,7 @@ package org.sonar.plugins.android;
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
+import org.sonar.plugins.android.lint.AndroidLintProfileExporter;
 import org.sonar.plugins.android.lint.AndroidLintRulesDefinition;
 import org.sonar.plugins.android.lint.AndroidLintSensor;
 import org.sonar.plugins.android.lint.AndroidLintSonarWay;
@@ -46,7 +47,8 @@ public class AndroidPlugin extends SonarPlugin {
     return ImmutableList.of(
       AndroidLintSensor.class,
       AndroidLintRulesDefinition.class,
-      AndroidLintSonarWay.class
+      AndroidLintSonarWay.class,
+      AndroidLintProfileExporter.class
       );
   }
 }
