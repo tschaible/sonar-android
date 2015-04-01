@@ -1,5 +1,5 @@
 /*
- * SonarQube Android Plugin
+ * SonarQube Android Lint Plugin
  * Copyright (C) 2013 SonarSource and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores
  * dev@sonar.codehaus.org
  *

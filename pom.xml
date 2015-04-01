@@ -13,8 +13,8 @@
   <version>1.1-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
 
-  <name>SonarQube Android Plugin</name>
-  <description>Enables analysis and reporting on Android projects.</description>
+  <name>SonarQube Android Lint Plugin</name>
+  <description>Import Android Lint reports.</description>
   <url>http://redirect.sonarsource.com/plugins/android.html</url>
 
   <inceptionYear>2013</inceptionYear>
