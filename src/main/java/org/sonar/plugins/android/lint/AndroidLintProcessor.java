@@ -19,12 +19,10 @@
  */
 package org.sonar.plugins.android.lint;
 
-import org.apache.commons.io.FilenameUtils;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
@@ -76,7 +74,7 @@ public class AndroidLintProcessor {
   }
 
   private void processIssueForLocation(ActiveRule rule, DtoIssue dtoIssue, DtoLocation dtoLocation) {
-    InputFile inputFile = fs.inputFile(getPredicate(dtoLocation.getFile()));
+    InputFile inputFile = fs.inputFile(fs.predicates().hasPath(dtoLocation.getFile()));
     if (inputFile != null) {
       LOGGER.debug("Processing File {} for Issue {}", dtoLocation.getFile(), dtoIssue.getId());
       Issuable issuable = perspectives.as(Issuable.class, inputFile);
@@ -91,13 +89,5 @@ public class AndroidLintProcessor {
       }
     }
     LOGGER.warn("Unable to process file {}", dtoLocation.getFile());
-  }
-
-  private FilePredicate getPredicate(String fileName) {
-    FilePredicate filePredicate = fs.predicates().hasRelativePath(fileName);
-    if(FilenameUtils.getPrefixLength(fileName) > 0) {
-      filePredicate = fs.predicates().hasAbsolutePath(fileName);
-    }
-    return filePredicate;
   }
 }
