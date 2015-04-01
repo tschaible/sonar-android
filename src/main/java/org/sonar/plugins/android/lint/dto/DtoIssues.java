@@ -32,8 +32,4 @@ public class DtoIssues {
   public List<DtoIssue> getIssues() {
     return issues;
   }
-
-  public void setIssues(List<DtoIssue> issues) {
-    this.issues = issues;
-  }
 }

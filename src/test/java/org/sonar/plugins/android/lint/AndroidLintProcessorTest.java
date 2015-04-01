@@ -62,8 +62,6 @@ public class AndroidLintProcessorTest {
       }
     };
     perspectives = mock(ResourcePerspectives.class);
-
-
   }
 
   @Test

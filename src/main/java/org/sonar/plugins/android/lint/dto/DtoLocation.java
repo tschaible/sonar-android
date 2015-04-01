@@ -22,7 +22,7 @@ package org.sonar.plugins.android.lint.dto;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
-@Root(name="location", strict = false)
+@Root(name = "location", strict = false)
 public class DtoLocation {
 
   @Attribute
@@ -35,15 +35,7 @@ public class DtoLocation {
     return file;
   }
 
-  public void setFile(String file) {
-    this.file = file;
-  }
-
   public Integer getLine() {
     return line;
-  }
-
-  public void setLine(Integer line) {
-    this.line = line;
   }
 }

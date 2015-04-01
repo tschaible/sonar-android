@@ -17,32 +17,6 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+@javax.annotation.ParametersAreNonnullByDefault
 package org.sonar.plugins.android.lint.dto;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
-
-import java.util.List;
-
-@Root(name = "issue", strict = false)
-public class DtoIssue {
-  @Attribute
-  private String id;
-  @Attribute
-  private String message;
-  @ElementList(inline = true)
-  private List<DtoLocation> locations;
-
-  public String getId() {
-    return id;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public List<DtoLocation> getLocations() {
-    return locations;
-  }
-}
