@@ -20,6 +20,7 @@
 package org.sonar.plugins.android.lint;
 
 import com.android.tools.lint.detector.api.Severity;
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
@@ -39,6 +40,7 @@ import org.sonar.api.rules.RulePriority;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -75,7 +77,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     xmlFactory.setProperty(XMLInputFactory.IS_VALIDATING, Boolean.FALSE);
     SMInputFactory inputFactory = new SMInputFactory(xmlFactory);
     InputStream inputStream = getClass().getResourceAsStream(AndroidLintRulesDefinition.RULES_XML_PATH);
-    InputStreamReader reader = new InputStreamReader(inputStream);
+    InputStreamReader reader = new InputStreamReader(inputStream, Charsets.UTF_8);
     try {
       SMHierarchicCursor rootC = inputFactory.rootElementCursor(reader);
       rootC.advance(); // <rules>
@@ -86,8 +88,8 @@ public class AndroidLintProfileExporter extends ProfileExporter {
         SMInputCursor cursor = rulesC.childElementCursor();
         while (cursor.getNext() != null) {
           if (StringUtils.equalsIgnoreCase("key", cursor.getLocalName())) {
-          String key = StringUtils.trim(cursor.collectDescendantText(false));
-          ruleKeys.add(key);
+            String key = StringUtils.trim(cursor.collectDescendantText(false));
+            ruleKeys.add(key);
           }
         }
       }
@@ -112,7 +114,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     Map<String, RulePriority> activeKeys = new HashMap<>();
     List<LintIssue> issues = Lists.newArrayList();
     for (ActiveRule rule : activeRules) {
-      activeKeys.put(rule.getRuleKey(), rule.getPriority());
+      activeKeys.put(rule.getRuleKey(), rule.getSeverity());
     }
     for (String ruleKey : ruleKeys) {
       String lintSeverity = getLintSeverity(ruleKey, activeKeys);
