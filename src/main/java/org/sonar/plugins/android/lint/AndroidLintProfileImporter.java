@@ -17,16 +17,25 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.android;
+package org.sonar.plugins.android.lint;
 
-import org.junit.Test;
+import org.sonar.api.profiles.ProfileImporter;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.utils.ValidationMessages;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.io.Reader;
 
-public class AndroidPluginTest {
+public class AndroidLintProfileImporter extends ProfileImporter {
 
-  @Test
-  public void testGetExtensions() {
-    assertThat(new AndroidPlugin().getExtensions().size()).isEqualTo(5);
+  public AndroidLintProfileImporter() {
+    super(AndroidLintRulesDefinition.REPOSITORY_KEY, AndroidLintRulesDefinition.REPOSITORY_NAME);
+    setSupportedLanguages("java");
   }
+
+  @Override
+  public RulesProfile importProfile(Reader reader, ValidationMessages messages) {
+    messages.addErrorText("Operation not supported yet");
+    return null;
+  }
+
 }
