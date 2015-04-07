@@ -32,7 +32,7 @@ public enum AndroidLintVersion {
   private static final String PROPERTIES_PATH = "/org/sonar/plugins/android/lint/android-plugin.properties";
   private String version;
 
-  private AndroidLintVersion() {
+  AndroidLintVersion() {
     this.version = readVersion(PROPERTIES_PATH);
   }
 
@@ -50,7 +50,7 @@ public enum AndroidLintVersion {
       return properties.getProperty("lint.version");
 
     } catch (Exception e) {
-      LoggerFactory.getLogger(AndroidLintVersion.class).warn("Can not load the Android Lint version from the file " + propertyPath);
+      LoggerFactory.getLogger(AndroidLintVersion.class).warn("Can not load the Android Lint version from the file " + propertyPath, e);
       return "";
 
     } finally {

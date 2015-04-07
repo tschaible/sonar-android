@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.google.common.base.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -42,7 +43,7 @@ public class AndroidLintRulesDefinition implements RulesDefinition {
   public void define(Context context) {
     NewRepository repository = context.createRepository(REPOSITORY_KEY, "java").setName(REPOSITORY_NAME);
     InputStream inputStream = getClass().getResourceAsStream(RULES_XML_PATH);
-    InputStreamReader reader = new InputStreamReader(inputStream);
+    InputStreamReader reader = new InputStreamReader(inputStream, Charsets.UTF_8);
     try {
       xmlLoader.load(repository, reader);
       repository.done();

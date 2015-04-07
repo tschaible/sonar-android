@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.google.common.base.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
@@ -41,7 +42,7 @@ public class AndroidLintSonarWay extends ProfileDefinition {
   @Override
   public RulesProfile createProfile(ValidationMessages validationMessages) {
     InputStream input = getClass().getResourceAsStream(PROFILE_XML_PATH);
-    InputStreamReader reader = new InputStreamReader(input);
+    InputStreamReader reader = new InputStreamReader(input, Charsets.UTF_8);
     try {
       return parser.parse(reader, validationMessages);
     } finally {
