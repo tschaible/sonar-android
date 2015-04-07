@@ -22,7 +22,6 @@ package org.sonar.plugins.android.lint;
 import org.apache.commons.io.IOUtils;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.plugins.java.Java;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,7 +40,7 @@ public class AndroidLintRulesDefinition implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(REPOSITORY_KEY, Java.KEY).setName(REPOSITORY_NAME);
+    NewRepository repository = context.createRepository(REPOSITORY_KEY, "java").setName(REPOSITORY_NAME);
     InputStream inputStream = getClass().getResourceAsStream(RULES_XML_PATH);
     InputStreamReader reader = new InputStreamReader(inputStream);
     try {
