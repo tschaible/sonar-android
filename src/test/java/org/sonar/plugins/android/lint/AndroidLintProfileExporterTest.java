@@ -56,7 +56,7 @@ public class AndroidLintProfileExporterTest {
     List<RulesDefinition.Rule> rules = createRules();
     when(ruleFinder.findAll(any(RuleQuery.class))).thenReturn(createAPIRule(rules));
     RulesProfile rulesProfileWithActiveRules = createRulesProfileWithActiveRules(rules);
-    new AndroidLintProfileExporter(ruleFinder).exportProfile(rulesProfileWithActiveRules, sw);
+    new AndroidLintProfileExporter().exportProfile(rulesProfileWithActiveRules, sw);
     String output = sw.toString();
     assertThat(nbOfIssues(output)).isEqualTo(158);
     assertXmlAreSimilar(output, "exporter/lint.xml");
@@ -68,7 +68,7 @@ public class AndroidLintProfileExporterTest {
     RuleFinder ruleFinder = mock(RuleFinder.class);
     List<RulesDefinition.Rule> rules = createRules();
     when(ruleFinder.findAll(any(RuleQuery.class))).thenReturn(createAPIRule(rules));
-    new AndroidLintProfileExporter(ruleFinder).exportProfile(RulesProfile.create(), sw);
+    new AndroidLintProfileExporter().exportProfile(RulesProfile.create(), sw);
     String output = sw.toString();
     assertThat(nbOfIssues(output)).isEqualTo(158);
     assertXmlAreSimilar(output, "exporter/lint-ignore.xml");
@@ -91,7 +91,7 @@ public class AndroidLintProfileExporterTest {
     RulesProfile profile = RulesProfile.create();
     profile.setName("android-lint");
     for (RulesDefinition.Rule rule : rules) {
-      //Deactivate first three rules for testing purpose.
+      // Deactivate first three rules for testing purpose.
       profile.activateRule(Rule.create("android-lint", rule.key()), RulePriority.valueOf(rule.severity()));
     }
     return profile;
