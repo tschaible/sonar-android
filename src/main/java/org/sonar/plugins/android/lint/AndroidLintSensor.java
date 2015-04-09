@@ -58,11 +58,6 @@ public class AndroidLintSensor implements Sensor {
     return lintReport != null && lintReport.exists();
   }
 
-  @Override
-  public String toString() {
-    return this.getClass().getSimpleName();
-  }
-
   private File getFile(String path) {
     try {
       File file = new File(path);
