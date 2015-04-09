@@ -81,25 +81,31 @@ public class AndroidLintProfileImporter extends ProfileImporter {
   }
 
   private String getSeverity(LintIssue lintIssue, com.android.tools.lint.detector.api.Severity lintSeverity, int priority) {
+    String result;
     switch (lintSeverity) {
       case FATAL:
-        return Severity.BLOCKER;
+        result = Severity.BLOCKER;
+        break;
       case ERROR:
         if (priority >= 7) {
           return Severity.CRITICAL;
         }
-        return Severity.MAJOR;
+        result = Severity.MAJOR;
+        break;
       case WARNING:
         if (priority >= 7) {
           return Severity.MAJOR;
         }
-        return Severity.MINOR;
+        result =  Severity.MINOR;
+        break;
       case INFORMATIONAL:
-        return Severity.INFO;
+        result = Severity.INFO;
+        break;
       case IGNORE:
       default:
         throw new IllegalStateException("An unknown severity has been imported.");
     }
+    return result;
   }
 
   private com.android.tools.lint.detector.api.Severity getLintSeverity(LintIssue lintIssue, Issue issue, ValidationMessages messages) {
@@ -109,6 +115,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
         lintSeverity = com.android.tools.lint.detector.api.Severity.valueOf(lintIssue.severity.toUpperCase());
       }
     } catch (IllegalArgumentException iae) {
+      LOGGER.warn("Severity not found in Android Lint severities", iae);
       messages.addWarningText("Could not recognize severity " + lintIssue.severity + " for rule " + lintIssue.id + " default severity is used");
     }
     if (lintSeverity == null) {
