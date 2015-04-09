@@ -87,16 +87,16 @@ public class AndroidLintProfileImporter extends ProfileImporter {
         result = Severity.BLOCKER;
         break;
       case ERROR:
-        if (priority >= 7) {
-          return Severity.CRITICAL;
-        }
         result = Severity.MAJOR;
+        if (priority >= 7) {
+          result = Severity.CRITICAL;
+        }
         break;
       case WARNING:
-        if (priority >= 7) {
-          return Severity.MAJOR;
-        }
         result =  Severity.MINOR;
+        if (priority >= 7) {
+          result = Severity.MAJOR;
+        }
         break;
       case INFORMATIONAL:
         result = Severity.INFO;
