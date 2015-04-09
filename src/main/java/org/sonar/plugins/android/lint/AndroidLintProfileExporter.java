@@ -38,6 +38,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.RulePriority;
 
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
@@ -65,7 +66,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     super(AndroidLintRulesDefinition.REPOSITORY_KEY, AndroidLintRulesDefinition.REPOSITORY_NAME);
     ruleKeys = Lists.newArrayList();
     loadRuleKeys();
-    setSupportedLanguages("java");
+    setSupportedLanguages("java", "xml");
   }
 
   private void loadRuleKeys() {
@@ -118,7 +119,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     }
     for (String ruleKey : ruleKeys) {
       String lintSeverity = getLintSeverity(ruleKey, activeKeys);
-      issues.add(new LintIssue(ruleKey, lintSeverity));
+      issues.add(new LintIssue(ruleKey, lintSeverity, null));
     }
     // ensure order of issues in output, sort by key.
     Collections.sort(issues, new Comparator<LintIssue>() {
@@ -132,20 +133,27 @@ public class AndroidLintProfileExporter extends ProfileExporter {
   }
 
   @Root(name = "lint", strict = false)
-  private static class LintProfile {
+  static class LintProfile {
     @ElementList(inline = true)
     List<LintIssue> issues;
   }
   @Root(name = "issue", strict = false)
-  private static class LintIssue {
+  static class LintIssue {
     @Attribute
     String id;
-    @Attribute
+    @Attribute(required = false)
     String severity;
+    @Attribute(required = false)
+    Integer priority;
 
-    public LintIssue(String ruleKey, String severity) {
+    public LintIssue() {
+      //No arg constructor used by profile importer
+    }
+
+    public LintIssue(String ruleKey, String severity, @Nullable Integer priority) {
       this.id = ruleKey;
       this.severity = severity;
+      this.priority = priority;
     }
   }
 

@@ -1,0 +1,7 @@
+<lint>
+   <issue id="AdapterViewChildren" severity="Foo" priority="6"/>
+   <issue id="AllowBackup" severity="Bar" priority="6"/>
+   <issue id="AlwaysShowAction" severity="Warning" priority="8"/>
+   <issue id="BackButton" severity="Warning"/>
+   <issue id="ButtonCase" severity="Warning"/>
+</lint>

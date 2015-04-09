@@ -1,0 +1,16 @@
+<lint>
+   <issue id="ExtraTranslation" severity="Fatal"/>
+   <issue id="ButtonStyle" severity="Fatal"/>
+   <issue id="ButtonOrder" severity="Error" priority="9"/>
+   <issue id="AdapterViewChildren" severity="Error" priority="6"/>
+   <issue id="AlwaysShowAction" severity="Warning" priority="8"/>
+   <issue id="AllowBackup" severity="Warning" priority="6"/>
+   <issue id="BackButton" severity="Warning"/>
+   <issue id="ButtonCase" severity="Warning"/>
+   <issue id="ContentDescription" /> <!--severity="Warning"-->
+   <issue id="ExtraText" /> <!--severity="Warning"-->
+   <issue id="ExportedContentProvider" severity="Warning"/>
+   <issue id="CommitPrefEdits" severity="Informational"/>
+   <issue id="CommitTransaction" severity="Informational"/>
+   <issue id="DuplicateUsesFeature" severity="Ignore"/>
+</lint>

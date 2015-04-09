@@ -1,0 +1,16 @@
+<lintBadlyFormed>
+   <isssue id="ExtraTranslation" severity="Fatal"/>
+   <isssue id="ButtonStyle" severity="Fatal"/>
+   <isssue id="ButtonOrder" severity="Error" priority="9"/>
+   <isssue id="AdapterViewChildren" severity="Error" priority="6"/>
+   <isssue id="AlwaysShowAction" severity="Warning" priority="8"/>
+   <isssue id="AllowBackup" severity="Warning" priority="6"/>
+   <isssue id="BackButton" severity="Warning"/>
+   <isssue id="ButtonCase" severity="Warning"/>
+   <isssue id="ContentDescription" /> <!--severity="Warning"-->
+   <isssue id="ExtraText" /> <!--severity="Warning"-->
+   <isssue id="ExportedContentProvider" severity="Warning"/>
+   <isssue id="CommitPrefEdits" severity="Informational"/>
+   <isssue id="CommitTransaction" severity="Informational"/>
+   <isssue id="DuplicateUsesFeature" severity="Ignore"/>
+</lintBadlyFormed>
