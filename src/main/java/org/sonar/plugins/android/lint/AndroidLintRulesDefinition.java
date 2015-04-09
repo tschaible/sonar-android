@@ -23,6 +23,7 @@ import com.google.common.base.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -46,6 +47,7 @@ public class AndroidLintRulesDefinition implements RulesDefinition {
     InputStreamReader reader = new InputStreamReader(inputStream, Charsets.UTF_8);
     try {
       xmlLoader.load(repository, reader);
+      SqaleXmlLoader.load(repository, "/org/sonar/plugins/android/lint/java-model.xml");
       repository.done();
     } finally {
       IOUtils.closeQuietly(reader);

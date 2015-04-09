@@ -1,5 +1,53 @@
 <sqale>
   <chc>
+    <key>USABILITY</key>
+    <name>Usability</name>
+    <chc>
+      <key>ACCESSIBILITY</key>
+      <name>Accessibility</name>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>RtlHardcoded</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>ContentDescription</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>10.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>LabelFor</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>10.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+    </chc>
+
+  </chc>
+  <chc>
     <key>REUSABILITY</key>
     <name>Reusability</name>
     <chc>
@@ -34,10 +82,10 @@
         <rule-key>EnforceUTF8</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -47,10 +95,10 @@
         <rule-key>SdCardPath</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -60,10 +108,10 @@
         <rule-key>MangledCRLF</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -77,10 +125,10 @@
         <rule-key>NewApi</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -94,10 +142,10 @@
         <rule-key>StringFormatCount</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -107,10 +155,10 @@
         <rule-key>HardcodedText</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -120,10 +168,10 @@
         <rule-key>SimpleDateFormat</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -133,10 +181,10 @@
         <rule-key>MissingTranslation</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -146,10 +194,10 @@
         <rule-key>StringFormatInvalid</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -159,10 +207,10 @@
         <rule-key>MissingQuantity</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -172,10 +220,10 @@
         <rule-key>RtlCompat</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -185,10 +233,10 @@
         <rule-key>UnlocalizedSms</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -206,10 +254,10 @@
         <rule-key>TypographyEllipsis</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -219,10 +267,10 @@
         <rule-key>DuplicateUsesFeature</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -232,10 +280,10 @@
         <rule-key>ObsoleteLayoutParam</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -245,10 +293,10 @@
         <rule-key>Typos</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -258,10 +306,10 @@
         <rule-key>WrongCase</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -275,10 +323,10 @@
         <rule-key>SuspiciousImport</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -288,10 +336,10 @@
         <rule-key>DuplicateIncludedIds</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -301,10 +349,10 @@
         <rule-key>DuplicateIds</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -314,10 +362,10 @@
         <rule-key>IconDuplicates</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -327,10 +375,10 @@
         <rule-key>ExtraText</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -340,10 +388,10 @@
         <rule-key>InvalidId</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -373,10 +421,10 @@
         <rule-key>ExportedContentProvider</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -386,10 +434,10 @@
         <rule-key>GrantAllUris</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -399,10 +447,75 @@
         <rule-key>ExportedService</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
+          <val>20.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>EasterEgg</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>20.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>PackagedPrivateKey</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>20.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>SetJavaScriptEnabled</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>20.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>WorldReadableFiles</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>20.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>WorldWriteableFiles</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -413,6 +526,62 @@
     <key>EFFICIENCY</key>
     <name>Efficiency</name>
     <chc>
+      <key>EFFICIENCY_COMPLIANCE</key>
+      <name>Efficiency Compliance</name>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>UseCompoundDrawables</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>UnusedResources</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>InefficientWeight</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>UnusedIds</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5.0</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+    </chc>
+    <chc>
       <key>MEMORY_EFFICIENCY</key>
       <name>Memory use</name>
       <chc>
@@ -420,10 +589,10 @@
         <rule-key>MergeRootFrame</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -433,10 +602,10 @@
         <rule-key>HandlerLeak</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -446,10 +615,10 @@
         <rule-key>TooManyViews</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>3.0</val>
           <txt>h</txt>
         </prop>
@@ -459,10 +628,10 @@
         <rule-key>TooDeepLayout</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>3.0</val>
           <txt>h</txt>
         </prop>
@@ -472,10 +641,10 @@
         <rule-key>DrawAllocation</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -485,10 +654,10 @@
         <rule-key>UseValueOf</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -498,10 +667,10 @@
         <rule-key>ViewTag</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -515,10 +684,10 @@
         <rule-key>UseSparseArrays</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -528,10 +697,10 @@
         <rule-key>NestedWeights</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -541,10 +710,10 @@
         <rule-key>Overdraw</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -554,10 +723,10 @@
         <rule-key>UnusedNamespace</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -567,10 +736,10 @@
         <rule-key>UselessLeaf</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -580,10 +749,10 @@
         <rule-key>UselessParent</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -593,10 +762,10 @@
         <rule-key>FloatMath</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -606,10 +775,10 @@
         <rule-key>FieldGetter</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -627,10 +796,10 @@
         <rule-key>Override</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -640,10 +809,10 @@
         <rule-key>Deprecated</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -653,10 +822,10 @@
         <rule-key>InlinedApi</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -670,10 +839,10 @@
         <rule-key>ResAuto</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -683,10 +852,10 @@
         <rule-key>IllegalResourceRef</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -708,10 +877,10 @@
         <rule-key>AdapterViewChildren</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -721,10 +890,10 @@
         <rule-key>ValidFragment</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -734,10 +903,10 @@
         <rule-key>ParcelCreator</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -747,10 +916,10 @@
         <rule-key>ViewConstructor</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -760,10 +929,10 @@
         <rule-key>Instantiatable</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -773,10 +942,10 @@
         <rule-key>ResourceAsColor</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -786,10 +955,10 @@
         <rule-key>SecureRandom</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -803,10 +972,10 @@
         <rule-key>DuplicateActivity</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -816,10 +985,10 @@
         <rule-key>IconMixedNinePatch</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -829,10 +998,10 @@
         <rule-key>Registered</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -842,10 +1011,10 @@
         <rule-key>StyleCycle</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -855,10 +1024,10 @@
         <rule-key>DuplicateDefinition</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -868,10 +1037,10 @@
         <rule-key>ExtraTranslation</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -881,10 +1050,10 @@
         <rule-key>MissingId</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -894,10 +1063,10 @@
         <rule-key>GridLayout</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -907,10 +1076,10 @@
         <rule-key>HardcodedDebugMode</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -920,10 +1089,10 @@
         <rule-key>IconNoDpi</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -933,10 +1102,10 @@
         <rule-key>IconExtension</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -946,10 +1115,10 @@
         <rule-key>IconDuplicatesConfig</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -959,10 +1128,10 @@
         <rule-key>InconsistentArrays</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -972,10 +1141,10 @@
         <rule-key>ManifestOrder</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -985,10 +1154,10 @@
         <rule-key>InnerclassSeparator</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -998,10 +1167,10 @@
         <rule-key>DeviceAdmin</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1011,10 +1180,10 @@
         <rule-key>UsesMinSdkAttributes</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1024,10 +1193,10 @@
         <rule-key>WrongViewCast</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1037,10 +1206,10 @@
         <rule-key>AllowBackup</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1050,10 +1219,10 @@
         <rule-key>MissingPrefix</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1063,10 +1232,10 @@
         <rule-key>MissingApplicationIcon</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1076,10 +1245,10 @@
         <rule-key>MissingVersion</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1089,10 +1258,10 @@
         <rule-key>DisableBaselineAlignment</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1102,10 +1271,10 @@
         <rule-key>MissingRegistered</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1115,10 +1284,10 @@
         <rule-key>MultipleUsesSdk</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1128,10 +1297,10 @@
         <rule-key>UniquePermission</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1141,10 +1310,10 @@
         <rule-key>ExportedReceiver</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1154,10 +1323,10 @@
         <rule-key>ScrollViewCount</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -1167,10 +1336,10 @@
         <rule-key>StringFormatMatches</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1180,10 +1349,10 @@
         <rule-key>ManifestTypo</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>mn</txt>
         </prop>
@@ -1193,10 +1362,10 @@
         <rule-key>PrivateResource</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1206,10 +1375,10 @@
         <rule-key>RtlEnabled</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1219,10 +1388,10 @@
         <rule-key>WrongManifestParent</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1241,13 +1410,286 @@
       <name>Instruction related reliability</name>
       <chc>
         <rule-repo>android-lint</rule-repo>
+        <rule-key>ProtectedPermissions</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>InconsistentLayout</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>min</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>InvalidPackage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>LibraryCustomView</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>NotSibling</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>OldTargetApi</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>Suspicious0dp</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>NestedScrolling</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>30</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>TextViewEdits</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>Proguard</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>30</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>WrongFolder</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>30</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>MissingSuperCall</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>30</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>RequiredSize</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>InOrMmUsage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>15</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>UnusedQuantity</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>SpUsage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>ProguardSplit</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>LocalSuppress</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>PxUsage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>Orientation</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
+        <rule-key>StopShip</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>1.0</val>
+          <txt>h</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>android-lint</rule-repo>
         <rule-key>DefaultLocale</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1257,10 +1699,10 @@
         <rule-key>Wakelock</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -1270,10 +1712,10 @@
         <rule-key>CutPasteId</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
@@ -1283,10 +1725,10 @@
         <rule-key>DalvikOverride</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1296,10 +1738,10 @@
         <rule-key>JavascriptInterface</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1309,10 +1751,10 @@
         <rule-key>CommitTransaction</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1322,10 +1764,10 @@
         <rule-key>CommitPrefEdits</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1335,10 +1777,10 @@
         <rule-key>Recycle</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1348,10 +1790,10 @@
         <rule-key>NamespaceTypo</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1361,10 +1803,10 @@
         <rule-key>OnClick</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1374,10 +1816,10 @@
         <rule-key>UnknownIdInLayout</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1387,10 +1829,10 @@
         <rule-key>UnknownId</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1400,10 +1842,10 @@
         <rule-key>ScrollViewSize</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1413,10 +1855,10 @@
         <rule-key>ShowToast</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1426,10 +1868,10 @@
         <rule-key>WrongCall</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>20.0</val>
           <txt>mn</txt>
         </prop>
@@ -1439,10 +1881,10 @@
         <rule-key>ServiceCast</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>10.0</val>
           <txt>mn</txt>
         </prop>
@@ -1456,10 +1898,10 @@
         <rule-key>StateListReachable</rule-key>
         <prop>
           <key>remediationFunction</key>
-          <txt>linear</txt>
+          <txt>CONSTANT_ISSUE</txt>
         </prop>
         <prop>
-          <key>remediationFactor</key>
+          <key>offset</key>
           <val>1.0</val>
           <txt>h</txt>
         </prop>
