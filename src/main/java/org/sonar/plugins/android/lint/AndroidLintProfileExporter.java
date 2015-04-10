@@ -22,6 +22,7 @@ package org.sonar.plugins.android.lint;
 import com.android.tools.lint.detector.api.Severity;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.common.net.MediaType;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -41,7 +42,6 @@ import org.sonar.api.rules.RulePriority;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -67,6 +67,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     ruleKeys = Lists.newArrayList();
     loadRuleKeys();
     setSupportedLanguages("java", "xml");
+    setMimeType(MediaType.XML_UTF_8.toString());
   }
 
   private void loadRuleKeys() {

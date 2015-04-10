@@ -50,6 +50,12 @@ import static org.mockito.Mockito.when;
 public class AndroidLintProfileExporterTest {
 
   @Test
+  public void mime_type_is_xml() throws Exception {
+    assertThat(new AndroidLintProfileExporter().getMimeType()).isEqualTo("text/xml; charset=utf-8");
+
+  }
+
+  @Test
   public void test_exporting_profile() throws Exception {
     StringWriter sw = new StringWriter();
     RuleFinder ruleFinder = mock(RuleFinder.class);
