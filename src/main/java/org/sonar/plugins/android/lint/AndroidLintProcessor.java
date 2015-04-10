@@ -19,6 +19,9 @@
  */
 package org.sonar.plugins.android.lint;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
@@ -30,11 +33,9 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.ActiveRule;
-import org.sonar.plugins.android.lint.dto.DtoIssue;
-import org.sonar.plugins.android.lint.dto.DtoIssues;
-import org.sonar.plugins.android.lint.dto.DtoLocation;
 
 import java.io.File;
+import java.util.List;
 
 public class AndroidLintProcessor {
 
@@ -52,42 +53,67 @@ public class AndroidLintProcessor {
   public void process(File lintXml) {
     Serializer serializer = new Persister();
     try {
-      DtoIssues dtoIssues = serializer.read(DtoIssues.class, lintXml);
-      for (DtoIssue dtoIssue : dtoIssues.getIssues()) {
-        processIssue(dtoIssue);
+      LintIssues lintIssues = serializer.read(LintIssues.class, lintXml);
+      for (LintIssue lintIssue : lintIssues.issues) {
+        processIssue(lintIssue);
       }
     } catch (Exception e) {
       LOGGER.error("Exception reading " + lintXml.toString(), e);
     }
   }
 
-  private void processIssue(DtoIssue dtoIssue) {
-    ActiveRule rule = profile.getActiveRule(AndroidLintRulesDefinition.REPOSITORY_KEY, dtoIssue.getId());
+  private void processIssue(LintIssue lintIssue) {
+    ActiveRule rule = profile.getActiveRule(AndroidLintRulesDefinition.REPOSITORY_KEY, lintIssue.id);
     if (rule != null) {
-      LOGGER.debug("Processing Issue: {}", dtoIssue.getId());
-      for (DtoLocation dtoLocation : dtoIssue.getLocations()) {
-        processIssueForLocation(rule, dtoIssue, dtoLocation);
+      LOGGER.debug("Processing Issue: {}", lintIssue.id);
+      for (LintLocation lintLocation : lintIssue.locations) {
+        processIssueForLocation(rule, lintIssue, lintLocation);
       }
     } else {
-      LOGGER.warn("Unable to find rule for {}", dtoIssue.getId());
+      LOGGER.warn("Unable to find rule for {}", lintIssue.id);
     }
   }
 
-  private void processIssueForLocation(ActiveRule rule, DtoIssue dtoIssue, DtoLocation dtoLocation) {
-    InputFile inputFile = fs.inputFile(fs.predicates().hasPath(dtoLocation.getFile()));
+  private void processIssueForLocation(ActiveRule rule, LintIssue lintIssue, LintLocation lintLocation) {
+    InputFile inputFile = fs.inputFile(fs.predicates().hasPath(lintLocation.file));
     if (inputFile != null) {
-      LOGGER.debug("Processing File {} for Issue {}", dtoLocation.getFile(), dtoIssue.getId());
+      LOGGER.debug("Processing File {} for Issue {}", lintLocation.file, lintIssue.id);
       Issuable issuable = perspectives.as(Issuable.class, inputFile);
       if (issuable != null) {
         Issue issue = issuable.newIssueBuilder()
-            .ruleKey(rule.getRule().ruleKey())
-            .message(dtoIssue.getMessage())
-            .line(dtoLocation.getLine())
-            .build();
+          .ruleKey(rule.getRule().ruleKey())
+          .message(lintIssue.message)
+          .line(lintLocation.line)
+          .build();
         issuable.addIssue(issue);
         return;
       }
     }
-    LOGGER.warn("Unable to process file {}", dtoLocation.getFile());
+    LOGGER.warn("Unable to process file {}", lintLocation.file);
   }
+
+  @Root(name = "location", strict = false)
+  private static class LintLocation {
+    @Attribute
+    String file;
+    @Attribute(required = false)
+    Integer line;
+  }
+
+  @Root(name = "issues", strict = false)
+  private static class LintIssues {
+    @ElementList(inline = true)
+    List<LintIssue> issues;
+  }
+
+  @Root(name = "issue", strict = false)
+  private static class LintIssue {
+    @Attribute
+    String id;
+    @Attribute
+    String message;
+    @ElementList(inline = true)
+    List<LintLocation> locations;
+  }
+
 }
