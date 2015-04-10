@@ -66,7 +66,7 @@ public class AndroidLintSensor implements Sensor {
       }
       return file;
     } catch (Exception e) {
-      LOGGER.warn("Lint report not found, please set "+AndroidPlugin.LINT_REPORT_PROPERTY+" to a correct value.");
+      LOGGER.warn("Lint report not found, please set {} property to a correct value.", AndroidPlugin.LINT_REPORT_PROPERTY);
       LOGGER.warn("Unable to resolve path : "+path, e);
     }
     return null;

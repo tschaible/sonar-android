@@ -1,0 +1,3 @@
+<lint>
+   <issue id="!FooBarUnknown!" severity="Fatal" priority="6"/>
+</lint>

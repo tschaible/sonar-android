@@ -59,7 +59,9 @@ public class AndroidLintProfileImporter extends ProfileImporter {
       LintProfile lintProfile = serializer.read(LintProfile.class, reader);
       for (LintIssue lintIssue : lintProfile.issues) {
         Rule rule = ruleFinder.findByKey(RuleKey.of(AndroidLintRulesDefinition.REPOSITORY_KEY, lintIssue.id));
-        if (rule != null) {
+        if (rule == null) {
+          messages.addWarningText("Rule "+lintIssue.id+" is unknown and has been skipped");
+        } else {
           Issue issue = new BuiltinIssueRegistry().getIssue(lintIssue.id);
           com.android.tools.lint.detector.api.Severity lintSeverity = getLintSeverity(lintIssue, issue, messages);
           if (!isIgnored(lintSeverity)) {

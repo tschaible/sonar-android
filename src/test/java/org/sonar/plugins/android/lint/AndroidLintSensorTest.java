@@ -19,22 +19,34 @@
  */
 package org.sonar.plugins.android.lint;
 
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.InputPath;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rules.ActiveRule;
 import org.sonar.plugins.android.AndroidPlugin;
 
 import java.io.File;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AndroidLintSensorTest {
 
@@ -71,6 +83,29 @@ public class AndroidLintSensorTest {
     assertThat(sensor.shouldExecuteOnProject(project)).isTrue();
 
     settings.removeProperty(AndroidPlugin.LINT_REPORT_PROPERTY);
-
   }
+
+  @Test
+  public void analyse_should_raise_issue() throws Exception {
+    rulesProfile = mock(RulesProfile.class);
+    ActiveRule activeRule = mock(ActiveRule.class);
+    when(activeRule.getRule()).thenReturn(org.sonar.api.rules.Rule.create("repoKey", "ruleKey"));
+    when(rulesProfile.getActiveRule(anyString(), anyString())).thenReturn(activeRule);
+
+    fs = new DefaultFileSystem(new File("")) {
+      @Override
+      public Iterable<InputFile> inputFiles(FilePredicate predicate) {
+        return Lists.<InputFile>newArrayList(new DefaultInputFile("relativePath"));
+      }
+    };
+    settings.setProperty(AndroidPlugin.LINT_REPORT_PROPERTY, "src/test/resources/lint-report.xml");
+    AndroidLintSensor sensor = new AndroidLintSensor(settings, rulesProfile, perspectives, fs);
+    sensor.analyse(mock(Project.class), mock(SensorContext.class));
+    // Check we raise 30 issues on 21 different rules
+    verify(rulesProfile, times(21)).getActiveRule(anyString(), anyString());
+    verify(perspectives, times(30)).as(any(Class.class), any(InputPath.class));
+  }
+
+
+
 }

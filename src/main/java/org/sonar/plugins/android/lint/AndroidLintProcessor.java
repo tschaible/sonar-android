@@ -90,7 +90,7 @@ public class AndroidLintProcessor {
         return;
       }
     }
-    LOGGER.warn("Unable to process file {}", lintLocation.file);
+    LOGGER.warn("Unable to find file {} to report issue", lintLocation.file);
   }
 
   @Root(name = "location", strict = false)
