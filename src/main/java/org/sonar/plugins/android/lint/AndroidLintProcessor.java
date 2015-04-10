@@ -53,12 +53,13 @@ public class AndroidLintProcessor {
   public void process(File lintXml) {
     Serializer serializer = new Persister();
     try {
+      LOGGER.info("Processing android lint report: "+lintXml.getPath());
       LintIssues lintIssues = serializer.read(LintIssues.class, lintXml);
       for (LintIssue lintIssue : lintIssues.issues) {
         processIssue(lintIssue);
       }
     } catch (Exception e) {
-      LOGGER.error("Exception reading " + lintXml.toString(), e);
+      LOGGER.error("Exception reading " + lintXml.getPath(), e);
     }
   }
 
@@ -82,9 +83,9 @@ public class AndroidLintProcessor {
       if (issuable != null) {
         Issue issue = issuable.newIssueBuilder()
           .ruleKey(rule.getRule().ruleKey())
-          .message(lintIssue.message)
-          .line(lintLocation.line)
-          .build();
+            .message(lintIssue.message)
+            .line(lintLocation.line)
+            .build();
         issuable.addIssue(issue);
         return;
       }
