@@ -119,8 +119,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
       activeKeys.put(rule.getRuleKey(), rule.getSeverity());
     }
     for (String ruleKey : ruleKeys) {
-      String lintSeverity = getLintSeverity(ruleKey, activeKeys);
-      issues.add(new LintIssue(ruleKey, lintSeverity, null));
+      issues.add(getLintIssue(ruleKey, activeKeys));
     }
     // ensure order of issues in output, sort by key.
     Collections.sort(issues, new Comparator<LintIssue>() {
@@ -158,28 +157,32 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     }
   }
 
-  private String getLintSeverity(String key, Map<String, RulePriority> activeKeys) {
+  private LintIssue getLintIssue(String key, Map<String, RulePriority> activeKeys) {
     if (!activeKeys.containsKey(key)) {
-      return Severity.IGNORE.getDescription();
+      return new LintIssue(key, Severity.IGNORE.getDescription(), null);
     }
-    RulePriority severity = activeKeys.get(key);
+
+    Integer priority = null;
     String lintSeverity = "";
+    RulePriority severity = activeKeys.get(key);
     if (severity.equals(RulePriority.BLOCKER)) {
       lintSeverity = Severity.FATAL.getDescription();
     }
     if (severity.equals(RulePriority.CRITICAL)) {
       lintSeverity = Severity.ERROR.getDescription();
+      priority = AndroidLintProfileImporter.PRIORITY_THRESHOLD + 1;
     }
     if (severity.equals(RulePriority.MAJOR)) {
       lintSeverity = Severity.ERROR.getDescription();
+      priority = AndroidLintProfileImporter.PRIORITY_THRESHOLD - 2;
     }
     if (severity.equals(RulePriority.MINOR)) {
       lintSeverity = Severity.WARNING.getDescription();
+      priority = AndroidLintProfileImporter.PRIORITY_THRESHOLD - 2;
     }
     if (severity.equals(RulePriority.INFO)) {
       lintSeverity = Severity.INFORMATIONAL.getDescription();
     }
-
-    return lintSeverity;
+    return new LintIssue(key, lintSeverity, priority);
   }
 }

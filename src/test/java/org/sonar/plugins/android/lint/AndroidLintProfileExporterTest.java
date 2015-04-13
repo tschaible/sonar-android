@@ -25,19 +25,24 @@ import org.apache.commons.lang.CharUtils;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.api.utils.ValidationMessages;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -52,7 +57,6 @@ public class AndroidLintProfileExporterTest {
   @Test
   public void mime_type_is_xml() throws Exception {
     assertThat(new AndroidLintProfileExporter().getMimeType()).isEqualTo("text/xml; charset=utf-8");
-
   }
 
   @Test
@@ -95,7 +99,6 @@ public class AndroidLintProfileExporterTest {
 
   protected RulesProfile createRulesProfileWithActiveRules(List<RulesDefinition.Rule> rules) {
     RulesProfile profile = RulesProfile.create();
-    profile.setName("android-lint");
     for (RulesDefinition.Rule rule : rules) {
       // Deactivate first three rules for testing purpose.
       profile.activateRule(Rule.create("android-lint", rule.key()), RulePriority.valueOf(rule.severity()));
@@ -117,6 +120,30 @@ public class AndroidLintProfileExporterTest {
       apiRules.add(rule1);
     }
     return apiRules;
+  }
+
+
+  @Test
+  public void export_reimport_should_end_up_with_same_quality_profile() throws Exception {
+    StringWriter sw = new StringWriter();
+    RuleFinder ruleFinder = mock(RuleFinder.class);
+    List<RulesDefinition.Rule> rules = createRules();
+    when(ruleFinder.findAll(any(RuleQuery.class))).thenReturn(createAPIRule(rules));
+    RulesProfile rulesProfileWithActiveRules = createRulesProfileWithActiveRules(rules);
+    new AndroidLintProfileExporter().exportProfile(rulesProfileWithActiveRules, sw);
+    StringReader sr = new StringReader(sw.toString());
+    when(ruleFinder.findByKey(any(RuleKey.class))).then(new Answer<Rule>() {
+      @Override
+      public Rule answer(InvocationOnMock invocationOnMock) throws Throwable {
+        RuleKey ruleKey = (RuleKey) invocationOnMock.getArguments()[0];
+        return Rule.create(ruleKey.repository(), ruleKey.rule(), ruleKey.rule());
+      }
+    });
+    RulesProfile importProfile = new AndroidLintProfileImporter(ruleFinder).importProfile(sr, ValidationMessages.create());
+
+    assertThat(importProfile).isEqualTo(rulesProfileWithActiveRules);
+    assertThat(importProfile.getActiveRules()).hasSize(rulesProfileWithActiveRules.getActiveRules().size());
+    assertThat(importProfile.getActiveRules()).contains(rulesProfileWithActiveRules.getActiveRules().toArray());
   }
 
   protected void assertXmlAreSimilar(String actualContent, String expectedFileName) throws SAXException, IOException {

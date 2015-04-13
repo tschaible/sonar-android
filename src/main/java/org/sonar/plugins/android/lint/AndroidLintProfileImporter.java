@@ -42,6 +42,7 @@ import static org.sonar.plugins.android.lint.AndroidLintProfileExporter.LintIssu
 public class AndroidLintProfileImporter extends ProfileImporter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AndroidLintProfileImporter.class);
+  public static final int PRIORITY_THRESHOLD = 7;
 
   private final RuleFinder ruleFinder;
 
@@ -90,13 +91,13 @@ public class AndroidLintProfileImporter extends ProfileImporter {
         break;
       case ERROR:
         result = Severity.MAJOR;
-        if (priority >= 7) {
+        if (priority >= PRIORITY_THRESHOLD) {
           result = Severity.CRITICAL;
         }
         break;
       case WARNING:
         result =  Severity.MINOR;
-        if (priority >= 7) {
+        if (priority >= PRIORITY_THRESHOLD) {
           result = Severity.MAJOR;
         }
         break;
