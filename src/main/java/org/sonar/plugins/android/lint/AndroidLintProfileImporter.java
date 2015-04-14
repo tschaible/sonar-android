@@ -61,7 +61,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
       for (LintIssue lintIssue : lintProfile.issues) {
         Rule rule = ruleFinder.findByKey(RuleKey.of(AndroidLintRulesDefinition.REPOSITORY_KEY, lintIssue.id));
         if (rule == null) {
-          messages.addWarningText("Rule "+lintIssue.id+" is unknown and has been skipped");
+          messages.addWarningText("Rule " + lintIssue.id + " is unknown and has been skipped");
         } else {
           Issue issue = new BuiltinIssueRegistry().getIssue(lintIssue.id);
           com.android.tools.lint.detector.api.Severity lintSeverity = getLintSeverity(lintIssue, issue, messages);
@@ -96,7 +96,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
         }
         break;
       case WARNING:
-        result =  Severity.MINOR;
+        result = Severity.MINOR;
         if (priority >= PRIORITY_THRESHOLD) {
           result = Severity.MAJOR;
         }
@@ -113,13 +113,17 @@ public class AndroidLintProfileImporter extends ProfileImporter {
 
   private com.android.tools.lint.detector.api.Severity getLintSeverity(LintIssue lintIssue, Issue issue, ValidationMessages messages) {
     com.android.tools.lint.detector.api.Severity lintSeverity = null;
-    try {
-      if (lintIssue.severity != null) {
-        lintSeverity = com.android.tools.lint.detector.api.Severity.valueOf(lintIssue.severity.toUpperCase());
+    if (lintIssue.severity != null) {
+      for (com.android.tools.lint.detector.api.Severity severity : com.android.tools.lint.detector.api.Severity.values()) {
+        if (lintIssue.severity.equalsIgnoreCase(severity.getDescription())) {
+          lintSeverity = severity;
+          break;
+        }
       }
-    } catch (IllegalArgumentException iae) {
-      LOGGER.warn("Severity not found in Android Lint severities", iae);
-      messages.addWarningText("Could not recognize severity " + lintIssue.severity + " for rule " + lintIssue.id + " default severity is used");
+      if (lintSeverity == null) {
+        LOGGER.warn("Severity not found in Android Lint severities");
+        messages.addWarningText("Could not recognize severity " + lintIssue.severity + " for rule " + lintIssue.id + " default severity is used");
+      }
     }
     if (lintSeverity == null) {
       lintSeverity = issue.getDefaultSeverity();
