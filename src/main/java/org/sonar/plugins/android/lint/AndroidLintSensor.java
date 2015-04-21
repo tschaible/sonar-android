@@ -55,13 +55,10 @@ public class AndroidLintSensor implements Sensor {
 
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    boolean shouldExecute = lintReport != null && lintReport.exists();
-    LOGGER.error("Android sensor should execute on project : "+shouldExecute);
-    return shouldExecute;
+    return lintReport != null && lintReport.exists();
   }
 
   private File getFile(String path) {
-    LOGGER.error("Android Sensor checking path : "+path);
     try {
       File file = new File(path);
       if (!file.isAbsolute()) {
