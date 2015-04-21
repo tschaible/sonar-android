@@ -10,7 +10,7 @@
 
   <groupId>org.codehaus.sonar-plugins.android</groupId>
   <artifactId>sonar-android-plugin</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <packaging>sonar-plugin</packaging>
 
   <name>SonarQube Android Lint Plugin</name>
@@ -34,7 +34,7 @@
     <connection>scm:git:git@github.com:SonarCommunity/sonar-android.git</connection>
     <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-android.git</developerConnection>
     <url>https://github.com/SonarCommunity/sonar-android</url>
-    <tag>HEAD</tag>
+    <tag>1.1</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
