@@ -12,5 +12,7 @@ else
   mvn install -DskipTests=true
 
   installTravisTools
-  travis_run_its "${TESTS}"
+
+  # travis_run_its "SONAR_VERSION" ["DEPENCENCY1"] ["DEPENCENCY2"]
+  travis_run_its "${TESTS}" "SonarSource/sonar-java"
 fi
