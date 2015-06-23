@@ -1,0 +1,30 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+	    minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    lintOptions {
+        abortOnError false
+        checkAllWarnings true
+        absolutePaths false
+		    lintConfig file("lint.xml")
+		    xmlOutput file("lint-report-build.xml")
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:19.1.+'
+}

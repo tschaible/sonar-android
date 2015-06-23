@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sonarsource.it</groupId>
+  <artifactId>AndroidExample</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>Android :: IT :: SonarAndroidSample</name>
+  <inceptionYear>2014</inceptionYear>
+
+  <!--
+  This pom is only a wrapper around gradle to easily build this Android application with maven without installing gradle.
+  This is because we use maven rather than gradle @SonarSource.
+  -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.fortasoft</groupId>
+        <artifactId>gradle-maven-plugin</artifactId>
+        <version>1.0.5</version>
+        <configuration>
+          <gradleVersion>1.9</gradleVersion>
+          <tasks>
+            <!-- this call "gradle build" -->
+            <task>build</task>
+          </tasks>
+        </configuration>
+        <executions>
+          <execution>
+            <!-- You can bind this to any phase you like -->
+            <phase>compile</phase>
+            <goals>
+              <!-- goal must be "invoke" -->
+              <goal>invoke</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
