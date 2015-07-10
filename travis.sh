@@ -19,10 +19,9 @@ IT-DEV)
   mvn install -Dsource.skip=true -Denforcer.skip=true -Danimal.sniffer.skip=true -Dmaven.test.skip=true
 
   travis_build_green "SonarSource/sonarqube" "master"
-  travis_build_green "SonarSource/sonar-java" "master"
 
   cd its/plugin
-  mvn -DandroidVersion="DEV" -Dsonar.runtimeVersion="DEV" -Dmaven.test.redirectTestOutputToFile=false install
+  mvn -DandroidVersion="DEV" -DjavaVersion="LATEST_RELEASE" -Dsonar.runtimeVersion="DEV" -Dmaven.test.redirectTestOutputToFile=false install
   ;;
 
 IT-LATEST)
@@ -31,10 +30,9 @@ IT-LATEST)
   mvn install -Dsource.skip=true -Denforcer.skip=true -Danimal.sniffer.skip=true -Dmaven.test.skip=true
 
   travis_download_sonarqube_release "5.1.1"
-  travis_build_green "SonarSource/sonar-java" "master"
 
   cd its/plugin
-  mvn -DandroidVersion="DEV" -Dsonar.runtimeVersion="LATEST_RELEASE" -Dmaven.test.redirectTestOutputToFile=false install
+  mvn -DandroidVersion="DEV" -DjavaVersion="LATEST_RELEASE" -Dsonar.runtimeVersion="LATEST_RELEASE" -Dmaven.test.redirectTestOutputToFile=false install
   ;;
 
 esac

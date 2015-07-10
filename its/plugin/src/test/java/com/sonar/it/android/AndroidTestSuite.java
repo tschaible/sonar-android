@@ -34,7 +34,6 @@ public class AndroidTestSuite {
 
   @ClassRule
   public static final Orchestrator ORCHESTRATOR = Orchestrator.builderEnv()
-    .setOrchestratorProperty("javaVersion", "DEV")
     .addPlugin("java")
     .addPlugin(PLUGIN_KEY)
     .setMainPluginKey(PLUGIN_KEY)
