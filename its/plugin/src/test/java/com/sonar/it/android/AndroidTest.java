@@ -1,7 +1,7 @@
 /*
  * Android :: IT
  * Copyright (C) 2013 SonarSource
- * dev@sonar.codehaus.org
+ * sonarqube@googlegroups.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -89,7 +89,7 @@ public class AndroidTest {
       .setSourceDirs("app/src/main")
       .setProjectDir(new File("projects/SonarAndroidSample"))
       .setProperty("skipTests", "true")
-      .setProperty("sonar.global.exclusions", "**/*.java")
+      .setProperty("sonar.global.exclusions", "**/TestViolations.java")
       .setProperty("sonar.android.lint.report", "lint-results.xml")
       .setProperty("sonar.import_unknown_files", "true");
 
