@@ -35,8 +35,7 @@ public class AndroidTestSuite {
   @ClassRule
   public static final Orchestrator ORCHESTRATOR = Orchestrator.builderEnv()
     .addPlugin("java")
-    .addPlugin(PLUGIN_KEY)
-    .setMainPluginKey(PLUGIN_KEY)
+    .addPlugin(FileLocation.of("../../target/sonar-android-plugin.jar"))
     .restoreProfileAtStartup(FileLocation.ofClasspath("/Android_Lint_java.xml"))
     .restoreProfileAtStartup(FileLocation.ofClasspath("/lint-without-unused-id.xml"))
     .build();
