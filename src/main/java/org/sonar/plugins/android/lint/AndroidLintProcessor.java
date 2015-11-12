@@ -103,7 +103,7 @@ public class AndroidLintProcessor {
 
   @Root(name = "issues", strict = false)
   private static class LintIssues {
-    @ElementList(inline = true, empty = false, required = false)
+    @ElementList(required = false, inline = true, empty = false)
     List<LintIssue> issues;
   }
 

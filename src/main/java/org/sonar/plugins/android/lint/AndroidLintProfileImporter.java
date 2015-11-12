@@ -79,7 +79,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
     return rulesProfile;
   }
 
-  private boolean isIgnored(com.android.tools.lint.detector.api.Severity lintSeverity) {
+  private static boolean isIgnored(com.android.tools.lint.detector.api.Severity lintSeverity) {
     return com.android.tools.lint.detector.api.Severity.IGNORE.equals(lintSeverity);
   }
 
@@ -111,7 +111,7 @@ public class AndroidLintProfileImporter extends ProfileImporter {
     return result;
   }
 
-  private com.android.tools.lint.detector.api.Severity getLintSeverity(LintIssue lintIssue, Issue issue, ValidationMessages messages) {
+  private static com.android.tools.lint.detector.api.Severity getLintSeverity(LintIssue lintIssue, Issue issue, ValidationMessages messages) {
     com.android.tools.lint.detector.api.Severity lintSeverity = null;
     if (lintIssue.severity != null) {
       for (com.android.tools.lint.detector.api.Severity severity : com.android.tools.lint.detector.api.Severity.values()) {

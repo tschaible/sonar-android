@@ -42,6 +42,7 @@ import org.sonar.api.rules.RulePriority;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -122,14 +123,16 @@ public class AndroidLintProfileExporter extends ProfileExporter {
       issues.add(getLintIssue(ruleKey, activeKeys));
     }
     // ensure order of issues in output, sort by key.
-    Collections.sort(issues, new Comparator<LintIssue>() {
-      @Override
-      public int compare(LintIssue o1, LintIssue o2) {
-        return o1.id.compareTo(o2.id);
-      }
-    });
+    Collections.sort(issues, new IssueComparator());
     profile.issues = issues;
     return profile;
+  }
+
+  private static class IssueComparator implements Comparator<LintIssue> {
+    @Override
+    public int compare(LintIssue o1, LintIssue o2) {
+      return o1.id.compareTo(o2.id);
+    }
   }
 
   @Root(name = "lint", strict = false)
@@ -147,7 +150,7 @@ public class AndroidLintProfileExporter extends ProfileExporter {
     Integer priority;
 
     public LintIssue() {
-      //No arg constructor used by profile importer
+      // No arg constructor used by profile importer
     }
 
     public LintIssue(String ruleKey, String severity, @Nullable Integer priority) {

@@ -32,11 +32,11 @@ import java.util.List;
 
 @Property(
   key = AndroidPlugin.LINT_REPORT_PROPERTY,
+  defaultValue = AndroidPlugin.LINT_REPORT_PROPERTY_DEFAULT,
   name = "Lint Report file",
   description = "Path (absolute or relative) to the lint-results.xml file.",
-  defaultValue = AndroidPlugin.LINT_REPORT_PROPERTY_DEFAULT,
-  module = true,
   project = true,
+  module = true,
   global = false)
 public class AndroidPlugin extends SonarPlugin {
 
