@@ -20,6 +20,7 @@
 package org.sonar.plugins.android.lint;
 
 import com.google.common.collect.Lists;
+import org.fest.assertions.Fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
@@ -68,6 +69,17 @@ public class AndroidLintProcessorTest {
       }
     };
     perspectives = mock(ResourcePerspectives.class);
+  }
+
+  @Test
+  public void process_empty_report() throws Exception {
+    // Process report
+    try {
+      new AndroidLintProcessor(rulesProfile, perspectives, fs).process(new File("src/test/resources/lint-report-empty.xml"));
+    } catch (Exception e) {
+      Fail.fail();
+    }
+    verify(rulesProfile, never()).getActiveRule(anyString(), anyString());
   }
 
   @Test
