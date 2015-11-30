@@ -3,9 +3,9 @@ sonar-android-lint-plugin
  
 ### Build status
 
-[![Build Status](https://api.travis-ci.org/SonarCommunity/sonar-android.png)](https://travis-ci.org/SonarCommunity/sonar-android)
+[![Build Status](https://api.travis-ci.org/SonarSource/sonar-android.png)](https://travis-ci.org/SonarSource/sonar-android)
 
-<img src="https://raw.github.com/SonarCommunity/sonar-android/master/logo-sonar-android-lint-plugin.png" width="300" height="359"/>
+<img src="https://raw.github.com/SonarSource/sonar-android/master/logo-sonar-android-lint-plugin.png" width="300" height="359"/>
 
 See http://docs.codehaus.org/display/SONAR/Android+Plugin
 
