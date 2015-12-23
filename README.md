@@ -7,7 +7,7 @@ sonar-android-lint-plugin
 
 <img src="https://raw.github.com/SonarSource/sonar-android/master/logo-sonar-android-lint-plugin.png" width="300" height="359"/>
 
-See http://docs.codehaus.org/display/SONAR/Android+Plugin
+See http://docs.sonarqube.org/display/PLUG/Android+Lint+Plugin
 
 
 **Contributions are welcome. Join the effort !**
