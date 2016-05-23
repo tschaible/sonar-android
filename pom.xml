@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.codehaus.sonar-plugins</groupId>
+    <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>19</version>
+    <version>32</version>
   </parent>
 
   <groupId>org.codehaus.sonar-plugins.android</groupId>
@@ -40,10 +40,6 @@
     <system>JIRA</system>
     <url>https://jira.codehaus.org/browse/SONARANDRO</url>
   </issueManagement>
-  <ciManagement>
-    <system>Cloudbees</system>
-    <url>http://sonarplugins.ci.cloudbees.com/job/Android</url>
-  </ciManagement>
 
   <properties>
     <sonar.version>4.5.4</sonar.version>
@@ -58,6 +54,9 @@
     <slf4j.version>1.7.10</slf4j.version>
     <commons-io.version>2.4</commons-io.version>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+    <!-- license headers -->
+    <license.owner>SonarSource SA  and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores</license.owner>
+    <license.mailto>sonarqube@googlegroups.com</license.mailto>
   </properties>
 
   <dependencies>
@@ -206,6 +205,7 @@
       <plugin>
         <groupId>org.codehaus.sonar</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.13</version>
         <extensions>true</extensions>
         <configuration>
           <!-- To overrides guava -->
