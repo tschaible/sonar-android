@@ -9,12 +9,11 @@
   </parent>
 
   <groupId>org.codehaus.sonar-plugins.android</groupId>
-  <artifactId>sonar-android-plugin</artifactId>
+  <artifactId>sonar-android</artifactId>
   <version>1.2-SNAPSHOT</version>
-  <packaging>sonar-plugin</packaging>
+  <packaging>pom</packaging>
 
-  <name>SonarQube Android Lint Plugin</name>
-  <description>Import Android Lint reports.</description>
+  <name>SonarQube Android Lint</name>
   <url>http://redirect.sonarsource.com/plugins/android.html</url>
 
   <inceptionYear>2013</inceptionYear>
@@ -42,12 +41,7 @@
   </issueManagement>
 
   <properties>
-    <sonar.version>4.5.4</sonar.version>
     <sonar-java.version>2.1</sonar-java.version>
-    <!-- Configuration for sonar-packaging-maven-plugin -->
-    <sonar.pluginClass>org.sonar.plugins.android.AndroidPlugin</sonar.pluginClass>
-    <sonar.pluginName>Android</sonar.pluginName>
-    <sonar.requirePlugins>java:${sonar-java.version}</sonar.requirePlugins>
     <lint.version>22.2.0</lint.version>
     <simplexml.version>2.7.1</simplexml.version>
     <jsr305.version>3.0.0</jsr305.version>
@@ -55,98 +49,13 @@
     <commons-io.version>2.4</commons-io.version>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     <!-- license headers -->
-    <license.owner>SonarSource SA  and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores</license.owner>
+    <license.owner>SonarSource SA and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores</license.owner>
     <license.mailto>sonarqube@googlegroups.com</license.mailto>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
-      <artifactId>sslr-squid-bridge</artifactId>
-      <version>2.6</version>
-    </dependency>
-    <dependency>
-      <groupId>emma</groupId>
-      <artifactId>emma</artifactId>
-      <version>2.0.5312</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.version}</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar-plugins.java</groupId>
-      <artifactId>sonar-java-plugin</artifactId>
-      <version>${sonar-java.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Lint -->
-    <dependency>
-      <groupId>com.android.tools.lint</groupId>
-      <artifactId>lint</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok.ast</artifactId>
-      <version>0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>13.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.simpleframework</groupId>
-      <artifactId>simple-xml</artifactId>
-    </dependency>
-
-
-    <!-- Tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.0.13</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <version>1.6</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>sonar-android-plugin</module>
+  </modules>
 
   <dependencyManagement>
     <dependencies>
@@ -190,29 +99,13 @@
         <artifactId>commons-io</artifactId>
         <version>${commons-io.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.codehaus.sonar-plugins.java</groupId>
+        <artifactId>sonar-java-plugin</artifactId>
+        <version>${sonar-java.version}</version>
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>1.13</version>
-        <extensions>true</extensions>
-        <configuration>
-          <!-- To overrides guava -->
-          <useChildFirstClassLoader>true</useChildFirstClassLoader>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

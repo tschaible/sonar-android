@@ -1,7 +1,7 @@
 /*
- * SonarQube Android Plugin
- * Copyright (C) 2015 SonarSource and Jordan Hansen
- * dev@sonar.codehaus.org
+ * SonarQube Android Lint Rules Generator
+ * Copyright (C) 2015-2016 SonarSource SA and Jordan Hansen
+ * sonarqube@googlegroups.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.android.lint.rulesgenerator;
 
