@@ -8,7 +8,7 @@
     <version>32</version>
   </parent>
 
-  <groupId>org.codehaus.sonar-plugins.android</groupId>
+  <groupId>org.sonarsource.android</groupId>
   <artifactId>sonar-android</artifactId>
   <version>1.2-SNAPSHOT</version>
   <packaging>pom</packaging>
