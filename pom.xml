@@ -51,6 +51,8 @@
     <!-- license headers -->
     <license.owner>SonarSource SA and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores</license.owner>
     <license.mailto>sonarqube@googlegroups.com</license.mailto>
+    <!-- Used for deployment to repox -->
+    <gitRepositoryName>sonar-android</gitRepositoryName>
   </properties>
 
   <modules>
@@ -107,5 +109,14 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>its</id>
+      <modules>
+        <module>its/plugin</module>
+      </modules>
+    </profile>
+  </profiles>
 
 </project>

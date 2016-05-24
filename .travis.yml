@@ -6,12 +6,6 @@ jdk:
 
 install: true
 script: ./travis.sh
-env:
-  matrix:
-  - TEST=ci
-  - TEST=plugin SQ_VERSION=DEV
-  - TEST=plugin SQ_VERSION=LATEST_RELEASE
-  - TEST=plugin SQ_VERSION=LTS
 
 matrix:
   fast_finish: true
@@ -22,3 +16,5 @@ cache:
 
 notifications:
   email: false
+  webhooks:
+    - secure: "SAVvpVaSfiauHvA1ChQX9e3xMVp8BBp8rIDqXNVU0zk30kfrXOPJEzM4VIIziNeORHWYObdpbpDInnl9OG4Tnb/sJM9PdMThpDZ6G94FpUNcTccE6eogDPfd4WAOtJthVDTC6AxITPG2HM2Ic6bGbJHHEIR7DclC8fTBotS3AqI="
