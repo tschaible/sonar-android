@@ -3,13 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>sonar-android-plugin</artifactId>
-    <groupId>org.codehaus.sonar-plugins.android</groupId>
-    <version>1.1-SNAPSHOT</version>
+    <artifactId>sonar-android</artifactId>
+    <groupId>org.sonarsource.android</groupId>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>lint-rules-gen</artifactId>
+  <name>SonarQube Android Lint Rules Generator</name>
 
   <inceptionYear>2015</inceptionYear>
   <organization>
@@ -24,11 +25,22 @@
     </license>
   </licenses>
 
+  <properties>
+    <!-- license headers -->
+    <license.owner>SonarSource SA and Jordan Hansen</license.owner>
+    <license.mailto>sonarqube@googlegroups.com</license.mailto>
+  </properties>
+
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.sonar-plugins.android</groupId>
+      <groupId>org.sonarsource.android</groupId>
       <artifactId>sonar-android-plugin</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar-plugins.java</groupId>
+      <artifactId>sonar-java-plugin</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.android.tools.lint</groupId>

@@ -1,6 +1,6 @@
 /*
- * SonarQube Android Lint Rules Generator
- * Copyright (C) 2015-2016 SonarSource SA and Jordan Hansen
+ * SonarQube Android Lint Plugin
+ * Copyright (C) 2013-2016 SonarSource SA and Jerome Van Der Linden, Stephane Nicolas, Florian Roncari, Thomas Bores
  * sonarqube@googlegroups.com
  *
  * This program is free software; you can redistribute it and/or
@@ -17,8 +17,6 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.android.lint.rulesgenerator;
+@javax.annotation.ParametersAreNonnullByDefault
+package org.sonar.plugins.android.lint;
 
-public enum SonarSeverity {
-  INFO, MINOR, MAJOR, CRITICAL, BLOCKER
-}
