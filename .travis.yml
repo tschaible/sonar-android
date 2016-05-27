@@ -5,7 +5,8 @@ jdk:
   - oraclejdk7
 
 install: true
-script: ./travis.sh
+script:
+  - mvn verify -B -e -V
 
 matrix:
   fast_finish: true
@@ -16,5 +17,3 @@ cache:
 
 notifications:
   email: false
-  webhooks:
-    - secure: "SAVvpVaSfiauHvA1ChQX9e3xMVp8BBp8rIDqXNVU0zk30kfrXOPJEzM4VIIziNeORHWYObdpbpDInnl9OG4Tnb/sJM9PdMThpDZ6G94FpUNcTccE6eogDPfd4WAOtJthVDTC6AxITPG2HM2Ic6bGbJHHEIR7DclC8fTBotS3AqI="
