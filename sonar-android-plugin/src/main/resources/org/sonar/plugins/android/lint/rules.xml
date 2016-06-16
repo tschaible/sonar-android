@@ -1338,4 +1338,99 @@ If you have started adding RTL attributes, but have not yet finished the migrati
       <severity>MINOR</severity>
       <string>Bi-directional Text</string>
    </rule>
+      <rule>
+      <key>SetTextI18n</key>
+      <name>TextView Internationalization</name>
+      <description><![CDATA[Do not concatenate text displayed with setText. Use resource string with placeholders.]]></description>
+      <severity>MINOR</severity>
+      <string>Internationalization</string>
+   </rule>
+
+    <rule>
+      <key>RecyclerView</key>
+      <name>RecyclerView Problems</name>
+      <description><![CDATA[RecyclerView will not call <code>onBindViewHolder</code> again when the position of the item changes in the data set unless the item itself is invalidated or the new position cannot be determined.<br/><br/>For this reason, you should only use the position parameter while acquiring the related data item inside this method, and should not keep a copy of it.<br/><br/>If you need the position of an item later on (e.g. in a click listener), use <code>getAdapterPosition()</code> which will have the updated adapter position.]]></description>
+      <severity>MINOR</severity>
+     <string>Correctness</string>
+   </rule>
+
+   <rule>
+      <key>InflateParams</key>
+      <name>Layout Inflation without a Parent</name>
+      <description><![CDATA[When inflating a layout, avoid passing in null as the parent view, since otherwise any layout parameters on the root of the inflated layout will be ignored.]]></description>
+      <severity>MINOR</severity>
+      <string>Correctness</string>
+   </rule>
+
+   <rule>
+      <key>VectorRaster</key>
+      <name>Vector Image Generation</name>
+      <description><![CDATA[Vector icons require API 21, but when using Android Gradle plugin 1.4 or higher, vectors placed in the drawable folder are automatically moved to drawable-*dpi-v21 and a bitmap image is generated each drawable-*dpi folder instead, for backwards compatibility (provided minSdkVersion is less than 21.).<br/><br/>However, there are some limitations to this vector image generation, and this lint check flags elements and attributes that are not fully supported. You should manually check whether the generated output is acceptable for those older devices.]]></description>
+      <severity>MINOR</severity>
+      <string>Correctness</string>
+   </rule>
+
+
+   <rule>
+      <key>GradleDependency</key>
+      <name>Obsolete Gradle Dependency</name>
+      <description><![CDATA[This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.]]></description>
+      <severity>MINOR</severity>
+      <string>Correctness</string>
+   </rule>
+   
+    <rule>
+      <key>PluralsCandidate</key>
+      <name>Potential Plurals</name>
+      <description><![CDATA[This lint check looks for potential errors in internationalization where you have translated a message which involves a quantity and it looks like other parts of the string may need grammatical changes.<br/>
+      	<br/>
+		For example, rather than something like this:<br/>
+		<code>
+		&lt;string name="try_again"&gt;Try again in %d seconds.&lt;/string&gt;<br/>
+		you should be using a plural:<br/>
+		&lt;plurals name="try_again"&gt;<br/>
+		&lt;item quantity="one"&gt;Try again in %d second&lt;/item&gt;<br/>
+		&lt;item quantity="other"&gt;Try again in %d seconds&lt;/item&gt;<br/>
+		&lt;/plurals&gt;<br/>
+		</code><br/>
+		This will ensure that in other languages the right set of translations are provided for the different quantity classes.<br/>
+<br/>
+		(This check depends on some heuristics, so it may not accurately determine whether a string really should be a quantity. You can use tools:ignore to filter out false positives.<br/>
+<br/>
+		More info: <a href="http://developer.android.com/guide/topics/resources/string-resource.html#Plurals">http://developer.android.com/guide/topics/resources/string-resource.html#Plurals</a>
+]]></description>
+      <severity>MINOR</severity>
+      <string>Correctness</string>
+   </rule>
+   
+   <rule>
+      <key>SetWorldWritable</key>
+      <name>File.setWritable() used to make file world-writable</name>
+      <description><![CDATA[<code>File.setWritable()</code> used to make file world-writable.<br/>
+		Setting files world-writable is very dangerous, and likely to cause security holes in applications. It is strongly discouraged; instead, applications should use more formal mechanisms for interactions such as <code>ContentProvider</code>, <code>BroadcastReceiver</code>, and <code>Service.</code>]]></description>
+      <severity>MINOR</severity>
+      <string>Security</string>
+   </rule>
+   
+   <rule>
+      <key>GoogleAppIndexingWarning</key>
+      <name>Missing support for Google App Indexing</name>
+      <description><![CDATA[Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search.<br/>
+		<br/>
+		More info: <a href="https://g.co/AppIndexing/AndroidStudio">https://g.co/AppIndexing/AndroidStudio</a>]]></description>
+      <severity>MINOR</severity>
+      <string>Usability</string>
+   </rule>
+   
+   <rule>
+      <key>RtlHardcoded</key>
+      <name>Using left/right instead of start/end attributes</name>
+      <description><![CDATA[Using <code>Gravity#LEFT</code> and <code>Gravity#RIGHT</code> can lead to problems when a layout is rendered in locales where text flows from right to left. Use <code>Gravity#START</code> and <code>Gravity#END</code> instead. Similarly, in XML gravity and <code>layout_gravity attributes</code>, use <code>start</code> rather than <code>left</code>.<br/>
+<br/>
+For XML attributes such as <code>paddingLeft</code> and <code>layout_marginLeft</code>, use <code>paddingStart</code> and <code>layout_marginStart</code>. NOTE: If your <code>minSdkVersion</code> is less than 17, you should add both the older <code>left/right</code> attributes as well as the new <code>start/right</code> attributes. On older platforms, where RTL is not supported and the <code>start/right</code> attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.<br/>
+<br/>
+(Note: For <code>Gravity#LEFT</code> and <code>Gravity#START</code>, you can use these constants even when targeting older platforms, because the start bitmask is a superset of the left bitmask. Therefore, you can use <code>gravity="start"</code> rather than <code>gravity="left|start"</code>.)]]></description>
+      <severity>MINOR</severity>
+      <string>Internationalization</string>
+   </rule>  
 </rules>
