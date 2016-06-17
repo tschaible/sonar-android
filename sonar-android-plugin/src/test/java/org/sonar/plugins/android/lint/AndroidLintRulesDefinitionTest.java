@@ -88,8 +88,8 @@ public class AndroidLintRulesDefinitionTest {
     return StringUtils.rightPad("" + issue.getPriority(), 4)
         + StringUtils.rightPad(issue.getCategory().getFullName(), 22)
         + StringUtils.rightPad(SQALE_BY_LINT_CATEGORY.get(issue.getCategory()), 30)
-        + StringUtils.rightPad(rule.key(), 30)
-        + issue.getDescription(Issue.OutputFormat.TEXT);
+        + StringUtils.rightPad(rule.key(), 30);
+        //+ issue.getDescription(Issue.OutputFormat.TEXT);
   }
 
 }

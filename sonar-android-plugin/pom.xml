@@ -56,6 +56,14 @@
       <artifactId>lint</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.android.tools.lint</groupId>
+      <artifactId>lint-checks</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok.ast</artifactId>
       <version>0.2</version>
